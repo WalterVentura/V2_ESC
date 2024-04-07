@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    ext.c
@@ -53,9 +53,9 @@
  *
  * @init
  */
-void extInit(void) {
-
-  ext_lld_init();
+void extInit(void)
+{
+    ext_lld_init();
 }
 
 /**
@@ -65,10 +65,10 @@ void extInit(void) {
  *
  * @init
  */
-void extObjectInit(EXTDriver *extp) {
-
-  extp->state  = EXT_STOP;
-  extp->config = NULL;
+void extObjectInit(EXTDriver* extp)
+{
+    extp->state = EXT_STOP;
+    extp->config = NULL;
 }
 
 /**
@@ -81,17 +81,17 @@ void extObjectInit(EXTDriver *extp) {
  *
  * @api
  */
-void extStart(EXTDriver *extp, const EXTConfig *config) {
+void extStart(EXTDriver* extp, const EXTConfig* config)
+{
+    osalDbgCheck((extp != NULL) && (config != NULL));
 
-  osalDbgCheck((extp != NULL) && (config != NULL));
-
-  osalSysLock();
-  osalDbgAssert((extp->state == EXT_STOP) || (extp->state == EXT_ACTIVE),
-                "invalid state");
-  extp->config = config;
-  ext_lld_start(extp);
-  extp->state = EXT_ACTIVE;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((extp->state == EXT_STOP) || (extp->state == EXT_ACTIVE),
+                  "invalid state");
+    extp->config = config;
+    ext_lld_start(extp);
+    extp->state = EXT_ACTIVE;
+    osalSysUnlock();
 }
 
 /**
@@ -101,16 +101,16 @@ void extStart(EXTDriver *extp, const EXTConfig *config) {
  *
  * @api
  */
-void extStop(EXTDriver *extp) {
+void extStop(EXTDriver* extp)
+{
+    osalDbgCheck(extp != NULL);
 
-  osalDbgCheck(extp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((extp->state == EXT_STOP) || (extp->state == EXT_ACTIVE),
-                "invalid state");
-  ext_lld_stop(extp);
-  extp->state = EXT_STOP;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((extp->state == EXT_STOP) || (extp->state == EXT_ACTIVE),
+                  "invalid state");
+    ext_lld_stop(extp);
+    extp->state = EXT_STOP;
+    osalSysUnlock();
 }
 
 /**
@@ -122,17 +122,17 @@ void extStop(EXTDriver *extp) {
  *
  * @api
  */
-void extChannelEnable(EXTDriver *extp, expchannel_t channel) {
+void extChannelEnable(EXTDriver* extp, expchannel_t channel)
+{
+    osalDbgCheck((extp != NULL) && (channel < (expchannel_t) EXT_MAX_CHANNELS));
 
-  osalDbgCheck((extp != NULL) && (channel < (expchannel_t)EXT_MAX_CHANNELS));
-
-  osalSysLock();
-  osalDbgAssert((extp->state == EXT_ACTIVE) &&
-                ((extp->config->channels[channel].mode &
-                  EXT_CH_MODE_EDGES_MASK) != EXT_CH_MODE_DISABLED),
-                "invalid state");
-  extChannelEnableI(extp, channel);
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((extp->state == EXT_ACTIVE) &&
+                  ((extp->config->channels[channel].mode &
+                    EXT_CH_MODE_EDGES_MASK) != EXT_CH_MODE_DISABLED),
+                  "invalid state");
+    extChannelEnableI(extp, channel);
+    osalSysUnlock();
 }
 
 /**
@@ -144,17 +144,17 @@ void extChannelEnable(EXTDriver *extp, expchannel_t channel) {
  *
  * @api
  */
-void extChannelDisable(EXTDriver *extp, expchannel_t channel) {
+void extChannelDisable(EXTDriver* extp, expchannel_t channel)
+{
+    osalDbgCheck((extp != NULL) && (channel < (expchannel_t) EXT_MAX_CHANNELS));
 
-  osalDbgCheck((extp != NULL) && (channel < (expchannel_t)EXT_MAX_CHANNELS));
-
-  osalSysLock();
-  osalDbgAssert((extp->state == EXT_ACTIVE) &&
-                ((extp->config->channels[channel].mode &
-                  EXT_CH_MODE_EDGES_MASK) != EXT_CH_MODE_DISABLED),
-                "invalid state");
-  extChannelDisableI(extp, channel);
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((extp->state == EXT_ACTIVE) &&
+                  ((extp->config->channels[channel].mode &
+                    EXT_CH_MODE_EDGES_MASK) != EXT_CH_MODE_DISABLED),
+                  "invalid state");
+    extChannelDisableI(extp, channel);
+    osalSysUnlock();
 }
 
 /**
@@ -174,27 +174,28 @@ void extChannelDisable(EXTDriver *extp, expchannel_t channel) {
  *
  * @iclass
  */
-void extSetChannelModeI(EXTDriver *extp,
-                        expchannel_t channel,
-                        const EXTChannelConfig *extcp) {
-  EXTChannelConfig *oldcp;
+void extSetChannelModeI(EXTDriver* extp, expchannel_t channel, const EXTChannelConfig* extcp)
+{
+    EXTChannelConfig* oldcp;
 
-  osalDbgCheck((extp != NULL) &&
-               (channel < (expchannel_t)EXT_MAX_CHANNELS) &&
-               (extcp != NULL));
+    osalDbgCheck((extp != NULL) &&
+                 (channel < (expchannel_t) EXT_MAX_CHANNELS) &&
+                 (extcp != NULL));
 
-  osalDbgAssert(extp->state == EXT_ACTIVE, "invalid state");
+    osalDbgAssert(extp->state == EXT_ACTIVE, "invalid state");
 
-  /* Note that here the access is enforced as non-const, known access
-     violation.*/
-  /*lint -save -e9005 [11.8] Known issue, the driver needs rework here.*/
-  oldcp = (EXTChannelConfig *)&extp->config->channels[channel];
-  /*lint -restore*/
+    /* Note that here the access is enforced as non-const, known access
+     * violation.*/
 
-  /* Overwriting the old channels configuration then the channel is
-     reconfigured by the low level driver.*/
-  *oldcp = *extcp;
-  ext_lld_channel_enable(extp, channel);
+    /*lint -save -e9005 [11.8] Known issue, the driver needs rework here.*/
+    oldcp = (EXTChannelConfig*) &extp->config->channels[channel];
+
+    /*lint -restore*/
+
+    /* Overwriting the old channels configuration then the channel is
+     * reconfigured by the low level driver.*/
+    *oldcp = *extcp;
+    ext_lld_channel_enable(extp, channel);
 }
 
 #endif /* HAL_USE_EXT == TRUE */

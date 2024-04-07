@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    serial.c
@@ -47,51 +47,52 @@
  * queue-level function or macro.
  */
 
-static size_t write(void *ip, const uint8_t *bp, size_t n) {
-
-  return oqWriteTimeout(&((SerialDriver *)ip)->oqueue, bp,
-                        n, TIME_INFINITE);
+static size_t write(void* ip, const uint8_t* bp, size_t n)
+{
+    return oqWriteTimeout(&((SerialDriver*) ip)->oqueue, bp,
+                          n, TIME_INFINITE);
 }
 
-static size_t read(void *ip, uint8_t *bp, size_t n) {
-
-  return iqReadTimeout(&((SerialDriver *)ip)->iqueue, bp,
-                       n, TIME_INFINITE);
+static size_t read(void* ip, uint8_t* bp, size_t n)
+{
+    return iqReadTimeout(&((SerialDriver*) ip)->iqueue, bp,
+                         n, TIME_INFINITE);
 }
 
-static msg_t put(void *ip, uint8_t b) {
-
-  return oqPutTimeout(&((SerialDriver *)ip)->oqueue, b, TIME_INFINITE);
+static msg_t put(void* ip, uint8_t b)
+{
+    return oqPutTimeout(&((SerialDriver*) ip)->oqueue, b, TIME_INFINITE);
 }
 
-static msg_t get(void *ip) {
-
-  return iqGetTimeout(&((SerialDriver *)ip)->iqueue, TIME_INFINITE);
+static msg_t get(void* ip)
+{
+    return iqGetTimeout(&((SerialDriver*) ip)->iqueue, TIME_INFINITE);
 }
 
-static msg_t putt(void *ip, uint8_t b, systime_t timeout) {
-
-  return oqPutTimeout(&((SerialDriver *)ip)->oqueue, b, timeout);
+static msg_t putt(void* ip, uint8_t b, systime_t timeout)
+{
+    return oqPutTimeout(&((SerialDriver*) ip)->oqueue, b, timeout);
 }
 
-static msg_t gett(void *ip, systime_t timeout) {
-
-  return iqGetTimeout(&((SerialDriver *)ip)->iqueue, timeout);
+static msg_t gett(void* ip, systime_t timeout)
+{
+    return iqGetTimeout(&((SerialDriver*) ip)->iqueue, timeout);
 }
 
-static size_t writet(void *ip, const uint8_t *bp, size_t n, systime_t timeout) {
-
-  return oqWriteTimeout(&((SerialDriver *)ip)->oqueue, bp, n, timeout);
+static size_t writet(void* ip, const uint8_t* bp, size_t n, systime_t timeout)
+{
+    return oqWriteTimeout(&((SerialDriver*) ip)->oqueue, bp, n, timeout);
 }
 
-static size_t readt(void *ip, uint8_t *bp, size_t n, systime_t timeout) {
-
-  return iqReadTimeout(&((SerialDriver *)ip)->iqueue, bp, n, timeout);
+static size_t readt(void* ip, uint8_t* bp, size_t n, systime_t timeout)
+{
+    return iqReadTimeout(&((SerialDriver*) ip)->iqueue, bp, n, timeout);
 }
 
-static const struct SerialDriverVMT vmt = {
-  write, read, put, get,
-  putt, gett, writet, readt
+static const struct SerialDriverVMT vmt =
+{
+    write, read, put, get,
+    putt, gett, writet, readt
 };
 
 /*===========================================================================*/
@@ -105,9 +106,9 @@ static const struct SerialDriverVMT vmt = {
  *
  * @init
  */
-void sdInit(void) {
-
-  sd_lld_init();
+void sdInit(void)
+{
+    sd_lld_init();
 }
 
 /**
@@ -125,13 +126,13 @@ void sdInit(void) {
  *
  * @init
  */
-void sdObjectInit(SerialDriver *sdp, qnotify_t inotify, qnotify_t onotify) {
-
-  sdp->vmt = &vmt;
-  osalEventObjectInit(&sdp->event);
-  sdp->state = SD_STOP;
-  iqObjectInit(&sdp->iqueue, sdp->ib, SERIAL_BUFFERS_SIZE, inotify, sdp);
-  oqObjectInit(&sdp->oqueue, sdp->ob, SERIAL_BUFFERS_SIZE, onotify, sdp);
+void sdObjectInit(SerialDriver* sdp, qnotify_t inotify, qnotify_t onotify)
+{
+    sdp->vmt = &vmt;
+    osalEventObjectInit(&sdp->event);
+    sdp->state = SD_STOP;
+    iqObjectInit(&sdp->iqueue, sdp->ib, SERIAL_BUFFERS_SIZE, inotify, sdp);
+    oqObjectInit(&sdp->oqueue, sdp->ob, SERIAL_BUFFERS_SIZE, onotify, sdp);
 }
 
 /**
@@ -144,16 +145,16 @@ void sdObjectInit(SerialDriver *sdp, qnotify_t inotify, qnotify_t onotify) {
  *
  * @api
  */
-void sdStart(SerialDriver *sdp, const SerialConfig *config) {
+void sdStart(SerialDriver* sdp, const SerialConfig* config)
+{
+    osalDbgCheck(sdp != NULL);
 
-  osalDbgCheck(sdp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((sdp->state == SD_STOP) || (sdp->state == SD_READY),
-                "invalid state");
-  sd_lld_start(sdp, config);
-  sdp->state = SD_READY;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((sdp->state == SD_STOP) || (sdp->state == SD_READY),
+                  "invalid state");
+    sd_lld_start(sdp, config);
+    sdp->state = SD_READY;
+    osalSysUnlock();
 }
 
 /**
@@ -165,19 +166,19 @@ void sdStart(SerialDriver *sdp, const SerialConfig *config) {
  *
  * @api
  */
-void sdStop(SerialDriver *sdp) {
+void sdStop(SerialDriver* sdp)
+{
+    osalDbgCheck(sdp != NULL);
 
-  osalDbgCheck(sdp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((sdp->state == SD_STOP) || (sdp->state == SD_READY),
-                "invalid state");
-  sd_lld_stop(sdp);
-  sdp->state = SD_STOP;
-  oqResetI(&sdp->oqueue);
-  iqResetI(&sdp->iqueue);
-  osalOsRescheduleS();
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((sdp->state == SD_STOP) || (sdp->state == SD_READY),
+                  "invalid state");
+    sd_lld_stop(sdp);
+    sdp->state = SD_STOP;
+    oqResetI(&sdp->oqueue);
+    iqResetI(&sdp->iqueue);
+    osalOsRescheduleS();
+    osalSysUnlock();
 }
 
 /**
@@ -196,15 +197,20 @@ void sdStop(SerialDriver *sdp) {
  *
  * @iclass
  */
-void sdIncomingDataI(SerialDriver *sdp, uint8_t b) {
+void sdIncomingDataI(SerialDriver* sdp, uint8_t b)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck(sdp != NULL);
 
-  osalDbgCheckClassI();
-  osalDbgCheck(sdp != NULL);
+    if(iqIsEmptyI(&sdp->iqueue))
+    {
+        chnAddFlagsI(sdp, CHN_INPUT_AVAILABLE);
+    }
 
-  if (iqIsEmptyI(&sdp->iqueue))
-    chnAddFlagsI(sdp, CHN_INPUT_AVAILABLE);
-  if (iqPutI(&sdp->iqueue, b) < Q_OK)
-    chnAddFlagsI(sdp, SD_OVERRUN_ERROR);
+    if(iqPutI(&sdp->iqueue, b) < Q_OK)
+    {
+        chnAddFlagsI(sdp, SD_OVERRUN_ERROR);
+    }
 }
 
 /**
@@ -222,16 +228,21 @@ void sdIncomingDataI(SerialDriver *sdp, uint8_t b) {
  *
  * @iclass
  */
-msg_t sdRequestDataI(SerialDriver *sdp) {
-  msg_t  b;
+msg_t sdRequestDataI(SerialDriver* sdp)
+{
+    msg_t b;
 
-  osalDbgCheckClassI();
-  osalDbgCheck(sdp != NULL);
+    osalDbgCheckClassI();
+    osalDbgCheck(sdp != NULL);
 
-  b = oqGetI(&sdp->oqueue);
-  if (b < Q_OK)
-    chnAddFlagsI(sdp, CHN_OUTPUT_EMPTY);
-  return b;
+    b = oqGetI(&sdp->oqueue);
+
+    if(b < Q_OK)
+    {
+        chnAddFlagsI(sdp, CHN_OUTPUT_EMPTY);
+    }
+
+    return b;
 }
 
 /**
@@ -249,14 +260,15 @@ msg_t sdRequestDataI(SerialDriver *sdp) {
  *
  * @api
  */
-bool sdPutWouldBlock(SerialDriver *sdp) {
-  bool b;
+bool sdPutWouldBlock(SerialDriver* sdp)
+{
+    bool b;
 
-  osalSysLock();
-  b = oqIsFullI(&sdp->oqueue);
-  osalSysUnlock();
+    osalSysLock();
+    b = oqIsFullI(&sdp->oqueue);
+    osalSysUnlock();
 
-  return b;
+    return b;
 }
 
 /**
@@ -274,14 +286,15 @@ bool sdPutWouldBlock(SerialDriver *sdp) {
  *
  * @api
  */
-bool sdGetWouldBlock(SerialDriver *sdp) {
-  bool b;
+bool sdGetWouldBlock(SerialDriver* sdp)
+{
+    bool b;
 
-  osalSysLock();
-  b = iqIsEmptyI(&sdp->iqueue);
-  osalSysUnlock();
+    osalSysLock();
+    b = iqIsEmptyI(&sdp->iqueue);
+    osalSysUnlock();
 
-  return b;
+    return b;
 }
 
 #endif /* HAL_USE_SERIAL == TRUE */

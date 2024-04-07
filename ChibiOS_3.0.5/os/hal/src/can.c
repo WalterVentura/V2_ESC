@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    can.c
@@ -53,9 +53,9 @@
  *
  * @init
  */
-void canInit(void) {
-
-  can_lld_init();
+void canInit(void)
+{
+    can_lld_init();
 }
 
 /**
@@ -65,18 +65,18 @@ void canInit(void) {
  *
  * @init
  */
-void canObjectInit(CANDriver *canp) {
-
-  canp->state    = CAN_STOP;
-  canp->config   = NULL;
-  osalThreadQueueObjectInit(&canp->txqueue);
-  osalThreadQueueObjectInit(&canp->rxqueue);
-  osalEventObjectInit(&canp->rxfull_event);
-  osalEventObjectInit(&canp->txempty_event);
-  osalEventObjectInit(&canp->error_event);
+void canObjectInit(CANDriver* canp)
+{
+    canp->state = CAN_STOP;
+    canp->config = NULL;
+    osalThreadQueueObjectInit(&canp->txqueue);
+    osalThreadQueueObjectInit(&canp->rxqueue);
+    osalEventObjectInit(&canp->rxfull_event);
+    osalEventObjectInit(&canp->txempty_event);
+    osalEventObjectInit(&canp->error_event);
 #if CAN_USE_SLEEP_MODE == TRUE
-  osalEventObjectInit(&canp->sleep_event);
-  osalEventObjectInit(&canp->wakeup_event);
+    osalEventObjectInit(&canp->sleep_event);
+    osalEventObjectInit(&canp->wakeup_event);
 #endif
 }
 
@@ -92,24 +92,24 @@ void canObjectInit(CANDriver *canp) {
  *
  * @api
  */
-void canStart(CANDriver *canp, const CANConfig *config) {
+void canStart(CANDriver* canp, const CANConfig* config)
+{
+    osalDbgCheck(canp != NULL);
 
-  osalDbgCheck(canp != NULL);
+    osalSysLock();
+    osalDbgAssert(canp->state == CAN_STOP, "invalid state");
 
-  osalSysLock();
-  osalDbgAssert(canp->state == CAN_STOP, "invalid state");
+    /* Entering initialization mode. */
+    canp->state = CAN_STARTING;
+    canp->config = config;
 
-  /* Entering initialization mode. */
-  canp->state = CAN_STARTING;
-  canp->config = config;
+    /* Low level initialization, could be a slow process and sleeps could
+     * be performed inside.*/
+    can_lld_start(canp);
 
-  /* Low level initialization, could be a slow process and sleeps could
-     be performed inside.*/
-  can_lld_start(canp);
-
-  /* The driver finally goes into the ready state.*/
-  canp->state = CAN_READY;
-  osalSysUnlock();
+    /* The driver finally goes into the ready state.*/
+    canp->state = CAN_READY;
+    osalSysUnlock();
 }
 
 /**
@@ -119,24 +119,24 @@ void canStart(CANDriver *canp, const CANConfig *config) {
  *
  * @api
  */
-void canStop(CANDriver *canp) {
+void canStop(CANDriver* canp)
+{
+    osalDbgCheck(canp != NULL);
 
-  osalDbgCheck(canp != NULL);
+    osalSysLock();
+    osalDbgAssert((canp->state == CAN_STOP) || (canp->state == CAN_READY),
+                  "invalid state");
 
-  osalSysLock();
-  osalDbgAssert((canp->state == CAN_STOP) || (canp->state == CAN_READY),
-                "invalid state");
+    /* The low level driver is stopped.*/
+    can_lld_stop(canp);
+    canp->state = CAN_STOP;
 
-  /* The low level driver is stopped.*/
-  can_lld_stop(canp);
-  canp->state  = CAN_STOP;
-
-  /* Threads waiting on CAN APIs are notified that the driver has been
-     stopped in order to not have stuck threads.*/
-  osalThreadDequeueAllI(&canp->rxqueue, MSG_RESET);
-  osalThreadDequeueAllI(&canp->txqueue, MSG_RESET);
-  osalOsRescheduleS();
-  osalSysUnlock();
+    /* Threads waiting on CAN APIs are notified that the driver has been
+     * stopped in order to not have stuck threads.*/
+    osalThreadDequeueAllI(&canp->rxqueue, MSG_RESET);
+    osalThreadDequeueAllI(&canp->txqueue, MSG_RESET);
+    osalOsRescheduleS();
+    osalSysUnlock();
 }
 
 /**
@@ -160,29 +160,31 @@ void canStop(CANDriver *canp) {
  *
  * @api
  */
-msg_t canTransmit(CANDriver *canp,
-                  canmbx_t mailbox,
-                  const CANTxFrame *ctfp,
-                  systime_t timeout) {
+msg_t canTransmit(CANDriver* canp, canmbx_t mailbox, const CANTxFrame* ctfp, systime_t timeout)
+{
+    osalDbgCheck((canp != NULL) && (ctfp != NULL) &&
+                 (mailbox <= (canmbx_t) CAN_TX_MAILBOXES));
 
-  osalDbgCheck((canp != NULL) && (ctfp != NULL) &&
-               (mailbox <= (canmbx_t)CAN_TX_MAILBOXES));
+    osalSysLock();
+    osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+                  "invalid state");
 
-  osalSysLock();
-  osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
-                "invalid state");
-  /*lint -save -e9007 [13.5] Right side is supposed to be pure.*/
-  while ((canp->state == CAN_SLEEP) || !can_lld_is_tx_empty(canp, mailbox)) {
-  /*lint -restore*/
-   msg_t msg = osalThreadEnqueueTimeoutS(&canp->txqueue, timeout);
-    if (msg != MSG_OK) {
-      osalSysUnlock();
-      return msg;
+    /*lint -save -e9007 [13.5] Right side is supposed to be pure.*/
+    while((canp->state == CAN_SLEEP) || !can_lld_is_tx_empty(canp, mailbox))
+    {
+        /*lint -restore*/
+        msg_t msg = osalThreadEnqueueTimeoutS(&canp->txqueue, timeout);
+
+        if(msg != MSG_OK)
+        {
+            osalSysUnlock();
+            return msg;
+        }
     }
-  }
-  can_lld_transmit(canp, mailbox, ctfp);
-  osalSysUnlock();
-  return MSG_OK;
+
+    can_lld_transmit(canp, mailbox, ctfp);
+    osalSysUnlock();
+    return MSG_OK;
 }
 
 /**
@@ -207,32 +209,35 @@ msg_t canTransmit(CANDriver *canp,
  *
  * @api
  */
-msg_t canReceive(CANDriver *canp,
-                 canmbx_t mailbox,
-                 CANRxFrame *crfp,
-                 systime_t timeout) {
+msg_t canReceive(CANDriver* canp, canmbx_t mailbox, CANRxFrame* crfp, systime_t timeout)
+{
+    osalDbgCheck((canp != NULL) && (crfp != NULL) &&
+                 (mailbox <= (canmbx_t) CAN_RX_MAILBOXES));
 
-  osalDbgCheck((canp != NULL) && (crfp != NULL) &&
-               (mailbox <= (canmbx_t)CAN_RX_MAILBOXES));
+    osalSysLock();
+    osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+                  "invalid state");
 
-  osalSysLock();
-  osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
-                "invalid state");
-  /*lint -save -e9007 [13.5] Right side is supposed to be pure.*/
-  while ((canp->state == CAN_SLEEP) || !can_lld_is_rx_nonempty(canp, mailbox)) {
-  /*lint -restore*/
-    msg_t msg = osalThreadEnqueueTimeoutS(&canp->rxqueue, timeout);
-    if (msg != MSG_OK) {
-      osalSysUnlock();
-      return msg;
+    /*lint -save -e9007 [13.5] Right side is supposed to be pure.*/
+    while((canp->state == CAN_SLEEP) || !can_lld_is_rx_nonempty(canp, mailbox))
+    {
+        /*lint -restore*/
+        msg_t msg = osalThreadEnqueueTimeoutS(&canp->rxqueue, timeout);
+
+        if(msg != MSG_OK)
+        {
+            osalSysUnlock();
+            return msg;
+        }
     }
-  }
-  can_lld_receive(canp, mailbox, crfp);
-  osalSysUnlock();
-  return MSG_OK;
+
+    can_lld_receive(canp, mailbox, crfp);
+    osalSysUnlock();
+    return MSG_OK;
 }
 
 #if (CAN_USE_SLEEP_MODE == TRUE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Enters the sleep mode.
  * @details This function puts the CAN driver in sleep mode and broadcasts
@@ -245,20 +250,23 @@ msg_t canReceive(CANDriver *canp,
  *
  * @api
  */
-void canSleep(CANDriver *canp) {
+void canSleep(CANDriver* canp)
+{
+    osalDbgCheck(canp != NULL);
 
-  osalDbgCheck(canp != NULL);
+    osalSysLock();
+    osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+                  "invalid state");
 
-  osalSysLock();
-  osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
-                "invalid state");
-  if (canp->state == CAN_READY) {
-    can_lld_sleep(canp);
-    canp->state = CAN_SLEEP;
-    osalEventBroadcastFlagsI(&canp->sleep_event, (eventflags_t)0);
-    osalOsRescheduleS();
-  }
-  osalSysUnlock();
+    if(canp->state == CAN_READY)
+    {
+        can_lld_sleep(canp);
+        canp->state = CAN_SLEEP;
+        osalEventBroadcastFlagsI(&canp->sleep_event, (eventflags_t) 0);
+        osalOsRescheduleS();
+    }
+
+    osalSysUnlock();
 }
 
 /**
@@ -268,21 +276,25 @@ void canSleep(CANDriver *canp) {
  *
  * @param[in] canp      pointer to the @p CANDriver object
  */
-void canWakeup(CANDriver *canp) {
+void canWakeup(CANDriver* canp)
+{
+    osalDbgCheck(canp != NULL);
 
-  osalDbgCheck(canp != NULL);
+    osalSysLock();
+    osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
+                  "invalid state");
 
-  osalSysLock();
-  osalDbgAssert((canp->state == CAN_READY) || (canp->state == CAN_SLEEP),
-                "invalid state");
-  if (canp->state == CAN_SLEEP) {
-    can_lld_wakeup(canp);
-    canp->state = CAN_READY;
-    osalEventBroadcastFlagsI(&canp->wakeup_event, (eventflags_t)0);
-    osalOsRescheduleS();
-  }
-  osalSysUnlock();
+    if(canp->state == CAN_SLEEP)
+    {
+        can_lld_wakeup(canp);
+        canp->state = CAN_READY;
+        osalEventBroadcastFlagsI(&canp->wakeup_event, (eventflags_t) 0);
+        osalOsRescheduleS();
+    }
+
+    osalSysUnlock();
 }
+
 #endif /* CAN_USE_SLEEP_MODE == TRUE */
 
 #endif /* HAL_USE_CAN == TRUE */

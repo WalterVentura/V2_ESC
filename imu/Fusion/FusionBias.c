@@ -7,13 +7,13 @@
  * measurements to calculate the bias as an average.
  */
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Includes
 
 #include "FusionBias.h"
 #include "math.h" // fabs
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Definitions
 
 /**
@@ -26,9 +26,9 @@
  * @brief Corner frequency (in Hz) of the high-pass filter used to sample the
  * gyroscope bias.
  */
-#define CORNER_FREQUENCY (0.02f)
+#define CORNER_FREQUENCY  (0.02f)
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Functions
 
 /**
@@ -39,7 +39,9 @@
  * @param samplePeriod Nominal sample period (in seconds) corresponding the rate
  * at which the application will update the algorithm.
  */
-void FusionBiasInitialise(FusionBias * const fusionBias, const float threshold, const float samplePeriod) {
+void FusionBiasInitialise(FusionBias* const fusionBias, const float threshold,
+                          const float samplePeriod)
+{
     fusionBias->threshold = threshold;
     fusionBias->filterCoefficient = (2.0f * M_PI * CORNER_FREQUENCY) * samplePeriod;
     fusionBias->stationaryTimer = 0.0f;
@@ -54,25 +56,31 @@ void FusionBiasInitialise(FusionBias * const fusionBias, const float threshold, 
  * @param dt Nominal sample period (in seconds) corresponding the rate
  * @return Corrected gyroscope measurement in degrees per second.
  */
-FusionVector3 FusionBiasUpdate(FusionBias * const fusionBias, FusionVector3 gyroscope, float dt) {
-
+FusionVector3 FusionBiasUpdate(FusionBias* const fusionBias, FusionVector3 gyroscope, float dt)
+{
     // Subtract bias from gyroscope measurement
     gyroscope = FusionVectorSubtract(gyroscope, fusionBias->gyroscopeBias);
 
     // Reset stationary timer if gyroscope not stationary
-    if ((fabsf(gyroscope.axis.x) > fusionBias->threshold) || (fabsf(gyroscope.axis.y) > fusionBias->threshold) || (fabsf(gyroscope.axis.z) > fusionBias->threshold)) {
+    if((fabsf(gyroscope.axis.x) > fusionBias->threshold) ||
+       (fabsf(gyroscope.axis.y) > fusionBias->threshold) ||
+       (fabsf(gyroscope.axis.z) > fusionBias->threshold))
+    {
         fusionBias->stationaryTimer = 0.0f;
         return gyroscope;
     }
 
     // Increment stationary timer while gyroscope stationary
-    if (fusionBias->stationaryTimer < STATIONARY_PERIOD) {
+    if(fusionBias->stationaryTimer < STATIONARY_PERIOD)
+    {
         fusionBias->stationaryTimer += dt;
         return gyroscope;
     }
 
     // Adjust bias if stationary timer has elapsed
-    fusionBias->gyroscopeBias = FusionVectorAdd(fusionBias->gyroscopeBias, FusionVectorMultiplyScalar(gyroscope, fusionBias->filterCoefficient));
+    fusionBias->gyroscopeBias = FusionVectorAdd(fusionBias->gyroscopeBias, FusionVectorMultiplyScalar(
+                                                    gyroscope,
+                                                    fusionBias->filterCoefficient));
     return gyroscope;
 }
 
@@ -81,9 +89,10 @@ FusionVector3 FusionBiasUpdate(FusionBias * const fusionBias, FusionVector3 gyro
  * @param fusionBias FusionBias structure.
  * @return True if the gyroscope bias correction algorithm is active.
  */
-bool FusionBiasIsActive(FusionBias * const fusionBias) {
+bool FusionBiasIsActive(FusionBias* const fusionBias)
+{
     return fusionBias->stationaryTimer >= STATIONARY_PERIOD;
 }
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // End of file

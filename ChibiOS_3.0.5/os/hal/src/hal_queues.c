@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    hal_queues.c
@@ -37,7 +37,7 @@
 
 #include "hal.h"
 
-#if !defined(_CHIBIOS_RT_) || (CH_CFG_USE_QUEUES == FALSE) ||               \
+#if !defined(_CHIBIOS_RT_) || (CH_CFG_USE_QUEUES == FALSE) || \
     defined(__DOXYGEN__)
 
 /**
@@ -55,17 +55,16 @@
  *
  * @init
  */
-void iqObjectInit(input_queue_t *iqp, uint8_t *bp, size_t size,
-                  qnotify_t infy, void *link) {
-
-  osalThreadQueueObjectInit(&iqp->q_waiting);
-  iqp->q_counter = 0;
-  iqp->q_buffer  = bp;
-  iqp->q_rdptr   = bp;
-  iqp->q_wrptr   = bp;
-  iqp->q_top     = bp + size;
-  iqp->q_notify  = infy;
-  iqp->q_link    = link;
+void iqObjectInit(input_queue_t* iqp, uint8_t* bp, size_t size, qnotify_t infy, void* link)
+{
+    osalThreadQueueObjectInit(&iqp->q_waiting);
+    iqp->q_counter = 0;
+    iqp->q_buffer = bp;
+    iqp->q_rdptr = bp;
+    iqp->q_wrptr = bp;
+    iqp->q_top = bp + size;
+    iqp->q_notify = infy;
+    iqp->q_link = link;
 }
 
 /**
@@ -79,14 +78,14 @@ void iqObjectInit(input_queue_t *iqp, uint8_t *bp, size_t size,
  *
  * @iclass
  */
-void iqResetI(input_queue_t *iqp) {
+void iqResetI(input_queue_t* iqp)
+{
+    osalDbgCheckClassI();
 
-  osalDbgCheckClassI();
-
-  iqp->q_rdptr = iqp->q_buffer;
-  iqp->q_wrptr = iqp->q_buffer;
-  iqp->q_counter = 0;
-  osalThreadDequeueAllI(&iqp->q_waiting, Q_RESET);
+    iqp->q_rdptr = iqp->q_buffer;
+    iqp->q_wrptr = iqp->q_buffer;
+    iqp->q_counter = 0;
+    osalThreadDequeueAllI(&iqp->q_waiting, Q_RESET);
 }
 
 /**
@@ -102,23 +101,26 @@ void iqResetI(input_queue_t *iqp) {
  *
  * @iclass
  */
-msg_t iqPutI(input_queue_t *iqp, uint8_t b) {
+msg_t iqPutI(input_queue_t* iqp, uint8_t b)
+{
+    osalDbgCheckClassI();
 
-  osalDbgCheckClassI();
+    if(iqIsFullI(iqp))
+    {
+        return Q_FULL;
+    }
 
-  if (iqIsFullI(iqp)) {
-    return Q_FULL;
-  }
+    iqp->q_counter++;
+    *iqp->q_wrptr++ = b;
 
-  iqp->q_counter++;
-  *iqp->q_wrptr++ = b;
-  if (iqp->q_wrptr >= iqp->q_top) {
-    iqp->q_wrptr = iqp->q_buffer;
-  }
+    if(iqp->q_wrptr >= iqp->q_top)
+    {
+        iqp->q_wrptr = iqp->q_buffer;
+    }
 
-  osalThreadDequeueNextI(&iqp->q_waiting, Q_OK);
+    osalThreadDequeueNextI(&iqp->q_waiting, Q_OK);
 
-  return Q_OK;
+    return Q_OK;
 }
 
 /**
@@ -141,30 +143,39 @@ msg_t iqPutI(input_queue_t *iqp, uint8_t b) {
  *
  * @api
  */
-msg_t iqGetTimeout(input_queue_t *iqp, systime_t timeout) {
-  uint8_t b;
+msg_t iqGetTimeout(input_queue_t* iqp, systime_t timeout)
+{
+    uint8_t b;
 
-  osalSysLock();
-  if (iqp->q_notify != NULL) {
-    iqp->q_notify(iqp);
-  }
+    osalSysLock();
 
-  while (iqIsEmptyI(iqp)) {
-    msg_t msg = osalThreadEnqueueTimeoutS(&iqp->q_waiting, timeout);
-    if (msg < Q_OK) {
-      osalSysUnlock();
-      return msg;
+    if(iqp->q_notify != NULL)
+    {
+        iqp->q_notify(iqp);
     }
-  }
 
-  iqp->q_counter--;
-  b = *iqp->q_rdptr++;
-  if (iqp->q_rdptr >= iqp->q_top) {
-    iqp->q_rdptr = iqp->q_buffer;
-  }
-  osalSysUnlock();
+    while(iqIsEmptyI(iqp))
+    {
+        msg_t msg = osalThreadEnqueueTimeoutS(&iqp->q_waiting, timeout);
 
-  return (msg_t)b;
+        if(msg < Q_OK)
+        {
+            osalSysUnlock();
+            return msg;
+        }
+    }
+
+    iqp->q_counter--;
+    b = *iqp->q_rdptr++;
+
+    if(iqp->q_rdptr >= iqp->q_top)
+    {
+        iqp->q_rdptr = iqp->q_buffer;
+    }
+
+    osalSysUnlock();
+
+    return (msg_t) b;
 }
 
 /**
@@ -191,40 +202,50 @@ msg_t iqGetTimeout(input_queue_t *iqp, systime_t timeout) {
  *
  * @api
  */
-size_t iqReadTimeout(input_queue_t *iqp, uint8_t *bp,
-                     size_t n, systime_t timeout) {
-  qnotify_t nfy = iqp->q_notify;
-  size_t r = 0;
+size_t iqReadTimeout(input_queue_t* iqp, uint8_t* bp, size_t n, systime_t timeout)
+{
+    qnotify_t nfy = iqp->q_notify;
+    size_t r = 0;
 
-  osalDbgCheck(n > 0U);
-
-  osalSysLock();
-  while (true) {
-    if (nfy != NULL) {
-      nfy(iqp);
-    }
-
-    while (iqIsEmptyI(iqp)) {
-      if (osalThreadEnqueueTimeoutS(&iqp->q_waiting, timeout) != Q_OK) {
-        osalSysUnlock();
-        return r;
-      }
-    }
-
-    iqp->q_counter--;
-    *bp++ = *iqp->q_rdptr++;
-    if (iqp->q_rdptr >= iqp->q_top) {
-      iqp->q_rdptr = iqp->q_buffer;
-    }
-    osalSysUnlock(); /* Gives a preemption chance in a controlled point.*/
-
-    r++;
-    if (--n == 0U) {
-      return r;
-    }
+    osalDbgCheck(n > 0U);
 
     osalSysLock();
-  }
+
+    while(true)
+    {
+        if(nfy != NULL)
+        {
+            nfy(iqp);
+        }
+
+        while(iqIsEmptyI(iqp))
+        {
+            if(osalThreadEnqueueTimeoutS(&iqp->q_waiting, timeout) != Q_OK)
+            {
+                osalSysUnlock();
+                return r;
+            }
+        }
+
+        iqp->q_counter--;
+        *bp++ = *iqp->q_rdptr++;
+
+        if(iqp->q_rdptr >= iqp->q_top)
+        {
+            iqp->q_rdptr = iqp->q_buffer;
+        }
+
+        osalSysUnlock(); /* Gives a preemption chance in a controlled point.*/
+
+        r++;
+
+        if(--n == 0U)
+        {
+            return r;
+        }
+
+        osalSysLock();
+    }
 }
 
 /**
@@ -242,17 +263,16 @@ size_t iqReadTimeout(input_queue_t *iqp, uint8_t *bp,
  *
  * @init
  */
-void oqObjectInit(output_queue_t *oqp, uint8_t *bp, size_t size,
-                  qnotify_t onfy, void *link) {
-
-  osalThreadQueueObjectInit(&oqp->q_waiting);
-  oqp->q_counter = size;
-  oqp->q_buffer  = bp;
-  oqp->q_rdptr   = bp;
-  oqp->q_wrptr   = bp;
-  oqp->q_top     = bp + size;
-  oqp->q_notify  = onfy;
-  oqp->q_link    = link;
+void oqObjectInit(output_queue_t* oqp, uint8_t* bp, size_t size, qnotify_t onfy, void* link)
+{
+    osalThreadQueueObjectInit(&oqp->q_waiting);
+    oqp->q_counter = size;
+    oqp->q_buffer = bp;
+    oqp->q_rdptr = bp;
+    oqp->q_wrptr = bp;
+    oqp->q_top = bp + size;
+    oqp->q_notify = onfy;
+    oqp->q_link = link;
 }
 
 /**
@@ -266,14 +286,14 @@ void oqObjectInit(output_queue_t *oqp, uint8_t *bp, size_t size,
  *
  * @iclass
  */
-void oqResetI(output_queue_t *oqp) {
+void oqResetI(output_queue_t* oqp)
+{
+    osalDbgCheckClassI();
 
-  osalDbgCheckClassI();
-
-  oqp->q_rdptr = oqp->q_buffer;
-  oqp->q_wrptr = oqp->q_buffer;
-  oqp->q_counter = qSizeX(oqp);
-  osalThreadDequeueAllI(&oqp->q_waiting, Q_RESET);
+    oqp->q_rdptr = oqp->q_buffer;
+    oqp->q_wrptr = oqp->q_buffer;
+    oqp->q_counter = qSizeX(oqp);
+    osalThreadDequeueAllI(&oqp->q_waiting, Q_RESET);
 }
 
 /**
@@ -298,29 +318,37 @@ void oqResetI(output_queue_t *oqp) {
  *
  * @api
  */
-msg_t oqPutTimeout(output_queue_t *oqp, uint8_t b, systime_t timeout) {
+msg_t oqPutTimeout(output_queue_t* oqp, uint8_t b, systime_t timeout)
+{
+    osalSysLock();
 
-  osalSysLock();
-  while (oqIsFullI(oqp)) {
-    msg_t msg = osalThreadEnqueueTimeoutS(&oqp->q_waiting, timeout);
-    if (msg < Q_OK) {
-      osalSysUnlock();
-      return msg;
+    while(oqIsFullI(oqp))
+    {
+        msg_t msg = osalThreadEnqueueTimeoutS(&oqp->q_waiting, timeout);
+
+        if(msg < Q_OK)
+        {
+            osalSysUnlock();
+            return msg;
+        }
     }
-  }
 
-  oqp->q_counter--;
-  *oqp->q_wrptr++ = b;
-  if (oqp->q_wrptr >= oqp->q_top) {
-    oqp->q_wrptr = oqp->q_buffer;
-  }
+    oqp->q_counter--;
+    *oqp->q_wrptr++ = b;
 
-  if (oqp->q_notify != NULL) {
-    oqp->q_notify(oqp);
-  }
-  osalSysUnlock();
+    if(oqp->q_wrptr >= oqp->q_top)
+    {
+        oqp->q_wrptr = oqp->q_buffer;
+    }
 
-  return Q_OK;
+    if(oqp->q_notify != NULL)
+    {
+        oqp->q_notify(oqp);
+    }
+
+    osalSysUnlock();
+
+    return Q_OK;
 }
 
 /**
@@ -333,24 +361,28 @@ msg_t oqPutTimeout(output_queue_t *oqp, uint8_t b, systime_t timeout) {
  *
  * @iclass
  */
-msg_t oqGetI(output_queue_t *oqp) {
-  uint8_t b;
+msg_t oqGetI(output_queue_t* oqp)
+{
+    uint8_t b;
 
-  osalDbgCheckClassI();
+    osalDbgCheckClassI();
 
-  if (oqIsEmptyI(oqp)) {
-    return Q_EMPTY;
-  }
+    if(oqIsEmptyI(oqp))
+    {
+        return Q_EMPTY;
+    }
 
-  oqp->q_counter++;
-  b = *oqp->q_rdptr++;
-  if (oqp->q_rdptr >= oqp->q_top) {
-    oqp->q_rdptr = oqp->q_buffer;
-  }
+    oqp->q_counter++;
+    b = *oqp->q_rdptr++;
 
-  osalThreadDequeueNextI(&oqp->q_waiting, Q_OK);
+    if(oqp->q_rdptr >= oqp->q_top)
+    {
+        oqp->q_rdptr = oqp->q_buffer;
+    }
 
-  return (msg_t)b;
+    osalThreadDequeueNextI(&oqp->q_waiting, Q_OK);
+
+    return (msg_t) b;
 }
 
 /**
@@ -377,39 +409,50 @@ msg_t oqGetI(output_queue_t *oqp) {
  *
  * @api
  */
-size_t oqWriteTimeout(output_queue_t *oqp, const uint8_t *bp,
-                      size_t n, systime_t timeout) {
-  qnotify_t nfy = oqp->q_notify;
-  size_t w = 0;
+size_t oqWriteTimeout(output_queue_t* oqp, const uint8_t* bp, size_t n, systime_t timeout)
+{
+    qnotify_t nfy = oqp->q_notify;
+    size_t w = 0;
 
-  osalDbgCheck(n > 0U);
-
-  osalSysLock();
-  while (true) {
-    while (oqIsFullI(oqp)) {
-      if (osalThreadEnqueueTimeoutS(&oqp->q_waiting, timeout) != Q_OK) {
-        osalSysUnlock();
-        return w;
-      }
-    }
-    oqp->q_counter--;
-    *oqp->q_wrptr++ = *bp++;
-    if (oqp->q_wrptr >= oqp->q_top) {
-      oqp->q_wrptr = oqp->q_buffer;
-    }
-
-    if (nfy != NULL) {
-      nfy(oqp);
-    }
-    osalSysUnlock(); /* Gives a preemption chance in a controlled point.*/
-
-    w++;
-    if (--n == 0U) {
-      return w;
-    }
+    osalDbgCheck(n > 0U);
 
     osalSysLock();
-  }
+
+    while(true)
+    {
+        while(oqIsFullI(oqp))
+        {
+            if(osalThreadEnqueueTimeoutS(&oqp->q_waiting, timeout) != Q_OK)
+            {
+                osalSysUnlock();
+                return w;
+            }
+        }
+
+        oqp->q_counter--;
+        *oqp->q_wrptr++ = *bp++;
+
+        if(oqp->q_wrptr >= oqp->q_top)
+        {
+            oqp->q_wrptr = oqp->q_buffer;
+        }
+
+        if(nfy != NULL)
+        {
+            nfy(oqp);
+        }
+
+        osalSysUnlock(); /* Gives a preemption chance in a controlled point.*/
+
+        w++;
+
+        if(--n == 0U)
+        {
+            return w;
+        }
+
+        osalSysLock();
+    }
 }
 
 #endif /* !defined(_CHIBIOS_RT_) || (CH_USE_QUEUES == FALSE) */

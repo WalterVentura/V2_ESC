@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    st.c
@@ -57,11 +57,10 @@
  *
  * @init
  */
-void stInit(void) {
-
-  st_lld_init();
+void stInit(void)
+{
+    st_lld_init();
 }
-
 
 /**
  * @brief   Starts the alarm.
@@ -74,11 +73,11 @@ void stInit(void) {
  *
  * @api
  */
-void stStartAlarm(systime_t abstime) {
+void stStartAlarm(systime_t abstime)
+{
+    osalDbgAssert(stIsAlarmActive() == false, "already active");
 
-  osalDbgAssert(stIsAlarmActive() == false, "already active");
-
-  st_lld_start_alarm(abstime);
+    st_lld_start_alarm(abstime);
 }
 
 /**
@@ -88,9 +87,9 @@ void stStartAlarm(systime_t abstime) {
  *
  * @api
  */
-void stStopAlarm(void) {
-
-  st_lld_stop_alarm();
+void stStopAlarm(void)
+{
+    st_lld_stop_alarm();
 }
 
 /**
@@ -102,11 +101,11 @@ void stStopAlarm(void) {
  *
  * @api
  */
-void stSetAlarm(systime_t abstime) {
+void stSetAlarm(systime_t abstime)
+{
+    osalDbgAssert(stIsAlarmActive() != false, "not active");
 
-  osalDbgAssert(stIsAlarmActive() != false, "not active");
-
-  st_lld_set_alarm(abstime);
+    st_lld_set_alarm(abstime);
 }
 
 /**
@@ -118,11 +117,11 @@ void stSetAlarm(systime_t abstime) {
  *
  * @api
  */
-systime_t stGetAlarm(void) {
+systime_t stGetAlarm(void)
+{
+    osalDbgAssert(stIsAlarmActive() != false, "not active");
 
-  osalDbgAssert(stIsAlarmActive() != false, "not active");
-
-  return st_lld_get_alarm();
+    return st_lld_get_alarm();
 }
 
 #endif /* OSAL_ST_MODE != OSAL_ST_MODE_NONE */

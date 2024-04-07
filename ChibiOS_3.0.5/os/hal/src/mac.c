@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    mac.c
@@ -61,9 +61,9 @@
  *
  * @init
  */
-void macInit(void) {
-
-  mac_lld_init();
+void macInit(void)
+{
+    mac_lld_init();
 }
 
 /**
@@ -73,14 +73,14 @@ void macInit(void) {
  *
  * @init
  */
-void macObjectInit(MACDriver *macp) {
-
-  macp->state  = MAC_STOP;
-  macp->config = NULL;
-  osalThreadQueueObjectInit(&macp->tdqueue);
-  osalThreadQueueObjectInit(&macp->rdqueue);
+void macObjectInit(MACDriver* macp)
+{
+    macp->state = MAC_STOP;
+    macp->config = NULL;
+    osalThreadQueueObjectInit(&macp->tdqueue);
+    osalThreadQueueObjectInit(&macp->rdqueue);
 #if MAC_USE_EVENTS == TRUE
-  osalEventObjectInit(&macp->rdevent);
+    osalEventObjectInit(&macp->rdevent);
 #endif
 }
 
@@ -92,17 +92,17 @@ void macObjectInit(MACDriver *macp) {
  *
  * @api
  */
-void macStart(MACDriver *macp, const MACConfig *config) {
+void macStart(MACDriver* macp, const MACConfig* config)
+{
+    osalDbgCheck((macp != NULL) && (config != NULL));
 
-  osalDbgCheck((macp != NULL) && (config != NULL));
-
-  osalSysLock();
-  osalDbgAssert(macp->state == MAC_STOP,
-                "invalid state");
-  macp->config = config;
-  mac_lld_start(macp);
-  macp->state = MAC_ACTIVE;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert(macp->state == MAC_STOP,
+                  "invalid state");
+    macp->config = config;
+    mac_lld_start(macp);
+    macp->state = MAC_ACTIVE;
+    osalSysUnlock();
 }
 
 /**
@@ -112,16 +112,16 @@ void macStart(MACDriver *macp, const MACConfig *config) {
  *
  * @api
  */
-void macStop(MACDriver *macp) {
+void macStop(MACDriver* macp)
+{
+    osalDbgCheck(macp != NULL);
 
-  osalDbgCheck(macp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((macp->state == MAC_STOP) || (macp->state == MAC_ACTIVE),
-                "invalid state");
-  mac_lld_stop(macp);
-  macp->state = MAC_STOP;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((macp->state == MAC_STOP) || (macp->state == MAC_ACTIVE),
+                  "invalid state");
+    mac_lld_stop(macp);
+    macp->state = MAC_STOP;
+    osalSysUnlock();
 }
 
 /**
@@ -143,30 +143,36 @@ void macStop(MACDriver *macp) {
  *
  * @api
  */
-msg_t macWaitTransmitDescriptor(MACDriver *macp,
-                                MACTransmitDescriptor *tdp,
-                                systime_t timeout) {
-  msg_t msg;
-  systime_t now;
+msg_t macWaitTransmitDescriptor(MACDriver* macp, MACTransmitDescriptor* tdp, systime_t timeout)
+{
+    msg_t msg;
+    systime_t now;
 
-  osalDbgCheck((macp != NULL) && (tdp != NULL));
-  osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
+    osalDbgCheck((macp != NULL) && (tdp != NULL));
+    osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
 
-  while (((msg = mac_lld_get_transmit_descriptor(macp, tdp)) != MSG_OK) &&
-         (timeout > (systime_t)0)) {
-    osalSysLock();
-    now = osalOsGetSystemTimeX();
-    msg = osalThreadEnqueueTimeoutS(&macp->tdqueue, timeout);
-    if (msg == MSG_TIMEOUT) {
-      osalSysUnlock();
-      break;
+    while(((msg = mac_lld_get_transmit_descriptor(macp, tdp)) != MSG_OK) &&
+          (timeout > (systime_t) 0))
+    {
+        osalSysLock();
+        now = osalOsGetSystemTimeX();
+        msg = osalThreadEnqueueTimeoutS(&macp->tdqueue, timeout);
+
+        if(msg == MSG_TIMEOUT)
+        {
+            osalSysUnlock();
+            break;
+        }
+
+        if(timeout != TIME_INFINITE)
+        {
+            timeout -= (osalOsGetSystemTimeX() - now);
+        }
+
+        osalSysUnlock();
     }
-    if (timeout != TIME_INFINITE) {
-      timeout -= (osalOsGetSystemTimeX() - now);
-    }
-    osalSysUnlock();
-  }
-  return msg;
+
+    return msg;
 }
 
 /**
@@ -177,11 +183,11 @@ msg_t macWaitTransmitDescriptor(MACDriver *macp,
  *
  * @api
  */
-void macReleaseTransmitDescriptor(MACTransmitDescriptor *tdp) {
+void macReleaseTransmitDescriptor(MACTransmitDescriptor* tdp)
+{
+    osalDbgCheck(tdp != NULL);
 
-  osalDbgCheck(tdp != NULL);
-
-  mac_lld_release_transmit_descriptor(tdp);
+    mac_lld_release_transmit_descriptor(tdp);
 }
 
 /**
@@ -203,30 +209,36 @@ void macReleaseTransmitDescriptor(MACTransmitDescriptor *tdp) {
  *
  * @api
  */
-msg_t macWaitReceiveDescriptor(MACDriver *macp,
-                               MACReceiveDescriptor *rdp,
-                               systime_t timeout) {
-  msg_t msg;
-  systime_t now;
+msg_t macWaitReceiveDescriptor(MACDriver* macp, MACReceiveDescriptor* rdp, systime_t timeout)
+{
+    msg_t msg;
+    systime_t now;
 
-  osalDbgCheck((macp != NULL) && (rdp != NULL));
-  osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
+    osalDbgCheck((macp != NULL) && (rdp != NULL));
+    osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
 
-  while (((msg = mac_lld_get_receive_descriptor(macp, rdp)) != MSG_OK) &&
-         (timeout > (systime_t)0)) {
-    osalSysLock();
-    now = osalOsGetSystemTimeX();
-    msg = osalThreadEnqueueTimeoutS(&macp->rdqueue, timeout);
-    if (msg == MSG_TIMEOUT) {
-      osalSysUnlock();
-      break;
+    while(((msg = mac_lld_get_receive_descriptor(macp, rdp)) != MSG_OK) &&
+          (timeout > (systime_t) 0))
+    {
+        osalSysLock();
+        now = osalOsGetSystemTimeX();
+        msg = osalThreadEnqueueTimeoutS(&macp->rdqueue, timeout);
+
+        if(msg == MSG_TIMEOUT)
+        {
+            osalSysUnlock();
+            break;
+        }
+
+        if(timeout != TIME_INFINITE)
+        {
+            timeout -= (osalOsGetSystemTimeX() - now);
+        }
+
+        osalSysUnlock();
     }
-    if (timeout != TIME_INFINITE) {
-      timeout -= (osalOsGetSystemTimeX() - now);
-    }
-    osalSysUnlock();
-  }
-  return msg;
+
+    return msg;
 }
 
 /**
@@ -238,11 +250,11 @@ msg_t macWaitReceiveDescriptor(MACDriver *macp,
  *
  * @api
  */
-void macReleaseReceiveDescriptor(MACReceiveDescriptor *rdp) {
+void macReleaseReceiveDescriptor(MACReceiveDescriptor* rdp)
+{
+    osalDbgCheck(rdp != NULL);
 
-  osalDbgCheck(rdp != NULL);
-
-  mac_lld_release_receive_descriptor(rdp);
+    mac_lld_release_receive_descriptor(rdp);
 }
 
 /**
@@ -255,12 +267,12 @@ void macReleaseReceiveDescriptor(MACReceiveDescriptor *rdp) {
  *
  * @api
  */
-bool macPollLinkStatus(MACDriver *macp) {
+bool macPollLinkStatus(MACDriver* macp)
+{
+    osalDbgCheck(macp != NULL);
+    osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
 
-  osalDbgCheck(macp != NULL);
-  osalDbgAssert(macp->state == MAC_ACTIVE, "not active");
-
-  return mac_lld_poll_link_status(macp);
+    return mac_lld_poll_link_status(macp);
 }
 
 #endif /* HAL_USE_MAC == TRUE */

@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chmempools.c
@@ -72,13 +72,13 @@
  *
  * @init
  */
-void chPoolObjectInit(memory_pool_t *mp, size_t size, memgetfunc_t provider) {
+void chPoolObjectInit(memory_pool_t* mp, size_t size, memgetfunc_t provider)
+{
+    chDbgCheck((mp != NULL) && (size >= sizeof(void*)));
 
-  chDbgCheck((mp != NULL) && (size >= sizeof(void *)));
-
-  mp->mp_next = NULL;
-  mp->mp_object_size = size;
-  mp->mp_provider = provider;
+    mp->mp_next = NULL;
+    mp->mp_object_size = size;
+    mp->mp_provider = provider;
 }
 
 /**
@@ -94,46 +94,54 @@ void chPoolObjectInit(memory_pool_t *mp, size_t size, memgetfunc_t provider) {
  *
  * @api
  */
-void chPoolLoadArray(memory_pool_t *mp, void *p, size_t n) {
+void chPoolLoadArray(memory_pool_t* mp, void* p, size_t n)
+{
+    chDbgCheck((mp != NULL) && (n != 0U));
 
-  chDbgCheck((mp != NULL) && (n != 0U));
+    while(n != 0U)
+    {
+        chPoolAdd(mp, p);
 
-  while (n != 0U) {
-    chPoolAdd(mp, p);
-    /*lint -save -e9087 [11.3] Safe cast.*/
-    p = (void *)(((uint8_t *)p) + mp->mp_object_size);
+        /*lint -save -e9087 [11.3] Safe cast.*/
+        p = (void*) (((uint8_t*) p) + mp->mp_object_size);
+
+        /*lint -restore*/
+        n--;
+    }
+}
+
+/**
+ * @brief   Allocates an object from a memory pool.
+ * @pre     The memory pool must be already been initialized.
+ *
+ * @param[in] mp        pointer to a @p memory_pool_t structure
+ * @return              The pointer to the allocated object.
+ * @retval NULL         if pool is empty.
+ *
+ * @iclass
+ */
+void* chPoolAllocI(memory_pool_t* mp)
+{
+    void* objp;
+
+    chDbgCheckClassI();
+    chDbgCheck(mp != NULL);
+
+    objp = mp->mp_next;
+
+    /*lint -save -e9013 [15.7] There is no else because it is not needed.*/
+    if(objp != NULL)
+    {
+        mp->mp_next = mp->mp_next->ph_next;
+    }
+    else if(mp->mp_provider != NULL)
+    {
+        objp = mp->mp_provider(mp->mp_object_size);
+    }
+
     /*lint -restore*/
-    n--;
-  }
-}
 
-/**
- * @brief   Allocates an object from a memory pool.
- * @pre     The memory pool must be already been initialized.
- *
- * @param[in] mp        pointer to a @p memory_pool_t structure
- * @return              The pointer to the allocated object.
- * @retval NULL         if pool is empty.
- *
- * @iclass
- */
-void *chPoolAllocI(memory_pool_t *mp) {
-  void *objp;
-
-  chDbgCheckClassI();
-  chDbgCheck(mp != NULL);
-
-  objp = mp->mp_next;
-  /*lint -save -e9013 [15.7] There is no else because it is not needed.*/
-  if (objp != NULL) {
-    mp->mp_next = mp->mp_next->ph_next;
-  }
-  else if (mp->mp_provider != NULL) {
-    objp = mp->mp_provider(mp->mp_object_size);
-  }
-  /*lint -restore*/
-
-  return objp;
+    return objp;
 }
 
 /**
@@ -146,14 +154,15 @@ void *chPoolAllocI(memory_pool_t *mp) {
  *
  * @api
  */
-void *chPoolAlloc(memory_pool_t *mp) {
-  void *objp;
+void* chPoolAlloc(memory_pool_t* mp)
+{
+    void* objp;
 
-  chSysLock();
-  objp = chPoolAllocI(mp);
-  chSysUnlock();
+    chSysLock();
+    objp = chPoolAllocI(mp);
+    chSysUnlock();
 
-  return objp;
+    return objp;
 }
 
 /**
@@ -168,14 +177,15 @@ void *chPoolAlloc(memory_pool_t *mp) {
  *
  * @iclass
  */
-void chPoolFreeI(memory_pool_t *mp, void *objp) {
-  struct pool_header *php = objp;
+void chPoolFreeI(memory_pool_t* mp, void* objp)
+{
+    struct pool_header* php = objp;
 
-  chDbgCheckClassI();
-  chDbgCheck((mp != NULL) && (objp != NULL));
+    chDbgCheckClassI();
+    chDbgCheck((mp != NULL) && (objp != NULL));
 
-  php->ph_next = mp->mp_next;
-  mp->mp_next = php;
+    php->ph_next = mp->mp_next;
+    mp->mp_next = php;
 }
 
 /**
@@ -190,11 +200,11 @@ void chPoolFreeI(memory_pool_t *mp, void *objp) {
  *
  * @api
  */
-void chPoolFree(memory_pool_t *mp, void *objp) {
-
-  chSysLock();
-  chPoolFreeI(mp, objp);
-  chSysUnlock();
+void chPoolFree(memory_pool_t* mp, void* objp)
+{
+    chSysLock();
+    chPoolFreeI(mp, objp);
+    chSysUnlock();
 }
 
 #endif /* CH_CFG_USE_MEMPOOLS == TRUE */

@@ -21,22 +21,21 @@
 #include "general.h"
 #include "exception.h"
 
-struct exception *innermost_exception;
+struct exception* innermost_exception;
 
-void raise_exception(uint32_t type, const char *msg)
+void raise_exception(uint32_t type, const char* msg)
 {
-//	struct exception *e;
-//	DEBUG("Exception: %s\n", msg);
-//	for (e = innermost_exception; e; e = e->outer) {
-//		if (e->mask & type) {
-//			e->type = type;
-//			e->msg = msg;
-//			innermost_exception = e->outer;
-//			longjmp(e->jmpbuf, type);
-//		}
-//	}
-//	abort();
-	(void)type;
-	(void)msg;
+// struct exception *e;
+// DEBUG("Exception: %s\n", msg);
+// for (e = innermost_exception; e; e = e->outer) {
+// if (e->mask & type) {
+// e->type = type;
+// e->msg = msg;
+// innermost_exception = e->outer;
+// longjmp(e->jmpbuf, type);
+// }
+// }
+// abort();
+    (void) type;
+    (void) msg;
 }
-

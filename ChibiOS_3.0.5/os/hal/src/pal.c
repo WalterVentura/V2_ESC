@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    pal.c
@@ -62,11 +62,11 @@
  *
  * @special
  */
-ioportmask_t palReadBus(IOBus *bus) {
+ioportmask_t palReadBus(IOBus* bus)
+{
+    osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
 
-  osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
-
-  return palReadGroup(bus->portid, bus->mask, bus->offset);
+    return palReadGroup(bus->portid, bus->mask, bus->offset);
 }
 
 /**
@@ -87,11 +87,11 @@ ioportmask_t palReadBus(IOBus *bus) {
  *
  * @special
  */
-void palWriteBus(IOBus *bus, ioportmask_t bits) {
+void palWriteBus(IOBus* bus, ioportmask_t bits)
+{
+    osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
 
-  osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
-
-  palWriteGroup(bus->portid, bus->mask, bus->offset, bits);
+    palWriteGroup(bus->portid, bus->mask, bus->offset, bits);
 }
 
 /**
@@ -110,11 +110,11 @@ void palWriteBus(IOBus *bus, ioportmask_t bits) {
  *
  * @special
  */
-void palSetBusMode(IOBus *bus, iomode_t mode) {
+void palSetBusMode(IOBus* bus, iomode_t mode)
+{
+    osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
 
-  osalDbgCheck((bus != NULL) && (bus->offset < PAL_IOPORTS_WIDTH));
-
-  palSetGroupMode(bus->portid, bus->mask, bus->offset, mode);
+    palSetGroupMode(bus->portid, bus->mask, bus->offset, mode);
 }
 
 #endif /* HAL_USE_PAL == TRUE */
