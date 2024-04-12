@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    evtimer.c
@@ -45,13 +45,14 @@
 /* Module local functions.                                                   */
 /*===========================================================================*/
 
-static void tmrcb(void *p) {
-  event_timer_t *etp = p;
+static void tmrcb(void* p)
+{
+    event_timer_t* etp = p;
 
-  chSysLockFromISR();
-  chEvtBroadcastI(&etp->et_es);
-  chVTDoSetI(&etp->et_vt, etp->et_interval, tmrcb, etp);
-  chSysUnlockFromISR();
+    chSysLockFromISR();
+    chEvtBroadcastI(&etp->et_es);
+    chVTDoSetI(&etp->et_vt, etp->et_interval, tmrcb, etp);
+    chSysUnlockFromISR();
 }
 
 /*===========================================================================*/
@@ -64,11 +65,11 @@ static void tmrcb(void *p) {
  * @param[out] etp      the @p event_timer_t structure to be initialized
  * @param[in] time      the interval in system ticks
  */
-void evtObjectInit(event_timer_t *etp, systime_t time) {
-
-  chEvtObjectInit(&etp->et_es);
-  chVTObjectInit(&etp->et_vt);
-  etp->et_interval = time;
+void evtObjectInit(event_timer_t* etp, systime_t time)
+{
+    chEvtObjectInit(&etp->et_es);
+    chVTObjectInit(&etp->et_vt);
+    etp->et_interval = time;
 }
 
 /**
@@ -77,9 +78,9 @@ void evtObjectInit(event_timer_t *etp, systime_t time) {
  *
  * @param[in] etp       pointer to an initialized @p event_timer_t structure.
  */
-void evtStart(event_timer_t *etp) {
-
-  chVTSet(&etp->et_vt, etp->et_interval, tmrcb, etp);
+void evtStart(event_timer_t* etp)
+{
+    chVTSet(&etp->et_vt, etp->et_interval, tmrcb, etp);
 }
 
 /** @} */

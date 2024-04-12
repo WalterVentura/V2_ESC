@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    pwm.c
@@ -53,9 +53,9 @@
  *
  * @init
  */
-void pwmInit(void) {
-
-  pwm_lld_init();
+void pwmInit(void)
+{
+    pwm_lld_init();
 }
 
 /**
@@ -65,14 +65,14 @@ void pwmInit(void) {
  *
  * @init
  */
-void pwmObjectInit(PWMDriver *pwmp) {
-
-  pwmp->state    = PWM_STOP;
-  pwmp->config   = NULL;
-  pwmp->enabled  = 0;
-  pwmp->channels = 0;
+void pwmObjectInit(PWMDriver* pwmp)
+{
+    pwmp->state = PWM_STOP;
+    pwmp->config = NULL;
+    pwmp->enabled = 0;
+    pwmp->channels = 0;
 #if defined(PWM_DRIVER_EXT_INIT_HOOK)
-  PWM_DRIVER_EXT_INIT_HOOK(pwmp);
+    PWM_DRIVER_EXT_INIT_HOOK(pwmp);
 #endif
 }
 
@@ -86,19 +86,19 @@ void pwmObjectInit(PWMDriver *pwmp) {
  *
  * @api
  */
-void pwmStart(PWMDriver *pwmp, const PWMConfig *config) {
+void pwmStart(PWMDriver* pwmp, const PWMConfig* config)
+{
+    osalDbgCheck((pwmp != NULL) && (config != NULL));
 
-  osalDbgCheck((pwmp != NULL) && (config != NULL));
-
-  osalSysLock();
-  osalDbgAssert((pwmp->state == PWM_STOP) || (pwmp->state == PWM_READY),
-                "invalid state");
-  pwmp->config = config;
-  pwmp->period = config->period;
-  pwm_lld_start(pwmp);
-  pwmp->enabled = 0;
-  pwmp->state = PWM_READY;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((pwmp->state == PWM_STOP) || (pwmp->state == PWM_READY),
+                  "invalid state");
+    pwmp->config = config;
+    pwmp->period = config->period;
+    pwm_lld_start(pwmp);
+    pwmp->enabled = 0;
+    pwmp->state = PWM_READY;
+    osalSysUnlock();
 }
 
 /**
@@ -108,17 +108,17 @@ void pwmStart(PWMDriver *pwmp, const PWMConfig *config) {
  *
  * @api
  */
-void pwmStop(PWMDriver *pwmp) {
+void pwmStop(PWMDriver* pwmp)
+{
+    osalDbgCheck(pwmp != NULL);
 
-  osalDbgCheck(pwmp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((pwmp->state == PWM_STOP) || (pwmp->state == PWM_READY),
-                "invalid state");
-  pwm_lld_stop(pwmp);
-  pwmp->enabled = 0;
-  pwmp->state   = PWM_STOP;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((pwmp->state == PWM_STOP) || (pwmp->state == PWM_READY),
+                  "invalid state");
+    pwm_lld_stop(pwmp);
+    pwmp->enabled = 0;
+    pwmp->state = PWM_STOP;
+    osalSysUnlock();
 }
 
 /**
@@ -136,14 +136,14 @@ void pwmStop(PWMDriver *pwmp) {
  *
  * @api
  */
-void pwmChangePeriod(PWMDriver *pwmp, pwmcnt_t period) {
+void pwmChangePeriod(PWMDriver* pwmp, pwmcnt_t period)
+{
+    osalDbgCheck(pwmp != NULL);
 
-  osalDbgCheck(pwmp != NULL);
-
-  osalSysLock();
-  osalDbgAssert(pwmp->state == PWM_READY, "invalid state");
-  pwmChangePeriodI(pwmp, period);
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "invalid state");
+    pwmChangePeriodI(pwmp, period);
+    osalSysUnlock();
 }
 
 /**
@@ -160,19 +160,17 @@ void pwmChangePeriod(PWMDriver *pwmp, pwmcnt_t period) {
  *
  * @api
  */
-void pwmEnableChannel(PWMDriver *pwmp,
-                      pwmchannel_t channel,
-                      pwmcnt_t width) {
+void pwmEnableChannel(PWMDriver* pwmp, pwmchannel_t channel, pwmcnt_t width)
+{
+    osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
 
-  osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    pwmEnableChannelI(pwmp, channel, width);
 
-  pwmEnableChannelI(pwmp, channel, width);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -189,17 +187,17 @@ void pwmEnableChannel(PWMDriver *pwmp,
  *
  * @api
  */
-void pwmDisableChannel(PWMDriver *pwmp, pwmchannel_t channel) {
+void pwmDisableChannel(PWMDriver* pwmp, pwmchannel_t channel)
+{
+    osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
 
-  osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    pwmDisableChannelI(pwmp, channel);
 
-  pwmDisableChannelI(pwmp, channel);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -211,18 +209,18 @@ void pwmDisableChannel(PWMDriver *pwmp, pwmchannel_t channel) {
  *
  * @api
  */
-void pwmEnablePeriodicNotification(PWMDriver *pwmp) {
+void pwmEnablePeriodicNotification(PWMDriver* pwmp)
+{
+    osalDbgCheck(pwmp != NULL);
 
-  osalDbgCheck(pwmp != NULL);
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    osalDbgAssert(pwmp->config->callback != NULL, "undefined periodic callback");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
-  osalDbgAssert(pwmp->config->callback != NULL, "undefined periodic callback");
+    pwmEnablePeriodicNotificationI(pwmp);
 
-  pwmEnablePeriodicNotificationI(pwmp);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -234,18 +232,18 @@ void pwmEnablePeriodicNotification(PWMDriver *pwmp) {
  *
  * @api
  */
-void pwmDisablePeriodicNotification(PWMDriver *pwmp) {
+void pwmDisablePeriodicNotification(PWMDriver* pwmp)
+{
+    osalDbgCheck(pwmp != NULL);
 
-  osalDbgCheck(pwmp != NULL);
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    osalDbgAssert(pwmp->config->callback != NULL, "undefined periodic callback");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
-  osalDbgAssert(pwmp->config->callback != NULL, "undefined periodic callback");
+    pwmDisablePeriodicNotificationI(pwmp);
 
-  pwmDisablePeriodicNotificationI(pwmp);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -259,21 +257,21 @@ void pwmDisablePeriodicNotification(PWMDriver *pwmp) {
  *
  * @api
  */
-void pwmEnableChannelNotification(PWMDriver *pwmp, pwmchannel_t channel) {
+void pwmEnableChannelNotification(PWMDriver* pwmp, pwmchannel_t channel)
+{
+    osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
 
-  osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    osalDbgAssert((pwmp->enabled & ((pwmchnmsk_t) 1U << (pwmchnmsk_t) channel)) != 0U,
+                  "channel not enabled");
+    osalDbgAssert(pwmp->config->channels[channel].callback != NULL,
+                  "undefined channel callback");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
-  osalDbgAssert((pwmp->enabled & ((pwmchnmsk_t)1U << (pwmchnmsk_t)channel)) != 0U,
-                "channel not enabled");
-  osalDbgAssert(pwmp->config->channels[channel].callback != NULL,
-                "undefined channel callback");
+    pwmEnableChannelNotificationI(pwmp, channel);
 
-  pwmEnableChannelNotificationI(pwmp, channel);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -287,21 +285,21 @@ void pwmEnableChannelNotification(PWMDriver *pwmp, pwmchannel_t channel) {
  *
  * @api
  */
-void pwmDisableChannelNotification(PWMDriver *pwmp, pwmchannel_t channel) {
+void pwmDisableChannelNotification(PWMDriver* pwmp, pwmchannel_t channel)
+{
+    osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
 
-  osalDbgCheck((pwmp != NULL) && (channel < pwmp->channels));
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert(pwmp->state == PWM_READY, "not ready");
+    osalDbgAssert((pwmp->enabled & ((pwmchnmsk_t) 1U << (pwmchnmsk_t) channel)) != 0U,
+                  "channel not enabled");
+    osalDbgAssert(pwmp->config->channels[channel].callback != NULL,
+                  "undefined channel callback");
 
-  osalDbgAssert(pwmp->state == PWM_READY, "not ready");
-  osalDbgAssert((pwmp->enabled & ((pwmchnmsk_t)1U << (pwmchnmsk_t)channel)) != 0U,
-                "channel not enabled");
-  osalDbgAssert(pwmp->config->channels[channel].callback != NULL,
-                "undefined channel callback");
+    pwmDisableChannelNotificationI(pwmp, channel);
 
-  pwmDisableChannelNotificationI(pwmp, channel);
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 #endif /* HAL_USE_PWM == TRUE */

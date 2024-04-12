@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    gpt.c
@@ -53,9 +53,9 @@
  *
  * @init
  */
-void gptInit(void) {
-
-  gpt_lld_init();
+void gptInit(void)
+{
+    gpt_lld_init();
 }
 
 /**
@@ -65,10 +65,10 @@ void gptInit(void) {
  *
  * @init
  */
-void gptObjectInit(GPTDriver *gptp) {
-
-  gptp->state  = GPT_STOP;
-  gptp->config = NULL;
+void gptObjectInit(GPTDriver* gptp)
+{
+    gptp->state = GPT_STOP;
+    gptp->config = NULL;
 }
 
 /**
@@ -79,17 +79,17 @@ void gptObjectInit(GPTDriver *gptp) {
  *
  * @api
  */
-void gptStart(GPTDriver *gptp, const GPTConfig *config) {
+void gptStart(GPTDriver* gptp, const GPTConfig* config)
+{
+    osalDbgCheck((gptp != NULL) && (config != NULL));
 
-  osalDbgCheck((gptp != NULL) && (config != NULL));
-
-  osalSysLock();
-  osalDbgAssert((gptp->state == GPT_STOP) || (gptp->state == GPT_READY),
-              "invalid state");
-  gptp->config = config;
-  gpt_lld_start(gptp);
-  gptp->state = GPT_READY;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((gptp->state == GPT_STOP) || (gptp->state == GPT_READY),
+                  "invalid state");
+    gptp->config = config;
+    gpt_lld_start(gptp);
+    gptp->state = GPT_READY;
+    osalSysUnlock();
 }
 
 /**
@@ -99,16 +99,16 @@ void gptStart(GPTDriver *gptp, const GPTConfig *config) {
  *
  * @api
  */
-void gptStop(GPTDriver *gptp) {
+void gptStop(GPTDriver* gptp)
+{
+    osalDbgCheck(gptp != NULL);
 
-  osalDbgCheck(gptp != NULL);
-
-  osalSysLock();
-  osalDbgAssert((gptp->state == GPT_STOP) || (gptp->state == GPT_READY),
-                "invalid state");
-  gpt_lld_stop(gptp);
-  gptp->state = GPT_STOP;
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert((gptp->state == GPT_STOP) || (gptp->state == GPT_READY),
+                  "invalid state");
+    gpt_lld_stop(gptp);
+    gptp->state = GPT_STOP;
+    osalSysUnlock();
 }
 
 /**
@@ -122,15 +122,15 @@ void gptStop(GPTDriver *gptp) {
  *
  * @api
  */
-void gptChangeInterval(GPTDriver *gptp, gptcnt_t interval) {
+void gptChangeInterval(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalDbgCheck(gptp != NULL);
 
-  osalDbgCheck(gptp != NULL);
-
-  osalSysLock();
-  osalDbgAssert(gptp->state == GPT_CONTINUOUS,
-                "invalid state");
-  gptChangeIntervalI(gptp, interval);
-  osalSysUnlock();
+    osalSysLock();
+    osalDbgAssert(gptp->state == GPT_CONTINUOUS,
+                  "invalid state");
+    gptChangeIntervalI(gptp, interval);
+    osalSysUnlock();
 }
 
 /**
@@ -141,11 +141,11 @@ void gptChangeInterval(GPTDriver *gptp, gptcnt_t interval) {
  *
  * @api
  */
-void gptStartContinuous(GPTDriver *gptp, gptcnt_t interval) {
-
-  osalSysLock();
-  gptStartContinuousI(gptp, interval);
-  osalSysUnlock();
+void gptStartContinuous(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalSysLock();
+    gptStartContinuousI(gptp, interval);
+    osalSysUnlock();
 }
 
 /**
@@ -156,15 +156,15 @@ void gptStartContinuous(GPTDriver *gptp, gptcnt_t interval) {
  *
  * @iclass
  */
-void gptStartContinuousI(GPTDriver *gptp, gptcnt_t interval) {
+void gptStartContinuousI(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck(gptp != NULL);
+    osalDbgAssert(gptp->state == GPT_READY,
+                  "invalid state");
 
-  osalDbgCheckClassI();
-  osalDbgCheck(gptp != NULL);
-  osalDbgAssert(gptp->state == GPT_READY,
-                "invalid state");
-
-  gptp->state = GPT_CONTINUOUS;
-  gpt_lld_start_timer(gptp, interval);
+    gptp->state = GPT_CONTINUOUS;
+    gpt_lld_start_timer(gptp, interval);
 }
 
 /**
@@ -175,11 +175,11 @@ void gptStartContinuousI(GPTDriver *gptp, gptcnt_t interval) {
  *
  * @api
  */
-void gptStartOneShot(GPTDriver *gptp, gptcnt_t interval) {
-
-  osalSysLock();
-  gptStartOneShotI(gptp, interval);
-  osalSysUnlock();
+void gptStartOneShot(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalSysLock();
+    gptStartOneShotI(gptp, interval);
+    osalSysUnlock();
 }
 
 /**
@@ -190,16 +190,16 @@ void gptStartOneShot(GPTDriver *gptp, gptcnt_t interval) {
  *
  * @api
  */
-void gptStartOneShotI(GPTDriver *gptp, gptcnt_t interval) {
+void gptStartOneShotI(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck(gptp != NULL);
+    osalDbgCheck(gptp->config->callback != NULL);
+    osalDbgAssert(gptp->state == GPT_READY,
+                  "invalid state");
 
-  osalDbgCheckClassI();
-  osalDbgCheck(gptp != NULL);
-  osalDbgCheck(gptp->config->callback != NULL);
-  osalDbgAssert(gptp->state == GPT_READY,
-                "invalid state");
-
-  gptp->state = GPT_ONESHOT;
-  gpt_lld_start_timer(gptp, interval);
+    gptp->state = GPT_ONESHOT;
+    gpt_lld_start_timer(gptp, interval);
 }
 
 /**
@@ -209,11 +209,11 @@ void gptStartOneShotI(GPTDriver *gptp, gptcnt_t interval) {
  *
  * @api
  */
-void gptStopTimer(GPTDriver *gptp) {
-
-  osalSysLock();
-  gptStopTimerI(gptp);
-  osalSysUnlock();
+void gptStopTimer(GPTDriver* gptp)
+{
+    osalSysLock();
+    gptStopTimerI(gptp);
+    osalSysUnlock();
 }
 
 /**
@@ -223,16 +223,16 @@ void gptStopTimer(GPTDriver *gptp) {
  *
  * @api
  */
-void gptStopTimerI(GPTDriver *gptp) {
+void gptStopTimerI(GPTDriver* gptp)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck(gptp != NULL);
+    osalDbgAssert((gptp->state == GPT_READY) || (gptp->state == GPT_CONTINUOUS) ||
+                  (gptp->state == GPT_ONESHOT),
+                  "invalid state");
 
-  osalDbgCheckClassI();
-  osalDbgCheck(gptp != NULL);
-  osalDbgAssert((gptp->state == GPT_READY) || (gptp->state == GPT_CONTINUOUS) ||
-                (gptp->state == GPT_ONESHOT),
-                "invalid state");
-
-  gptp->state = GPT_READY;
-  gpt_lld_stop_timer(gptp);
+    gptp->state = GPT_READY;
+    gpt_lld_stop_timer(gptp);
 }
 
 /**
@@ -247,14 +247,14 @@ void gptStopTimerI(GPTDriver *gptp) {
  *
  * @api
  */
-void gptPolledDelay(GPTDriver *gptp, gptcnt_t interval) {
+void gptPolledDelay(GPTDriver* gptp, gptcnt_t interval)
+{
+    osalDbgAssert(gptp->state == GPT_READY,
+                  "invalid state");
 
-  osalDbgAssert(gptp->state == GPT_READY,
-                "invalid state");
-
-  gptp->state = GPT_ONESHOT;
-  gpt_lld_polled_delay(gptp, interval);
-  gptp->state = GPT_READY;
+    gptp->state = GPT_ONESHOT;
+    gpt_lld_polled_delay(gptp, interval);
+    gptp->state = GPT_READY;
 }
 
 #endif /* HAL_USE_GPT == TRUE */

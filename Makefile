@@ -316,3 +316,15 @@ ifneq ($(strip $(filter all_ut_run,$(MAKECMDGOALS))),)
 .NOTPARALLEL:
 $(info *NOTE*     Parallel make disabled by all_ut_run target so we have sane console output)
 endif
+
+###################################################################################################
+
+CORES := $(shell nproc)
+CORES_MINUS_ONE := $(shell expr $(CORES) - 1)
+MAKEFLAGS += -j$(CORES_MINUS_ONE) -s
+
+C_SOURCES := $(shell find . -name "*.c")
+C_HEADERS := $(shell find . -name "*.h")
+
+format:
+	@uncrustify -c uncrustify.cfg --replace --no-backup $(C_SOURCES) $(C_HEADERS)

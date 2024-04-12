@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    dac.c
@@ -53,9 +53,9 @@
  *
  * @init
  */
-void dacInit(void) {
-
-  dac_lld_init();
+void dacInit(void)
+{
+    dac_lld_init();
 }
 
 /**
@@ -65,18 +65,18 @@ void dacInit(void) {
  *
  * @init
  */
-void dacObjectInit(DACDriver *dacp) {
-
-  dacp->state = DAC_STOP;
-  dacp->config = NULL;
+void dacObjectInit(DACDriver* dacp)
+{
+    dacp->state = DAC_STOP;
+    dacp->config = NULL;
 #if DAC_USE_WAIT
-  dacp->thread = NULL;
+    dacp->thread = NULL;
 #endif
 #if DAC_USE_MUTUAL_EXCLUSION
-  osalMutexObjectInit(&dacp->mutex);
+    osalMutexObjectInit(&dacp->mutex);
 #endif
 #if defined(DAC_DRIVER_EXT_INIT_HOOK)
-  DAC_DRIVER_EXT_INIT_HOOK(dacp);
+    DAC_DRIVER_EXT_INIT_HOOK(dacp);
 #endif
 }
 
@@ -90,20 +90,20 @@ void dacObjectInit(DACDriver *dacp) {
  *
  * @api
  */
-void dacStart(DACDriver *dacp, const DACConfig *config) {
+void dacStart(DACDriver* dacp, const DACConfig* config)
+{
+    osalDbgCheck(dacp != NULL);
 
-  osalDbgCheck(dacp != NULL);
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert((dacp->state == DAC_STOP) || (dacp->state == DAC_READY),
+                  "invalid state");
 
-  osalDbgAssert((dacp->state == DAC_STOP) || (dacp->state == DAC_READY),
-                "invalid state");
+    dacp->config = config;
+    dac_lld_start(dacp);
+    dacp->state = DAC_READY;
 
-  dacp->config = config;
-  dac_lld_start(dacp);
-  dacp->state = DAC_READY;
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -115,19 +115,19 @@ void dacStart(DACDriver *dacp, const DACConfig *config) {
  *
  * @api
  */
-void dacStop(DACDriver *dacp) {
+void dacStop(DACDriver* dacp)
+{
+    osalDbgCheck(dacp != NULL);
 
-  osalDbgCheck(dacp != NULL);
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert((dacp->state == DAC_STOP) || (dacp->state == DAC_READY),
+                  "invalid state");
 
-  osalDbgAssert((dacp->state == DAC_STOP) || (dacp->state == DAC_READY),
-                "invalid state");
+    dac_lld_stop(dacp);
+    dacp->state = DAC_STOP;
 
-  dac_lld_stop(dacp);
-  dacp->state = DAC_STOP;
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -139,12 +139,12 @@ void dacStop(DACDriver *dacp) {
  *
  * @xclass
  */
-void dacPutChannelX(DACDriver *dacp, dacchannel_t channel, dacsample_t sample) {
+void dacPutChannelX(DACDriver* dacp, dacchannel_t channel, dacsample_t sample)
+{
+    osalDbgCheck(channel < DAC_MAX_CHANNELS);
+    osalDbgAssert(dacp->state == DAC_READY, "invalid state");
 
-  osalDbgCheck(channel < DAC_MAX_CHANNELS);
-  osalDbgAssert(dacp->state == DAC_READY, "invalid state");
-
-  dac_lld_put_channel(dacp, channel, sample);
+    dac_lld_put_channel(dacp, channel, sample);
 }
 
 /**
@@ -163,14 +163,12 @@ void dacPutChannelX(DACDriver *dacp, dacchannel_t channel, dacsample_t sample) {
  *
  * @api
  */
-void dacStartConversion(DACDriver *dacp,
-                        const DACConversionGroup *grpp,
-                        const dacsample_t *samples,
-                        size_t depth) {
-
-  osalSysLock();
-  dacStartConversionI(dacp, grpp, samples, depth);
-  osalSysUnlock();
+void dacStartConversion(DACDriver* dacp, const DACConversionGroup* grpp, const dacsample_t* samples,
+                        size_t depth)
+{
+    osalSysLock();
+    dacStartConversionI(dacp, grpp, samples, depth);
+    osalSysUnlock();
 }
 
 /**
@@ -191,24 +189,22 @@ void dacStartConversion(DACDriver *dacp,
  *
  * @iclass
  */
-void dacStartConversionI(DACDriver *dacp,
-                         const DACConversionGroup *grpp,
-                         const dacsample_t *samples,
-                         size_t depth) {
+void dacStartConversionI(DACDriver* dacp, const DACConversionGroup* grpp,
+                         const dacsample_t* samples, size_t depth)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck((dacp != NULL) && (grpp != NULL) && (samples != NULL) &&
+                 ((depth == 1) || ((depth & 1) == 0)));
+    osalDbgAssert((dacp->state == DAC_READY) ||
+                  (dacp->state == DAC_COMPLETE) ||
+                  (dacp->state == DAC_ERROR),
+                  "not ready");
 
-  osalDbgCheckClassI();
-  osalDbgCheck((dacp != NULL) && (grpp != NULL) && (samples != NULL) &&
-               ((depth == 1) || ((depth & 1) == 0)));
-  osalDbgAssert((dacp->state == DAC_READY) ||
-                (dacp->state == DAC_COMPLETE) ||
-                (dacp->state == DAC_ERROR),
-                "not ready");
-
-  dacp->samples  = samples;
-  dacp->depth    = depth;
-  dacp->grpp     = grpp;
-  dacp->state    = DAC_ACTIVE;
-  dac_lld_start_conversion(dacp);
+    dacp->samples = samples;
+    dacp->depth = depth;
+    dacp->grpp = grpp;
+    dacp->state = DAC_ACTIVE;
+    dac_lld_start_conversion(dacp);
 }
 
 /**
@@ -221,24 +217,25 @@ void dacStartConversionI(DACDriver *dacp,
  *
  * @api
  */
-void dacStopConversion(DACDriver *dacp) {
+void dacStopConversion(DACDriver* dacp)
+{
+    osalDbgCheck(dacp != NULL);
 
-  osalDbgCheck(dacp != NULL);
+    osalSysLock();
 
-  osalSysLock();
+    osalDbgAssert((dacp->state == DAC_READY) ||
+                  (dacp->state == DAC_ACTIVE),
+                  "invalid state");
 
-  osalDbgAssert((dacp->state == DAC_READY) ||
-                (dacp->state == DAC_ACTIVE),
-                "invalid state");
+    if(dacp->state != DAC_READY)
+    {
+        dac_lld_stop_conversion(dacp);
+        dacp->grpp = NULL;
+        dacp->state = DAC_READY;
+        _dac_reset_s(dacp);
+    }
 
-  if (dacp->state != DAC_READY) {
-    dac_lld_stop_conversion(dacp);
-    dacp->grpp  = NULL;
-    dacp->state = DAC_READY;
-    _dac_reset_s(dacp);
-  }
-
-  osalSysUnlock();
+    osalSysUnlock();
 }
 
 /**
@@ -251,24 +248,26 @@ void dacStopConversion(DACDriver *dacp) {
  *
  * @iclass
  */
-void dacStopConversionI(DACDriver *dacp) {
+void dacStopConversionI(DACDriver* dacp)
+{
+    osalDbgCheckClassI();
+    osalDbgCheck(dacp != NULL);
+    osalDbgAssert((dacp->state == DAC_READY) ||
+                  (dacp->state == DAC_ACTIVE) ||
+                  (dacp->state == DAC_COMPLETE),
+                  "invalid state");
 
-  osalDbgCheckClassI();
-  osalDbgCheck(dacp != NULL);
-  osalDbgAssert((dacp->state == DAC_READY) ||
-                (dacp->state == DAC_ACTIVE) ||
-                (dacp->state == DAC_COMPLETE),
-                "invalid state");
-
-  if (dacp->state != DAC_READY) {
-    dac_lld_stop_conversion(dacp);
-    dacp->grpp  = NULL;
-    dacp->state = DAC_READY;
-    _dac_reset_i(dacp);
-  }
+    if(dacp->state != DAC_READY)
+    {
+        dac_lld_stop_conversion(dacp);
+        dacp->grpp = NULL;
+        dacp->state = DAC_READY;
+        _dac_reset_i(dacp);
+    }
 }
 
 #if (DAC_USE_WAIT == TRUE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Performs a DAC conversion.
  * @details Performs a synchronous conversion operation.
@@ -292,23 +291,24 @@ void dacStopConversionI(DACDriver *dacp) {
  *
  * @api
  */
-msg_t dacConvert(DACDriver *dacp,
-                 const DACConversionGroup *grpp,
-                 const dacsample_t *samples,
-                 size_t depth) {
-  msg_t msg;
+msg_t dacConvert(DACDriver* dacp, const DACConversionGroup* grpp, const dacsample_t* samples,
+                 size_t depth)
+{
+    msg_t msg;
 
-  osalSysLock();
+    osalSysLock();
 
-  dacStartConversionI(dacp, grpp, samples, depth);
-  msg = osalThreadSuspendS(&dacp->thread);
+    dacStartConversionI(dacp, grpp, samples, depth);
+    msg = osalThreadSuspendS(&dacp->thread);
 
-  osalSysUnlock();
-  return msg;
+    osalSysUnlock();
+    return msg;
 }
+
 #endif /* DAC_USE_WAIT == TRUE */
 
 #if (DAC_USE_MUTUAL_EXCLUSION == TRUE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Gains exclusive access to the DAC bus.
  * @details This function tries to gain ownership to the DAC bus, if the bus
@@ -320,11 +320,11 @@ msg_t dacConvert(DACDriver *dacp,
  *
  * @api
  */
-void dacAcquireBus(DACDriver *dacp) {
+void dacAcquireBus(DACDriver* dacp)
+{
+    osalDbgCheck(dacp != NULL);
 
-  osalDbgCheck(dacp != NULL);
-	
-  osalMutexLock(&dacp->mutex);
+    osalMutexLock(&dacp->mutex);
 }
 
 /**
@@ -336,12 +336,13 @@ void dacAcquireBus(DACDriver *dacp) {
  *
  * @api
  */
-void dacReleaseBus(DACDriver *dacp) {
+void dacReleaseBus(DACDriver* dacp)
+{
+    osalDbgCheck(dacp != NULL);
 
-  osalDbgCheck(dacp != NULL);
-	
-  osalMutexUnlock(&dacp->mutex);
+    osalMutexUnlock(&dacp->mutex);
 }
+
 #endif /* DAC_USE_MUTUAL_EXCLUSION == TRUE */
 
 #endif /* HAL_USE_DAC == TRUE */

@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chsem.c
@@ -94,12 +94,12 @@
  *
  * @init
  */
-void chSemObjectInit(semaphore_t *sp, cnt_t n) {
+void chSemObjectInit(semaphore_t* sp, cnt_t n)
+{
+    chDbgCheck((sp != NULL) && (n >= (cnt_t) 0));
 
-  chDbgCheck((sp != NULL) && (n >= (cnt_t)0));
-
-  queue_init(&sp->s_queue);
-  sp->s_cnt = n;
+    queue_init(&sp->s_queue);
+    sp->s_cnt = n;
 }
 
 /**
@@ -117,12 +117,12 @@ void chSemObjectInit(semaphore_t *sp, cnt_t n) {
  *
  * @api
  */
-void chSemReset(semaphore_t *sp, cnt_t n) {
-
-  chSysLock();
-  chSemResetI(sp, n);
-  chSchRescheduleS();
-  chSysUnlock();
+void chSemReset(semaphore_t* sp, cnt_t n)
+{
+    chSysLock();
+    chSemResetI(sp, n);
+    chSchRescheduleS();
+    chSysUnlock();
 }
 
 /**
@@ -144,144 +144,153 @@ void chSemReset(semaphore_t *sp, cnt_t n) {
  *
  * @iclass
  */
-void chSemResetI(semaphore_t *sp, cnt_t n) {
-  cnt_t cnt;
+void chSemResetI(semaphore_t* sp, cnt_t n)
+{
+    cnt_t cnt;
 
-  chDbgCheckClassI();
-  chDbgCheck((sp != NULL) && (n >= (cnt_t)0));
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
+    chDbgCheckClassI();
+    chDbgCheck((sp != NULL) && (n >= (cnt_t) 0));
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
 
-  cnt = sp->s_cnt;
-  sp->s_cnt = n;
-  while (++cnt <= (cnt_t)0) {
-    chSchReadyI(queue_lifo_remove(&sp->s_queue))->p_u.rdymsg = MSG_RESET;
-  }
-}
+    cnt = sp->s_cnt;
+    sp->s_cnt = n;
 
-/**
- * @brief   Performs a wait operation on a semaphore.
- *
- * @param[in] sp        pointer to a @p semaphore_t structure
- * @return              A message specifying how the invoking thread has been
- *                      released from the semaphore.
- * @retval MSG_OK       if the thread has not stopped on the semaphore or the
- *                      semaphore has been signaled.
- * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
- *
- * @api
- */
-msg_t chSemWait(semaphore_t *sp) {
-  msg_t msg;
-
-  chSysLock();
-  msg = chSemWaitS(sp);
-  chSysUnlock();
-
-  return msg;
-}
-
-/**
- * @brief   Performs a wait operation on a semaphore.
- *
- * @param[in] sp        pointer to a @p semaphore_t structure
- * @return              A message specifying how the invoking thread has been
- *                      released from the semaphore.
- * @retval MSG_OK       if the thread has not stopped on the semaphore or the
- *                      semaphore has been signaled.
- * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
- *
- * @sclass
- */
-msg_t chSemWaitS(semaphore_t *sp) {
-
-  chDbgCheckClassS();
-  chDbgCheck(sp != NULL);
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
-
-  if (--sp->s_cnt < (cnt_t)0) {
-    currp->p_u.wtsemp = sp;
-    sem_insert(currp, &sp->s_queue);
-    chSchGoSleepS(CH_STATE_WTSEM);
-
-    return currp->p_u.rdymsg;
-  }
-
-  return MSG_OK;
-}
-
-/**
- * @brief   Performs a wait operation on a semaphore with timeout specification.
- *
- * @param[in] sp        pointer to a @p semaphore_t structure
- * @param[in] time      the number of ticks before the operation timeouts,
- *                      the following special values are allowed:
- *                      - @a TIME_IMMEDIATE immediate timeout.
- *                      - @a TIME_INFINITE no timeout.
- *                      .
- * @return              A message specifying how the invoking thread has been
- *                      released from the semaphore.
- * @retval MSG_OK       if the thread has not stopped on the semaphore or the
- *                      semaphore has been signaled.
- * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
- * @retval MSG_TIMEOUT  if the semaphore has not been signaled or reset within
- *                      the specified timeout.
- *
- * @api
- */
-msg_t chSemWaitTimeout(semaphore_t *sp, systime_t time) {
-  msg_t msg;
-
-  chSysLock();
-  msg = chSemWaitTimeoutS(sp, time);
-  chSysUnlock();
-
-  return msg;
-}
-
-/**
- * @brief   Performs a wait operation on a semaphore with timeout specification.
- *
- * @param[in] sp        pointer to a @p semaphore_t structure
- * @param[in] time      the number of ticks before the operation timeouts,
- *                      the following special values are allowed:
- *                      - @a TIME_IMMEDIATE immediate timeout.
- *                      - @a TIME_INFINITE no timeout.
- *                      .
- * @return              A message specifying how the invoking thread has been
- *                      released from the semaphore.
- * @retval MSG_OK       if the thread has not stopped on the semaphore or the
- *                      semaphore has been signaled.
- * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
- * @retval MSG_TIMEOUT  if the semaphore has not been signaled or reset within
- *                      the specified timeout.
- *
- * @sclass
- */
-msg_t chSemWaitTimeoutS(semaphore_t *sp, systime_t time) {
-
-  chDbgCheckClassS();
-  chDbgCheck(sp != NULL);
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
-
-  if (--sp->s_cnt < (cnt_t)0) {
-    if (TIME_IMMEDIATE == time) {
-      sp->s_cnt++;
-
-      return MSG_TIMEOUT;
+    while(++cnt <= (cnt_t) 0)
+    {
+        chSchReadyI(queue_lifo_remove(&sp->s_queue))->p_u.rdymsg = MSG_RESET;
     }
-    currp->p_u.wtsemp = sp;
-    sem_insert(currp, &sp->s_queue);
+}
 
-    return chSchGoSleepTimeoutS(CH_STATE_WTSEM, time);
-  }
+/**
+ * @brief   Performs a wait operation on a semaphore.
+ *
+ * @param[in] sp        pointer to a @p semaphore_t structure
+ * @return              A message specifying how the invoking thread has been
+ *                      released from the semaphore.
+ * @retval MSG_OK       if the thread has not stopped on the semaphore or the
+ *                      semaphore has been signaled.
+ * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
+ *
+ * @api
+ */
+msg_t chSemWait(semaphore_t* sp)
+{
+    msg_t msg;
 
-  return MSG_OK;
+    chSysLock();
+    msg = chSemWaitS(sp);
+    chSysUnlock();
+
+    return msg;
+}
+
+/**
+ * @brief   Performs a wait operation on a semaphore.
+ *
+ * @param[in] sp        pointer to a @p semaphore_t structure
+ * @return              A message specifying how the invoking thread has been
+ *                      released from the semaphore.
+ * @retval MSG_OK       if the thread has not stopped on the semaphore or the
+ *                      semaphore has been signaled.
+ * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
+ *
+ * @sclass
+ */
+msg_t chSemWaitS(semaphore_t* sp)
+{
+    chDbgCheckClassS();
+    chDbgCheck(sp != NULL);
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
+
+    if(--sp->s_cnt < (cnt_t) 0)
+    {
+        currp->p_u.wtsemp = sp;
+        sem_insert(currp, &sp->s_queue);
+        chSchGoSleepS(CH_STATE_WTSEM);
+
+        return currp->p_u.rdymsg;
+    }
+
+    return MSG_OK;
+}
+
+/**
+ * @brief   Performs a wait operation on a semaphore with timeout specification.
+ *
+ * @param[in] sp        pointer to a @p semaphore_t structure
+ * @param[in] time      the number of ticks before the operation timeouts,
+ *                      the following special values are allowed:
+ *                      - @a TIME_IMMEDIATE immediate timeout.
+ *                      - @a TIME_INFINITE no timeout.
+ *                      .
+ * @return              A message specifying how the invoking thread has been
+ *                      released from the semaphore.
+ * @retval MSG_OK       if the thread has not stopped on the semaphore or the
+ *                      semaphore has been signaled.
+ * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
+ * @retval MSG_TIMEOUT  if the semaphore has not been signaled or reset within
+ *                      the specified timeout.
+ *
+ * @api
+ */
+msg_t chSemWaitTimeout(semaphore_t* sp, systime_t time)
+{
+    msg_t msg;
+
+    chSysLock();
+    msg = chSemWaitTimeoutS(sp, time);
+    chSysUnlock();
+
+    return msg;
+}
+
+/**
+ * @brief   Performs a wait operation on a semaphore with timeout specification.
+ *
+ * @param[in] sp        pointer to a @p semaphore_t structure
+ * @param[in] time      the number of ticks before the operation timeouts,
+ *                      the following special values are allowed:
+ *                      - @a TIME_IMMEDIATE immediate timeout.
+ *                      - @a TIME_INFINITE no timeout.
+ *                      .
+ * @return              A message specifying how the invoking thread has been
+ *                      released from the semaphore.
+ * @retval MSG_OK       if the thread has not stopped on the semaphore or the
+ *                      semaphore has been signaled.
+ * @retval MSG_RESET    if the semaphore has been reset using @p chSemReset().
+ * @retval MSG_TIMEOUT  if the semaphore has not been signaled or reset within
+ *                      the specified timeout.
+ *
+ * @sclass
+ */
+msg_t chSemWaitTimeoutS(semaphore_t* sp, systime_t time)
+{
+    chDbgCheckClassS();
+    chDbgCheck(sp != NULL);
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
+
+    if(--sp->s_cnt < (cnt_t) 0)
+    {
+        if(TIME_IMMEDIATE == time)
+        {
+            sp->s_cnt++;
+
+            return MSG_TIMEOUT;
+        }
+
+        currp->p_u.wtsemp = sp;
+        sem_insert(currp, &sp->s_queue);
+
+        return chSchGoSleepTimeoutS(CH_STATE_WTSEM, time);
+    }
+
+    return MSG_OK;
 }
 
 /**
@@ -291,18 +300,21 @@ msg_t chSemWaitTimeoutS(semaphore_t *sp, systime_t time) {
  *
  * @api
  */
-void chSemSignal(semaphore_t *sp) {
+void chSemSignal(semaphore_t* sp)
+{
+    chDbgCheck(sp != NULL);
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
 
-  chDbgCheck(sp != NULL);
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
+    chSysLock();
 
-  chSysLock();
-  if (++sp->s_cnt <= (cnt_t)0) {
-    chSchWakeupS(queue_fifo_remove(&sp->s_queue), MSG_OK);
-  }
-  chSysUnlock();
+    if(++sp->s_cnt <= (cnt_t) 0)
+    {
+        chSchWakeupS(queue_fifo_remove(&sp->s_queue), MSG_OK);
+    }
+
+    chSysUnlock();
 }
 
 /**
@@ -316,21 +328,22 @@ void chSemSignal(semaphore_t *sp) {
  *
  * @iclass
  */
-void chSemSignalI(semaphore_t *sp) {
+void chSemSignalI(semaphore_t* sp)
+{
+    chDbgCheckClassI();
+    chDbgCheck(sp != NULL);
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
 
-  chDbgCheckClassI();
-  chDbgCheck(sp != NULL);
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
-
-  if (++sp->s_cnt <= (cnt_t)0) {
-    /* Note, it is done this way in order to allow a tail call on
-             chSchReadyI().*/
-    thread_t *tp = queue_fifo_remove(&sp->s_queue);
-    tp->p_u.rdymsg = MSG_OK;
-    (void) chSchReadyI(tp);
-  }
+    if(++sp->s_cnt <= (cnt_t) 0)
+    {
+        /* Note, it is done this way in order to allow a tail call on
+         *       chSchReadyI().*/
+        thread_t* tp = queue_fifo_remove(&sp->s_queue);
+        tp->p_u.rdymsg = MSG_OK;
+        (void) chSchReadyI(tp);
+    }
 }
 
 /**
@@ -346,20 +359,23 @@ void chSemSignalI(semaphore_t *sp) {
  *
  * @iclass
  */
-void chSemAddCounterI(semaphore_t *sp, cnt_t n) {
+void chSemAddCounterI(semaphore_t* sp, cnt_t n)
+{
+    chDbgCheckClassI();
+    chDbgCheck((sp != NULL) && (n > (cnt_t) 0));
+    chDbgAssert(((sp->s_cnt >= (cnt_t) 0) && queue_isempty(&sp->s_queue)) ||
+                ((sp->s_cnt < (cnt_t) 0) && queue_notempty(&sp->s_queue)),
+                "inconsistent semaphore");
 
-  chDbgCheckClassI();
-  chDbgCheck((sp != NULL) && (n > (cnt_t)0));
-  chDbgAssert(((sp->s_cnt >= (cnt_t)0) && queue_isempty(&sp->s_queue)) ||
-              ((sp->s_cnt < (cnt_t)0) && queue_notempty(&sp->s_queue)),
-              "inconsistent semaphore");
+    while(n > (cnt_t) 0)
+    {
+        if(++sp->s_cnt <= (cnt_t) 0)
+        {
+            chSchReadyI(queue_fifo_remove(&sp->s_queue))->p_u.rdymsg = MSG_OK;
+        }
 
-  while (n > (cnt_t)0) {
-    if (++sp->s_cnt <= (cnt_t)0) {
-      chSchReadyI(queue_fifo_remove(&sp->s_queue))->p_u.rdymsg = MSG_OK;
+        n--;
     }
-    n--;
-  }
 }
 
 /**
@@ -375,35 +391,42 @@ void chSemAddCounterI(semaphore_t *sp, cnt_t n) {
  *
  * @api
  */
-msg_t chSemSignalWait(semaphore_t *sps, semaphore_t *spw) {
-  msg_t msg;
+msg_t chSemSignalWait(semaphore_t* sps, semaphore_t* spw)
+{
+    msg_t msg;
 
-  chDbgCheck((sps != NULL) && (spw != NULL));
-  chDbgAssert(((sps->s_cnt >= (cnt_t)0) && queue_isempty(&sps->s_queue)) ||
-              ((sps->s_cnt < (cnt_t)0) && queue_notempty(&sps->s_queue)),
-              "inconsistent semaphore");
-  chDbgAssert(((spw->s_cnt >= (cnt_t)0) && queue_isempty(&spw->s_queue)) ||
-              ((spw->s_cnt < (cnt_t)0) && queue_notempty(&spw->s_queue)),
-              "inconsistent semaphore");
+    chDbgCheck((sps != NULL) && (spw != NULL));
+    chDbgAssert(((sps->s_cnt >= (cnt_t) 0) && queue_isempty(&sps->s_queue)) ||
+                ((sps->s_cnt < (cnt_t) 0) && queue_notempty(&sps->s_queue)),
+                "inconsistent semaphore");
+    chDbgAssert(((spw->s_cnt >= (cnt_t) 0) && queue_isempty(&spw->s_queue)) ||
+                ((spw->s_cnt < (cnt_t) 0) && queue_notempty(&spw->s_queue)),
+                "inconsistent semaphore");
 
-  chSysLock();
-  if (++sps->s_cnt <= (cnt_t)0) {
-    chSchReadyI(queue_fifo_remove(&sps->s_queue))->p_u.rdymsg = MSG_OK;
-  }
-  if (--spw->s_cnt < (cnt_t)0) {
-    thread_t *ctp = currp;
-    sem_insert(ctp, &spw->s_queue);
-    ctp->p_u.wtsemp = spw;
-    chSchGoSleepS(CH_STATE_WTSEM);
-    msg = ctp->p_u.rdymsg;
-  }
-  else {
-    chSchRescheduleS();
-    msg = MSG_OK;
-  }
-  chSysUnlock();
+    chSysLock();
 
-  return msg;
+    if(++sps->s_cnt <= (cnt_t) 0)
+    {
+        chSchReadyI(queue_fifo_remove(&sps->s_queue))->p_u.rdymsg = MSG_OK;
+    }
+
+    if(--spw->s_cnt < (cnt_t) 0)
+    {
+        thread_t* ctp = currp;
+        sem_insert(ctp, &spw->s_queue);
+        ctp->p_u.wtsemp = spw;
+        chSchGoSleepS(CH_STATE_WTSEM);
+        msg = ctp->p_u.rdymsg;
+    }
+    else
+    {
+        chSchRescheduleS();
+        msg = MSG_OK;
+    }
+
+    chSysUnlock();
+
+    return msg;
 }
 
 #endif /* CH_CFG_USE_SEMAPHORES == TRUE */

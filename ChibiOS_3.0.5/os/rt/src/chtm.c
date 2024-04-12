@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chtm.c
@@ -50,19 +50,21 @@
 /* Module local functions.                                                   */
 /*===========================================================================*/
 
-static inline void tm_stop(time_measurement_t *tmp,
-                           rtcnt_t now,
-                           rtcnt_t offset) {
+static inline void tm_stop(time_measurement_t* tmp, rtcnt_t now, rtcnt_t offset)
+{
+    tmp->n++;
+    tmp->last = (now - tmp->last) - offset;
+    tmp->cumulative += (rttime_t) tmp->last;
 
-  tmp->n++;
-  tmp->last = (now - tmp->last) - offset;
-  tmp->cumulative += (rttime_t)tmp->last;
-  if (tmp->last > tmp->worst) {
-    tmp->worst = tmp->last;
-  }
-  if (tmp->last < tmp->best) {
-    tmp->best = tmp->last;
-  }
+    if(tmp->last > tmp->worst)
+    {
+        tmp->worst = tmp->last;
+    }
+
+    if(tmp->last < tmp->best)
+    {
+        tmp->best = tmp->last;
+    }
 }
 
 /*===========================================================================*/
@@ -74,17 +76,18 @@ static inline void tm_stop(time_measurement_t *tmp,
  *
  * @init
  */
-void _tm_init(void) {
-  time_measurement_t tm;
+void _tm_init(void)
+{
+    time_measurement_t tm;
 
-  /* Time Measurement subsystem calibration, it does a null measurement
-     and calculates the call overhead which is subtracted to real
-     measurements.*/
-  ch.tm.offset = (rtcnt_t)0;
-  chTMObjectInit(&tm);
-  chTMStartMeasurementX(&tm);
-  chTMStopMeasurementX(&tm);
-  ch.tm.offset = tm.last;
+    /* Time Measurement subsystem calibration, it does a null measurement
+     * and calculates the call overhead which is subtracted to real
+     * measurements.*/
+    ch.tm.offset = (rtcnt_t) 0;
+    chTMObjectInit(&tm);
+    chTMStartMeasurementX(&tm);
+    chTMStopMeasurementX(&tm);
+    ch.tm.offset = tm.last;
 }
 
 /**
@@ -94,13 +97,13 @@ void _tm_init(void) {
  *
  * @init
  */
-void chTMObjectInit(time_measurement_t *tmp) {
-
-  tmp->best       = (rtcnt_t)-1;
-  tmp->worst      = (rtcnt_t)0;
-  tmp->last       = (rtcnt_t)0;
-  tmp->n          = (ucnt_t)0;
-  tmp->cumulative = (rttime_t)0;
+void chTMObjectInit(time_measurement_t* tmp)
+{
+    tmp->best = (rtcnt_t) -1;
+    tmp->worst = (rtcnt_t) 0;
+    tmp->last = (rtcnt_t) 0;
+    tmp->n = (ucnt_t) 0;
+    tmp->cumulative = (rttime_t) 0;
 }
 
 /**
@@ -111,9 +114,9 @@ void chTMObjectInit(time_measurement_t *tmp) {
  *
  * @xclass
  */
-NOINLINE void chTMStartMeasurementX(time_measurement_t *tmp) {
-
-  tmp->last = chSysGetRealtimeCounterX();
+NOINLINE void chTMStartMeasurementX(time_measurement_t* tmp)
+{
+    tmp->last = chSysGetRealtimeCounterX();
 }
 
 /**
@@ -124,9 +127,9 @@ NOINLINE void chTMStartMeasurementX(time_measurement_t *tmp) {
  *
  * @xclass
  */
-NOINLINE void chTMStopMeasurementX(time_measurement_t *tmp) {
-
-  tm_stop(tmp, chSysGetRealtimeCounterX(), ch.tm.offset);
+NOINLINE void chTMStopMeasurementX(time_measurement_t* tmp)
+{
+    tm_stop(tmp, chSysGetRealtimeCounterX(), ch.tm.offset);
 }
 
 /**
@@ -141,14 +144,13 @@ NOINLINE void chTMStopMeasurementX(time_measurement_t *tmp) {
  *
  * @xclass
  */
-NOINLINE void chTMChainMeasurementToX(time_measurement_t *tmp1,
-                                      time_measurement_t *tmp2) {
+NOINLINE void chTMChainMeasurementToX(time_measurement_t* tmp1, time_measurement_t* tmp2)
+{
+    /* Starts new measurement.*/
+    tmp2->last = chSysGetRealtimeCounterX();
 
-  /* Starts new measurement.*/
-  tmp2->last = chSysGetRealtimeCounterX();
-
-  /* Stops previous measurement using the same time stamp.*/
-  tm_stop(tmp1, tmp2->last, (rtcnt_t)0);
+    /* Stops previous measurement using the same time stamp.*/
+    tm_stop(tmp1, tmp2->last, (rtcnt_t) 0);
 }
 
 #endif /* CH_CFG_USE_TM == TRUE */
