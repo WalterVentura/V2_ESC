@@ -319,6 +319,10 @@ endif
 
 ###################################################################################################
 
+CORES := $(shell nproc)
+CORES_MINUS_ONE := $(shell expr $(CORES) - 1)
+MAKEFLAGS += -j$(CORES_MINUS_ONE) -s
+
 C_SOURCES := $(shell find . -name "*.c")
 C_HEADERS := $(shell find . -name "*.h")
 
