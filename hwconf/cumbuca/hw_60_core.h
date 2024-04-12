@@ -32,7 +32,7 @@
 #elif defined(HW60_IS_MAX)
 #define HW_NAME					"60_MK6_MAX"
 #else
-#define HW_NAME					"60_MK6"'
+#define HW_NAME					"60_MK6"
 #endif
 #elif defined(HW60_IS_MK1)
 #define HW_NAME					"60"
