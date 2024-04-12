@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    mac.h
@@ -38,19 +38,21 @@
  * @name    MAC configuration options
  * @{
  */
+
 /**
  * @brief   Enables an event sources for incoming packets.
  */
 #if !defined(MAC_USE_ZERO_COPY) || defined(__DOXYGEN__)
-#define MAC_USE_ZERO_COPY           FALSE
+#define MAC_USE_ZERO_COPY FALSE
 #endif
 
 /**
  * @brief   Enables an event sources for incoming packets.
  */
 #if !defined(MAC_USE_EVENTS) || defined(__DOXYGEN__)
-#define MAC_USE_EVENTS              TRUE
+#define MAC_USE_EVENTS    TRUE
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -64,10 +66,11 @@
 /**
  * @brief   Driver state machine possible states.
  */
-typedef enum {
-  MAC_UNINIT = 0,                   /**< Not initialized.                   */
-  MAC_STOP = 1,                     /**< Stopped.                           */
-  MAC_ACTIVE = 2                    /**< Active.                            */
+typedef enum
+{
+    MAC_UNINIT = 0, /**< Not initialized.                   */
+    MAC_STOP = 1,   /**< Stopped.                           */
+    MAC_ACTIVE = 2  /**< Active.                            */
 } macstate_t;
 
 /**
@@ -85,6 +88,7 @@ typedef struct MACDriver MACDriver;
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Returns the received frames event source.
  *
@@ -94,7 +98,7 @@ typedef struct MACDriver MACDriver;
  * @api
  */
 #if (MAC_USE_EVENTS == TRUE) || defined(__DOXYGEN__)
-#define macGetReceiveEventSource(macp)  (&(macp)->rdevent)
+#define macGetReceiveEventSource(macp) (&(macp)->rdevent)
 #endif
 
 /**
@@ -110,7 +114,7 @@ typedef struct MACDriver MACDriver;
  *
  * @api
  */
-#define macWriteTransmitDescriptor(tdp, buf, size)                          \
+#define macWriteTransmitDescriptor(tdp, buf, size) \
     mac_lld_write_transmit_descriptor(tdp, buf, size)
 
 /**
@@ -125,10 +129,11 @@ typedef struct MACDriver MACDriver;
  *
  * @api
  */
-#define macReadReceiveDescriptor(rdp, buf, size)                            \
+#define macReadReceiveDescriptor(rdp, buf, size) \
     mac_lld_read_receive_descriptor(rdp, buf, size)
 
 #if (MAC_USE_ZERO_COPY == TRUE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Returns a pointer to the next transmit buffer in the descriptor
  *          chain.
@@ -148,8 +153,8 @@ typedef struct MACDriver MACDriver;
  *
  * @api
  */
-#define macGetNextTransmitBuffer(tdp, size, sizep)                          \
-  mac_lld_get_next_transmit_buffer(tdp, size, sizep)
+#define macGetNextTransmitBuffer(tdp, size, sizep) \
+    mac_lld_get_next_transmit_buffer(tdp, size, sizep)
 
 /**
  * @brief   Returns a pointer to the next receive buffer in the descriptor
@@ -165,8 +170,8 @@ typedef struct MACDriver MACDriver;
  *
  * @api
  */
-#define macGetNextReceiveBuffer(rdp, sizep)                                 \
-  mac_lld_get_next_receive_buffer(rdp, sizep)
+#define macGetNextReceiveBuffer(rdp, sizep) \
+    mac_lld_get_next_receive_buffer(rdp, sizep)
 #endif /* MAC_USE_ZERO_COPY */
 /** @} */
 
@@ -177,20 +182,26 @@ typedef struct MACDriver MACDriver;
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void macInit(void);
-  void macObjectInit(MACDriver *macp);
-  void macStart(MACDriver *macp, const MACConfig *config);
-  void macStop(MACDriver *macp);
-  void macSetAddress(MACDriver *macp, const uint8_t *p);
-  msg_t macWaitTransmitDescriptor(MACDriver *macp,
-                                  MACTransmitDescriptor *tdp,
-                                  systime_t timeout);
-  void macReleaseTransmitDescriptor(MACTransmitDescriptor *tdp);
-  msg_t macWaitReceiveDescriptor(MACDriver *macp,
-                                 MACReceiveDescriptor *rdp,
-                                 systime_t timeout);
-  void macReleaseReceiveDescriptor(MACReceiveDescriptor *rdp);
-  bool macPollLinkStatus(MACDriver *macp);
+void macInit(void);
+
+void macObjectInit(MACDriver* macp);
+
+void macStart(MACDriver* macp, const MACConfig* config);
+
+void macStop(MACDriver* macp);
+
+void macSetAddress(MACDriver* macp, const uint8_t* p);
+
+msg_t macWaitTransmitDescriptor(MACDriver* macp, MACTransmitDescriptor* tdp, systime_t timeout);
+
+void macReleaseTransmitDescriptor(MACTransmitDescriptor* tdp);
+
+msg_t macWaitReceiveDescriptor(MACDriver* macp, MACReceiveDescriptor* rdp, systime_t timeout);
+
+void macReleaseReceiveDescriptor(MACReceiveDescriptor* rdp);
+
+bool macPollLinkStatus(MACDriver* macp);
+
 #ifdef __cplusplus
 }
 #endif

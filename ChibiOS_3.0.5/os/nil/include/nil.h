@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    nil.h
@@ -52,93 +52,101 @@ typedef struct nil_thread thread_t;
 /**
  * @brief   Stable release flag.
  */
-#define CH_KERNEL_STABLE        1
+#define CH_KERNEL_STABLE  1
 
 /**
  * @name    ChibiOS/NIL version identification
  * @{
  */
+
 /**
  * @brief   Kernel version string.
  */
-#define CH_KERNEL_VERSION       "1.1.1"
+#define CH_KERNEL_VERSION "1.1.1"
 
 /**
  * @brief   Kernel version major number.
  */
-#define CH_KERNEL_MAJOR         1
+#define CH_KERNEL_MAJOR   1
 
 /**
  * @brief   Kernel version minor number.
  */
-#define CH_KERNEL_MINOR         1
+#define CH_KERNEL_MINOR   1
 
 /**
  * @brief   Kernel version patch number.
  */
-#define CH_KERNEL_PATCH         1
+#define CH_KERNEL_PATCH   1
+
 /** @} */
 
 /**
  * @name    Wakeup messages
  * @{
  */
-#define MSG_OK                  (msg_t)0    /**< @brief OK wakeup message.  */
-#define MSG_TIMEOUT             (msg_t)-1   /**< @brief Wake-up caused by
-                                                 a timeout condition.       */
-#define MSG_RESET               (msg_t)-2   /**< @brief Wake-up caused by
-                                                 a reset condition.         */
+#define MSG_OK            (msg_t) 0         /**< @brief OK wakeup message.  */
+#define MSG_TIMEOUT       (msg_t) -1        /**< @brief Wake-up caused by
+                                             *   a timeout condition.       */
+#define MSG_RESET         (msg_t) -2        /**< @brief Wake-up caused by
+                                             *   a reset condition.         */
+
 /** @} */
 
 /**
  * @name    Special time constants
  * @{
  */
+
 /**
  * @brief   Zero time specification for some functions with a timeout
  *          specification.
  * @note    Not all functions accept @p TIME_IMMEDIATE as timeout parameter,
  *          see the specific function documentation.
  */
-#define TIME_IMMEDIATE          ((systime_t)-1)
+#define TIME_IMMEDIATE     ((systime_t) -1)
 
 /**
  * @brief   Infinite time specification for all functions with a timeout
  *          specification.
  */
-#define TIME_INFINITE           ((systime_t)0)
+#define TIME_INFINITE      ((systime_t) 0)
+
 /** @} */
 
 /**
  * @name    Thread state related macros
  * @{
  */
-#define NIL_STATE_READY         (tstate_t)0 /**< @brief Thread ready or
-                                                 executing.                 */
-#define NIL_STATE_SLEEPING      (tstate_t)1 /**< @brief Thread sleeping.    */
-#define NIL_STATE_SUSP          (tstate_t)2 /**< @brief Thread suspended.   */
-#define NIL_STATE_WTSEM         (tstate_t)3 /**< @brief On semaphore.       */
-#define NIL_STATE_WTOREVT       (tstate_t)4 /**< @brief Waiting for events. */
+#define NIL_STATE_READY    (tstate_t) 0 /**< @brief Thread ready or
+                                         *   executing.                 */
+#define NIL_STATE_SLEEPING (tstate_t) 1 /**< @brief Thread sleeping.    */
+#define NIL_STATE_SUSP     (tstate_t) 2 /**< @brief Thread suspended.   */
+#define NIL_STATE_WTSEM    (tstate_t) 3 /**< @brief On semaphore.       */
+#define NIL_STATE_WTOREVT  (tstate_t) 4 /**< @brief Waiting for events. */
 #define NIL_THD_IS_READY(tr)    ((tr)->state == NIL_STATE_READY)
 #define NIL_THD_IS_SLEEPING(tr) ((tr)->state == NIL_STATE_SLEEPING)
 #define NIL_THD_IS_SUSP(tr)     ((tr)->state == NIL_STATE_SUSP)
 #define NIL_THD_IS_WTSEM(tr)    ((tr)->state == NIL_STATE_WTSEM)
 #define NIL_THD_IS_WTOREVT(tr)  ((tr)->state == NIL_STATE_WTOREVT)
+
 /** @} */
 
 /**
  * @name    Events related macros
  * @{
  */
+
 /**
  * @brief   All events allowed mask.
  */
-#define ALL_EVENTS              ((eventmask_t)-1)
+#define ALL_EVENTS ((eventmask_t) -1)
 
 /**
  * @brief   Returns an event mask from an event identifier.
  */
-#define EVENT_MASK(eid)         ((eventmask_t)(1 << (eid)))
+#define EVENT_MASK(eid) ((eventmask_t) (1 << (eid)))
+
 /** @} */
 
 /*===========================================================================*/
@@ -151,7 +159,7 @@ typedef struct nil_thread thread_t;
  *          implicitly handled.
  */
 #if !defined(NIL_CFG_NUM_THREADS) || defined(__DOXYGEN__)
-#define NIL_CFG_NUM_THREADS                 2
+#define NIL_CFG_NUM_THREADS        2
 #endif
 
 /**
@@ -159,7 +167,7 @@ typedef struct nil_thread thread_t;
  * @note    Allowed values are 16 or 32 bits.
  */
 #if !defined(NIL_CFG_ST_RESOLUTION) || defined(__DOXYGEN__)
-#define NIL_CFG_ST_RESOLUTION               32
+#define NIL_CFG_ST_RESOLUTION      32
 #endif
 
 /**
@@ -169,7 +177,7 @@ typedef struct nil_thread thread_t;
  *          timeouts.
  */
 #if !defined(NIL_CFG_ST_FREQUENCY) || defined(__DOXYGEN__)
-#define NIL_CFG_ST_FREQUENCY                100
+#define NIL_CFG_ST_FREQUENCY       100
 #endif
 
 /**
@@ -181,7 +189,7 @@ typedef struct nil_thread thread_t;
  *          this value.
  */
 #if !defined(NIL_CFG_ST_TIMEDELTA) || defined(__DOXYGEN__)
-#define NIL_CFG_ST_TIMEDELTA                0
+#define NIL_CFG_ST_TIMEDELTA       0
 #endif
 
 /**
@@ -191,28 +199,28 @@ typedef struct nil_thread thread_t;
  * @note    The default is @p TRUE.
  */
 #if !defined(NIL_CFG_USE_EVENTS) || defined(__DOXYGEN__)
-#define NIL_CFG_USE_EVENTS                  TRUE
+#define NIL_CFG_USE_EVENTS         TRUE
 #endif
 
 /**
  * @brief   System assertions.
  */
 #if !defined(NIL_CFG_ENABLE_ASSERTS) || defined(__DOXYGEN__)
-#define NIL_CFG_ENABLE_ASSERTS              FALSE
+#define NIL_CFG_ENABLE_ASSERTS     FALSE
 #endif
 
 /**
  * @brief   Stack check.
  */
 #if !defined(NIL_CFG_ENABLE_STACK_CHECK) || defined(__DOXYGEN__)
-#define NIL_CFG_ENABLE_STACK_CHECK          FALSE
+#define NIL_CFG_ENABLE_STACK_CHECK FALSE
 #endif
 
 /**
  * @brief   System initialization hook.
  */
 #if !defined(NIL_CFG_SYSTEM_INIT_HOOK) || defined(__DOXYGEN__)
-#define NIL_CFG_SYSTEM_INIT_HOOK() {}
+#define NIL_CFG_SYSTEM_INIT_HOOK() { }
 #endif
 
 /**
@@ -227,7 +235,7 @@ typedef struct nil_thread thread_t;
  * @brief   Threads initialization hook.
  */
 #if !defined(NIL_CFG_THREAD_EXT_INIT_HOOK) || defined(__DOXYGEN__)
-#define NIL_CFG_THREAD_EXT_INIT_HOOK(tr) {}
+#define NIL_CFG_THREAD_EXT_INIT_HOOK(tr) { }
 #endif
 
 /**
@@ -237,7 +245,7 @@ typedef struct nil_thread thread_t;
  * @note    This macro can be used to activate a power saving mode.
  */
 #if !defined(NIL_CFG_IDLE_ENTER_HOOK) || defined(__DOXYGEN__)
-#define NIL_CFG_IDLE_ENTER_HOOK() {}
+#define NIL_CFG_IDLE_ENTER_HOOK()        { }
 #endif
 
 /**
@@ -247,14 +255,14 @@ typedef struct nil_thread thread_t;
  * @note    This macro can be used to deactivate a power saving mode.
  */
 #if !defined(NIL_CFG_IDLE_LEAVE_HOOK) || defined(__DOXYGEN__)
-#define NIL_CFG_IDLE_LEAVE_HOOK() {}
+#define NIL_CFG_IDLE_LEAVE_HOOK()        { }
 #endif
 
 /**
  * @brief   System halt hook.
  */
 #if !defined(NIL_CFG_SYSTEM_HALT_HOOK) || defined(__DOXYGEN__)
-#define NIL_CFG_SYSTEM_HALT_HOOK(reason) {}
+#define NIL_CFG_SYSTEM_HALT_HOOK(reason) { }
 #endif
 
 /*===========================================================================*/
@@ -267,7 +275,7 @@ typedef struct nil_thread thread_t;
 
 #if NIL_CFG_NUM_THREADS > 12
 #error "Nil is not recommended for thread-intensive applications, consider" \
-       "ChibiOS/RT instead"
+    "ChibiOS/RT instead"
 #endif
 
 #if (NIL_CFG_ST_RESOLUTION != 16) && (NIL_CFG_ST_RESOLUTION != 32)
@@ -279,26 +287,26 @@ typedef struct nil_thread thread_t;
 #endif
 
 #if (NIL_CFG_ST_TIMEDELTA < 0) || (NIL_CFG_ST_TIMEDELTA == 1)
-#error "invalid NIL_CFG_ST_TIMEDELTA specified, must "                      \
-       "be zero or greater than one"
+#error "invalid NIL_CFG_ST_TIMEDELTA specified, must " \
+    "be zero or greater than one"
 #endif
 
 #if (NIL_CFG_ENABLE_ASSERTS == TRUE) || (NIL_CFG_ENABLE_STACK_CHECK == TRUE)
-#define NIL_DBG_ENABLED                 TRUE
+#define NIL_DBG_ENABLED TRUE
 #else
-#define NIL_DBG_ENABLED                 FALSE
+#define NIL_DBG_ENABLED FALSE
 #endif
 
 /** Boundaries of the idle thread boundaries, only required if stack checking
-    is enabled.*/
+ *  is enabled.*/
 #if (NIL_CFG_ENABLE_STACK_CHECK == TRUE) || defined(__DOXYGEN__)
 extern stkalign_t __main_thread_stack_base__, __main_thread_stack_end__;
 
-#define THD_IDLE_BASE                   (&__main_thread_stack_base__)
-#define THD_IDLE_END                    (&__main_thread_stack_end__)
+#define THD_IDLE_BASE (&__main_thread_stack_base__)
+#define THD_IDLE_END  (&__main_thread_stack_end__)
 #else
-#define THD_IDLE_BASE                   NULL
-#define THD_IDLE_END                    NULL
+#define THD_IDLE_BASE NULL
+#define THD_IDLE_END  NULL
 #endif
 
 /*===========================================================================*/
@@ -318,14 +326,15 @@ typedef struct nil_semaphore semaphore_t;
 /**
  * @brief   Structure representing a counting semaphore.
  */
-struct nil_semaphore {
-  volatile cnt_t    cnt;        /**< @brief Semaphore counter.              */
+struct nil_semaphore
+{
+    volatile cnt_t cnt; /**< @brief Semaphore counter.              */
 };
 
 /**
  * @brief Thread function.
  */
-typedef void (*tfunc_t)(void *p);
+typedef void (* tfunc_t)(void* p);
 
 /**
  * @brief   Type of a structure representing a thread static configuration.
@@ -335,46 +344,51 @@ typedef struct nil_thread_cfg thread_config_t;
 /**
  * @brief   Structure representing a thread static configuration.
  */
-struct nil_thread_cfg {
-  stkalign_t        *wbase;     /**< @brief Thread working area base.       */
-  stkalign_t        *wend;      /**< @brief Thread working area end.        */
-  const char        *namep;     /**< @brief Thread name, for debugging.     */
-  tfunc_t           funcp;      /**< @brief Thread function.                */
-  void              *arg;       /**< @brief Thread function argument.       */
+struct nil_thread_cfg
+{
+    stkalign_t* wbase; /**< @brief Thread working area base.       */
+    stkalign_t* wend;  /**< @brief Thread working area end.        */
+    const char* namep; /**< @brief Thread name, for debugging.     */
+    tfunc_t     funcp; /**< @brief Thread function.                */
+    void*       arg;   /**< @brief Thread function argument.       */
 };
 
 /**
  * @brief   Type of a thread reference.
  */
-typedef thread_t * thread_reference_t;
+typedef thread_t* thread_reference_t;
 
 /**
  * @brief   Structure representing a thread.
  */
-struct nil_thread {
-  intctx_t              *ctxp;  /**< @brief Pointer to internal context.    */
-  tstate_t              state;  /**< @brief Thread state.                   */
-  /* Note, the following union contains a pointer while the thread is in a
-     sleeping state (!NIL_THD_IS_READY()) else contains the wake-up message.*/
-  union {
-    msg_t               msg;    /**< @brief Wake-up message.                */
-    void                *p;     /**< @brief Generic pointer.                */
-    thread_reference_t  *trp;   /**< @brief Pointer to thread reference.    */
-    semaphore_t         *semp;  /**< @brief Pointer to semaphore.           */
+struct nil_thread
+{
+    intctx_t*          ctxp;    /**< @brief Pointer to internal context.    */
+    tstate_t           state;   /**< @brief Thread state.                   */
+
+    /* Note, the following union contains a pointer while the thread is in a
+     * sleeping state (!NIL_THD_IS_READY()) else contains the wake-up message.*/
+    union
+    {
+        msg_t               msg;  /**< @brief Wake-up message.                */
+        void*               p;    /**< @brief Generic pointer.                */
+        thread_reference_t* trp;  /**< @brief Pointer to thread reference.    */
+        semaphore_t*        semp; /**< @brief Pointer to semaphore.           */
 #if (NIL_CFG_USE_EVENTS == TRUE) || defined(__DOXYGEN__)
-    eventmask_t         ewmask; /**< @brief Enabled events mask.            */
+        eventmask_t         ewmask; /**< @brief Enabled events mask.            */
 #endif
-  } u1;
-  volatile systime_t    timeout;/**< @brief Timeout counter, zero
-                                            if disabled.                    */
+    } u1;
+    volatile systime_t timeout; /**< @brief Timeout counter, zero
+                                 *          if disabled.                    */
 #if (NIL_CFG_USE_EVENTS == TRUE) || defined(__DOXYGEN__)
-  eventmask_t           epmask; /**< @brief Pending events mask.            */
+    eventmask_t        epmask;  /**< @brief Pending events mask.            */
 #endif
 #if (NIL_CFG_ENABLE_STACK_CHECK == TRUE) || defined(__DOXYGEN__)
-  stkalign_t            *stklim;/**< @brief Thread stack boundary.          */
+    stkalign_t*        stklim;  /**< @brief Thread stack boundary.          */
 #endif
-  /* Optional extra fields.*/
-  NIL_CFG_THREAD_EXT_FIELDS
+
+    /* Optional extra fields.*/
+    NIL_CFG_THREAD_EXT_FIELDS
 };
 
 /**
@@ -387,46 +401,53 @@ typedef struct nil_system nil_system_t;
  * @note    This structure contain all the data areas used by the OS except
  *          stacks.
  */
-struct nil_system {
-  /**
-   * @brief   Pointer to the running thread.
-   */
-  thread_t              *current;
-  /**
-   * @brief   Pointer to the next thread to be executed.
-   * @note    This pointer must point at the same thread pointed by @p current
-   *          or to an higher priority thread if a switch is required.
-   */
-  thread_t              *next;
+struct nil_system
+{
+    /**
+     * @brief   Pointer to the running thread.
+     */
+    thread_t*            current;
+
+    /**
+     * @brief   Pointer to the next thread to be executed.
+     * @note    This pointer must point at the same thread pointed by @p current
+     *          or to an higher priority thread if a switch is required.
+     */
+    thread_t*            next;
 #if (NIL_CFG_ST_TIMEDELTA == 0) || defined(__DOXYGEN__)
-  /**
-   * @brief   System time.
-   */
-  volatile systime_t    systime;
+
+    /**
+     * @brief   System time.
+     */
+    volatile systime_t   systime;
 #endif
 #if (NIL_CFG_ST_TIMEDELTA > 0) || defined(__DOXYGEN__)
-  /**
-   * @brief   System time of the last tick event.
-   */
-  systime_t             lasttime;
-  /**
-   * @brief   Time of the next scheduled tick event.
-   */
-  systime_t             nexttime;
+
+    /**
+     * @brief   System time of the last tick event.
+     */
+    systime_t            lasttime;
+
+    /**
+     * @brief   Time of the next scheduled tick event.
+     */
+    systime_t            nexttime;
 #endif
-  /**
-   * @brief   Thread structures for all the defined threads.
-   */
-  thread_t              threads[NIL_CFG_NUM_THREADS + 1];
+
+    /**
+     * @brief   Thread structures for all the defined threads.
+     */
+    thread_t             threads[NIL_CFG_NUM_THREADS + 1];
 #if (NIL_DBG_ENABLED == TRUE) || defined(__DOXYGEN__)
-  /**
-   * @brief   Panic message.
-   * @note    This field is only present if some debug options have been
-   *          activated.
-   * @note    Accesses to this pointer must never be optimized out so the
-   *          field itself is declared volatile.
-   */
-  const char            * volatile dbg_panic_msg;
+
+    /**
+     * @brief   Panic message.
+     * @note    This field is only present if some debug options have been
+     *          activated.
+     * @note    Accesses to this pointer must never be optimized out so the
+     *          field itself is declared volatile.
+     */
+    const char* volatile dbg_panic_msg;
 #endif
 };
 
@@ -438,30 +459,32 @@ struct nil_system {
  * @name    Threads tables definition macros
  * @{
  */
+
 /**
  * @brief   Start of user threads table.
  */
-#define THD_TABLE_BEGIN                                                     \
-  const thread_config_t nil_thd_configs[NIL_CFG_NUM_THREADS + 1] = {
-
+#define THD_TABLE_BEGIN \
+    const thread_config_t nil_thd_configs[NIL_CFG_NUM_THREADS + 1] = {
 /**
  * @brief   Entry of user threads table
  */
-#define THD_TABLE_ENTRY(wap, name, funcp, arg)                              \
-  {wap, ((stkalign_t *)(wap)) + (sizeof (wap) / sizeof(stkalign_t)),        \
-   name, funcp, arg},
+#define THD_TABLE_ENTRY(wap, name, funcp, arg)                        \
+    {wap, ((stkalign_t*) (wap)) + (sizeof(wap) / sizeof(stkalign_t)), \
+     name, funcp, arg},
 
 /**
  * @brief   End of user threads table.
  */
-#define THD_TABLE_END                                                       \
-  {THD_IDLE_BASE, THD_IDLE_END, "idle", NULL, NULL}                         \
-};
+#define THD_TABLE_END                                 \
+    {THD_IDLE_BASE, THD_IDLE_END, "idle", NULL, NULL} \
+    };
+
 /** @} */
 
 /**
  * @name    Working Areas and Alignment
  */
+
 /**
  * @brief   Enforces a correct alignment for a stack area size value.
  *
@@ -471,8 +494,8 @@ struct nil_system {
  *
  * @api
  */
-#define THD_ALIGN_STACK_SIZE(n)                                             \
-  ((((n) - 1U) | (sizeof(stkalign_t) - 1U)) + 1U)
+#define THD_ALIGN_STACK_SIZE(n) \
+    ((((n) - 1U) | (sizeof(stkalign_t) - 1U)) + 1U)
 
 /**
  * @brief   Calculates the total Working Area size.
@@ -482,8 +505,8 @@ struct nil_system {
  *
  * @api
  */
-#define THD_WORKING_AREA_SIZE(n)                                            \
-  THD_ALIGN_STACK_SIZE(PORT_WA_SIZE(n))
+#define THD_WORKING_AREA_SIZE(n) \
+    THD_ALIGN_STACK_SIZE(PORT_WA_SIZE(n))
 
 /**
  * @brief   Static working area allocation.
@@ -495,24 +518,28 @@ struct nil_system {
  *
  * @api
  */
-#define THD_WORKING_AREA(s, n)                                              \
-  stkalign_t s[THD_WORKING_AREA_SIZE(n) / sizeof(stkalign_t)]
+#define THD_WORKING_AREA(s, n) \
+    stkalign_t s[THD_WORKING_AREA_SIZE(n) / sizeof(stkalign_t)]
+
 /** @} */
 
 /**
  * @name    Threads abstraction macros
  */
+
 /**
  * @brief   Thread declaration macro.
  * @note    Thread declarations should be performed using this macro because
  *          the port layer could define optimizations for thread functions.
  */
 #define THD_FUNCTION(tname, arg) PORT_THD_FUNCTION(tname, arg)
+
 /** @} */
 
 /**
  * @name    ISRs abstraction macros
  */
+
 /**
  * @brief   Priority level validation macro.
  * @details This macro determines if the passed value is a valid priority
@@ -525,8 +552,8 @@ struct nil_system {
  * @retval true         if the priority is valid.
  */
 #if defined(PORT_IRQ_IS_VALID_PRIORITY) || defined(__DOXYGEN__)
-#define CH_IRQ_IS_VALID_PRIORITY(prio)                                      \
-  PORT_IRQ_IS_VALID_PRIORITY(prio)
+#define CH_IRQ_IS_VALID_PRIORITY(prio) \
+    PORT_IRQ_IS_VALID_PRIORITY(prio)
 #else
 #define CH_IRQ_IS_VALID_PRIORITY(prio) false
 #endif
@@ -543,8 +570,8 @@ struct nil_system {
  * @retval true         if the priority is valid.
  */
 #if defined(PORT_IRQ_IS_VALID_KERNEL_PRIORITY) || defined(__DOXYGEN__)
-#define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio)                               \
-  PORT_IRQ_IS_VALID_KERNEL_PRIORITY(prio)
+#define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio) \
+    PORT_IRQ_IS_VALID_KERNEL_PRIORITY(prio)
 #else
 #define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio) false
 #endif
@@ -556,7 +583,7 @@ struct nil_system {
  *
  * @special
  */
-#define CH_IRQ_PROLOGUE() PORT_IRQ_PROLOGUE()
+#define CH_IRQ_PROLOGUE()                     PORT_IRQ_PROLOGUE()
 
 /**
  * @brief   IRQ handler exit code.
@@ -564,7 +591,7 @@ struct nil_system {
  *
  * @special
  */
-#define CH_IRQ_EPILOGUE() PORT_IRQ_EPILOGUE()
+#define CH_IRQ_EPILOGUE()                     PORT_IRQ_EPILOGUE()
 
 /**
  * @brief   Standard normal IRQ handler declaration.
@@ -573,12 +600,14 @@ struct nil_system {
  *
  * @special
  */
-#define CH_IRQ_HANDLER(id) PORT_IRQ_HANDLER(id)
+#define CH_IRQ_HANDLER(id)                    PORT_IRQ_HANDLER(id)
+
 /** @} */
 
 /**
  * @name    Fast ISRs abstraction macros
  */
+
 /**
  * @brief   Standard fast IRQ handler declaration.
  * @note    @p id can be a function name or a vector number depending on the
@@ -588,12 +617,14 @@ struct nil_system {
  * @special
  */
 #define CH_FAST_IRQ_HANDLER(id) PORT_FAST_IRQ_HANDLER(id)
+
 /** @} */
 
 /**
  * @name    Time conversion utilities
  * @{
  */
+
 /**
  * @brief   Seconds to system ticks.
  * @details Converts from seconds to system ticks number.
@@ -604,8 +635,8 @@ struct nil_system {
  *
  * @api
  */
-#define S2ST(sec)                                                           \
-  ((systime_t)((uint32_t)(sec) * (uint32_t)NIL_CFG_ST_FREQUENCY))
+#define S2ST(sec) \
+    ((systime_t) ((uint32_t) (sec) * (uint32_t) NIL_CFG_ST_FREQUENCY))
 
 /**
  * @brief   Milliseconds to system ticks.
@@ -617,9 +648,9 @@ struct nil_system {
  *
  * @api
  */
-#define MS2ST(msec)                                                         \
-  ((systime_t)(((((uint32_t)(msec)) *                                       \
-                 ((uint32_t)NIL_CFG_ST_FREQUENCY)) + 999UL) / 1000UL))
+#define MS2ST(msec)                       \
+    ((systime_t) (((((uint32_t) (msec)) * \
+                    ((uint32_t) NIL_CFG_ST_FREQUENCY)) + 999UL) / 1000UL))
 
 /**
  * @brief   Microseconds to system ticks.
@@ -631,15 +662,17 @@ struct nil_system {
  *
  * @api
  */
-#define US2ST(usec)                                                         \
-  ((systime_t)(((((uint32_t)(usec)) *                                       \
-                 ((uint32_t)NIL_CFG_ST_FREQUENCY)) + 999999UL) / 1000000UL))
+#define US2ST(usec)                       \
+    ((systime_t) (((((uint32_t) (usec)) * \
+                    ((uint32_t) NIL_CFG_ST_FREQUENCY)) + 999999UL) / 1000000UL))
+
 /** @} */
 
 /**
  * @name    Time conversion utilities for the realtime counter
  * @{
  */
+
 /**
  * @brief   Seconds to realtime counter.
  * @details Converts from seconds to realtime counter cycles.
@@ -651,7 +684,7 @@ struct nil_system {
  *
  * @api
  */
-#define S2RTC(freq, sec) ((freq) * (sec))
+#define S2RTC(freq, sec)   ((freq) * (sec))
 
 /**
  * @brief   Milliseconds to realtime counter.
@@ -665,7 +698,7 @@ struct nil_system {
  *
  * @api
  */
-#define MS2RTC(freq, msec) (rtcnt_t)((((freq) + 999UL) / 1000UL) * (msec))
+#define MS2RTC(freq, msec) (rtcnt_t) ((((freq) + 999UL) / 1000UL) * (msec))
 
 /**
  * @brief   Microseconds to realtime counter.
@@ -679,13 +712,15 @@ struct nil_system {
  *
  * @api
  */
-#define US2RTC(freq, usec) (rtcnt_t)((((freq) + 999999UL) / 1000000UL) * (usec))
+#define US2RTC(freq, usec) (rtcnt_t) ((((freq) + 999999UL) / 1000000UL) * (usec))
+
 /** @} */
 
 /**
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Returns the current value of the system real time counter.
  * @note    This function is only available if the port layer supports the
@@ -697,7 +732,7 @@ struct nil_system {
  * @xclass
  */
 #if (PORT_SUPPORTS_RT == TRUE) || defined(__DOXYGEN__)
-#define chSysGetRealtimeCounterX() (rtcnt_t)port_rt_get_counter_value()
+#define chSysGetRealtimeCounterX()   (rtcnt_t) port_rt_get_counter_value()
 #endif
 
 /**
@@ -705,28 +740,28 @@ struct nil_system {
  *
  * @special
  */
-#define chSysDisable() port_disable()
+#define chSysDisable()               port_disable()
 
 /**
  * @brief   Enters the kernel lock mode.
  *
  * @special
  */
-#define chSysEnable() port_enable()
+#define chSysEnable()                port_enable()
 
 /**
  * @brief   Enters the kernel lock state.
  *
  * @special
  */
-#define chSysLock() port_lock()
+#define chSysLock()                  port_lock()
 
 /**
  * @brief   Leaves the kernel lock state.
  *
  * @special
  */
-#define chSysUnlock() port_unlock()
+#define chSysUnlock()                port_unlock()
 
 /**
  * @brief   Enters the kernel lock state from within an interrupt handler.
@@ -740,7 +775,7 @@ struct nil_system {
  *
  * @special
  */
-#define chSysLockFromISR() port_lock_from_isr()
+#define chSysLockFromISR()           port_lock_from_isr()
 
 /**
  * @brief   Leaves the kernel lock state from within an interrupt handler.
@@ -755,7 +790,7 @@ struct nil_system {
  *
  * @special
  */
-#define chSysUnlockFromISR() port_unlock_from_isr()
+#define chSysUnlockFromISR()         port_unlock_from_isr()
 
 /**
  * @brief   Evaluates if a reschedule is required.
@@ -766,14 +801,14 @@ struct nil_system {
  *
  * @iclass
  */
-#define chSchIsRescRequiredI() ((bool)(nil.current != nil.next))
+#define chSchIsRescRequiredI()       ((bool) (nil.current != nil.next))
 
 /**
  * @brief   Returns a pointer to the current @p thread_t.
  *
  * @xclass
  */
-#define chThdGetSelfX() nil.current
+#define chThdGetSelfX()              nil.current
 
 /**
  * @brief   Delays the invoking thread for the specified number of seconds.
@@ -785,7 +820,7 @@ struct nil_system {
  *
  * @api
  */
-#define chThdSleepSeconds(sec) chThdSleep(S2ST(sec))
+#define chThdSleepSeconds(sec)       chThdSleep(S2ST(sec))
 
 /**
  * @brief   Delays the invoking thread for the specified number of
@@ -820,7 +855,7 @@ struct nil_system {
  *
  * @sclass
  */
-#define chThdSleepS(timeout) (void) chSchGoSleepTimeoutS(NIL_STATE_SLEEPING, timeout)
+#define chThdSleepS(timeout)         (void) chSchGoSleepTimeoutS(NIL_STATE_SLEEPING, timeout)
 
 /**
  * @brief   Suspends the invoking thread until the system time arrives to the
@@ -830,8 +865,8 @@ struct nil_system {
  *
  * @sclass
  */
-#define chThdSleepUntilS(abstime)                                           \
-    (void) chSchGoSleepTimeoutS(NIL_STATE_SLEEPING, (abstime) -             \
+#define chThdSleepUntilS(abstime)                               \
+    (void) chSchGoSleepTimeoutS(NIL_STATE_SLEEPING, (abstime) - \
                                 chVTGetSystemTimeX())
 
 /**
@@ -857,7 +892,7 @@ struct nil_system {
  *
  * @api
  */
-#define chSemWait(sp) chSemWaitTimeout(sp, TIME_INFINITE)
+#define chSemWait(sp)          chSemWaitTimeout(sp, TIME_INFINITE)
 
 /**
  * @brief   Performs a wait operation on a semaphore.
@@ -871,14 +906,14 @@ struct nil_system {
  *
  * @sclass
  */
-#define chSemWaitS(sp) chSemWaitTimeoutS(sp, TIME_INFINITE)
+#define chSemWaitS(sp)         chSemWaitTimeoutS(sp, TIME_INFINITE)
 
 /**
  * @brief   Returns the semaphore counter current value.
  *
  * @iclass
  */
-#define chSemGetCounterI(sp) ((sp)->cnt)
+#define chSemGetCounterI(sp)   ((sp)->cnt)
 
 /**
  * @brief   Current system time.
@@ -894,9 +929,9 @@ struct nil_system {
  * @xclass
  */
 #if (NIL_CFG_ST_TIMEDELTA == 0) || defined(__DOXYGEN__)
-#define chVTGetSystemTimeX() (nil.systime)
+#define chVTGetSystemTimeX()   (nil.systime)
 #else
-#define chVTGetSystemTimeX() port_timer_get_time()
+#define chVTGetSystemTimeX()   port_timer_get_time()
 #endif
 
 /**
@@ -907,8 +942,8 @@ struct nil_system {
  *
  * @xclass
  */
-#define chVTTimeElapsedSinceX(start)                                        \
-  ((systime_t)(chVTGetSystemTimeX() - (start)))
+#define chVTTimeElapsedSinceX(start) \
+    ((systime_t) (chVTGetSystemTimeX() - (start)))
 
 /**
  * @brief   Checks if the specified time is within the specified time window.
@@ -924,8 +959,8 @@ struct nil_system {
  *
  * @xclass
  */
-#define chVTIsTimeWithinX(time, start, end)                                 \
-  ((bool)((systime_t)((time) - (start)) < (systime_t)((end) - (start))))
+#define chVTIsTimeWithinX(time, start, end) \
+    ((bool) ((systime_t) ((time) - (start)) < (systime_t) ((end) - (start))))
 
 /**
  * @brief   Condition assertion.
@@ -943,14 +978,14 @@ struct nil_system {
  */
 #if !defined(chDbgAssert)
 #define chDbgAssert(c, r) do {                                              \
-  /*lint -save -e506 -e774 [2.1, 14.3] Can be a constant by design.*/       \
-  if (NIL_CFG_ENABLE_ASSERTS != FALSE) {                                    \
-    if (!(c)) {                                                             \
-  /*lint -restore*/                                                         \
-      chSysHalt(__func__);                                                  \
-    }                                                                       \
-  }                                                                         \
-} while (false)
+        /*lint -save -e506 -e774 [2.1, 14.3] Can be a constant by design.*/ \
+        if(NIL_CFG_ENABLE_ASSERTS != FALSE) {                               \
+            if(!(c)) {                                                      \
+                /*lint -restore*/                                           \
+                chSysHalt(__func__);                                        \
+            }                                                               \
+        }                                                                   \
+} while(false)
 #endif /* !defined(chDbgAssert) */
 /** @} */
 
@@ -966,33 +1001,59 @@ extern const thread_config_t nil_thd_configs[NIL_CFG_NUM_THREADS + 1];
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void chSysInit(void);
-  void chSysHalt(const char *reason);
-  void chSysTimerHandlerI(void);
-  void chSysUnconditionalLock(void);
-  void chSysUnconditionalUnlock(void);
-  syssts_t chSysGetStatusAndLockX(void);
-  bool chSysIsCounterWithinX(rtcnt_t cnt, rtcnt_t start, rtcnt_t end);
-  void chSysPolledDelayX(rtcnt_t cycles);
-  void chSysRestoreStatusX(syssts_t sts);
-  thread_t *chSchReadyI(thread_t *tp, msg_t msg);
-  void chSchRescheduleS(void);
-  msg_t chSchGoSleepTimeoutS(tstate_t newstate, systime_t timeout);
-  msg_t chThdSuspendTimeoutS(thread_reference_t *trp, systime_t timeout);
-  void chThdResumeI(thread_reference_t *trp, msg_t msg);
-  void chThdSleep(systime_t timeout);
-  void chThdSleepUntil(systime_t abstime);
-  msg_t chSemWaitTimeout(semaphore_t *sp, systime_t timeout);
-  msg_t chSemWaitTimeoutS(semaphore_t *sp, systime_t timeout);
-  void chSemSignal(semaphore_t *sp);
-  void chSemSignalI(semaphore_t *sp);
-  void chSemReset(semaphore_t *sp, cnt_t n);
-  void chSemResetI(semaphore_t *sp, cnt_t n);
+void chSysInit(void);
+
+void chSysHalt(const char* reason);
+
+void chSysTimerHandlerI(void);
+
+void chSysUnconditionalLock(void);
+
+void chSysUnconditionalUnlock(void);
+
+syssts_t chSysGetStatusAndLockX(void);
+
+bool chSysIsCounterWithinX(rtcnt_t cnt, rtcnt_t start, rtcnt_t end);
+
+void chSysPolledDelayX(rtcnt_t cycles);
+
+void chSysRestoreStatusX(syssts_t sts);
+
+thread_t* chSchReadyI(thread_t* tp, msg_t msg);
+
+void chSchRescheduleS(void);
+
+msg_t chSchGoSleepTimeoutS(tstate_t newstate, systime_t timeout);
+
+msg_t chThdSuspendTimeoutS(thread_reference_t* trp, systime_t timeout);
+
+void chThdResumeI(thread_reference_t* trp, msg_t msg);
+
+void chThdSleep(systime_t timeout);
+
+void chThdSleepUntil(systime_t abstime);
+
+msg_t chSemWaitTimeout(semaphore_t* sp, systime_t timeout);
+
+msg_t chSemWaitTimeoutS(semaphore_t* sp, systime_t timeout);
+
+void chSemSignal(semaphore_t* sp);
+
+void chSemSignalI(semaphore_t* sp);
+
+void chSemReset(semaphore_t* sp, cnt_t n);
+
+void chSemResetI(semaphore_t* sp, cnt_t n);
+
 #if NIL_CFG_USE_EVENTS == TRUE
-  void chEvtSignal(thread_t *tp, eventmask_t mask);
-  void chEvtSignalI(thread_t *tp, eventmask_t mask);
-  eventmask_t chEvtWaitAnyTimeout(eventmask_t mask, systime_t timeout);
-  eventmask_t chEvtWaitAnyTimeoutS(eventmask_t mask, systime_t timeout);
+void chEvtSignal(thread_t* tp, eventmask_t mask);
+
+void chEvtSignalI(thread_t* tp, eventmask_t mask);
+
+eventmask_t chEvtWaitAnyTimeout(eventmask_t mask, systime_t timeout);
+
+eventmask_t chEvtWaitAnyTimeoutS(eventmask_t mask, systime_t timeout);
+
 #endif
 #ifdef __cplusplus
 }

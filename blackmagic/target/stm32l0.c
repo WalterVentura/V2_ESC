@@ -276,11 +276,11 @@ bool stm32l0_probe(target* t)
 
     switch(idcode)
     {
-        case 0x416:               /* CAT. 1 device */
-        case 0x429:               /* CAT. 2 device */
-        case 0x427:               /* CAT. 3 device */
-        case 0x436:               /* CAT. 4 device */
-        case 0x437:               /* CAT. 5 device  */
+        case 0x416: /* CAT. 1 device */
+        case 0x429: /* CAT. 2 device */
+        case 0x427: /* CAT. 3 device */
+        case 0x436: /* CAT. 4 device */
+        case 0x437: /* CAT. 5 device  */
             t->idcode = idcode;
             t->driver = "STM32L1x";
             target_add_ram(t, 0x20000000, 0x14000);
@@ -295,10 +295,10 @@ bool stm32l0_probe(target* t)
 
     switch(idcode)
     {
-        case 0x457:               /* STM32L0xx Cat1 */
-        case 0x425:               /* STM32L0xx Cat2 */
-        case 0x417:               /* STM32L0xx Cat3 */
-        case 0x447:               /* STM32L0xx Cat5 */
+        case 0x457: /* STM32L0xx Cat1 */
+        case 0x425: /* STM32L0xx Cat2 */
+        case 0x417: /* STM32L0xx Cat3 */
+        case 0x447: /* STM32L0xx Cat5 */
             t->idcode = idcode;
             t->driver = "STM32L0x";
             target_add_ram(t, 0x20000000, 0x5000);
@@ -399,7 +399,7 @@ static int stm32lx_nvm_prog_erase(struct target_flash* f, target_addr addr, size
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     if((sr & STM32Lx_NVM_SR_ERR_M) || !(sr & STM32Lx_NVM_SR_EOP) ||
        target_check_error(t))
@@ -444,7 +444,7 @@ static int stm32lx_nvm_prog_write(struct target_flash* f, target_addr dest, cons
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     if((sr & STM32Lx_NVM_SR_ERR_M) || !(sr & STM32Lx_NVM_SR_EOP) ||
        target_check_error(t))
@@ -503,7 +503,7 @@ static int stm32lx_nvm_data_erase(struct target_flash* f, target_addr addr, size
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     if((sr & STM32Lx_NVM_SR_ERR_M) || !(sr & STM32Lx_NVM_SR_EOP) ||
        target_check_error(t))
@@ -555,7 +555,7 @@ static int stm32lx_nvm_data_write(struct target_flash* f, target_addr destinatio
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     if((sr & STM32Lx_NVM_SR_ERR_M) || !(sr & STM32Lx_NVM_SR_EOP) ||
        target_check_error(t))
@@ -584,7 +584,7 @@ static bool stm32lx_option_write(target* t, uint32_t address, uint32_t value)
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     return !(sr & STM32Lx_NVM_SR_ERR_M);
 }
@@ -630,7 +630,7 @@ static bool stm32lx_eeprom_write(target* t, uint32_t address, size_t cb, uint32_
 
     do {
         sr = target_mem_read32(t, STM32Lx_NVM_SR(nvm));
-    } while (sr & STM32Lx_NVM_SR_BSY);
+    } while(sr & STM32Lx_NVM_SR_BSY);
 
     return !(sr & STM32Lx_NVM_SR_ERR_M);
 }

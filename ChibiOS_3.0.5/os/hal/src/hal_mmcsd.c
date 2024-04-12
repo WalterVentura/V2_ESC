@@ -73,11 +73,11 @@ uint32_t _mmcsd_get_slice(const uint32_t* data, uint32_t end, uint32_t start)
     /* One or two pieces?*/
     if(startidx < endidx)
     {
-        return (data[startidx] >> startoff) |           /* Two pieces case. */
+        return (data[startidx] >> startoff) | /* Two pieces case. */
                ((data[endidx] & endmask) << (32U - startoff));
     }
 
-    return (data[startidx] & endmask) >> startoff;      /* One piece case.  */
+    return (data[startidx] & endmask) >> startoff; /* One piece case.  */
 }
 
 /**
@@ -100,6 +100,7 @@ uint32_t _mmcsd_get_capacity(const uint32_t* csd)
     switch(_mmcsd_get_slice(csd, MMCSD_CSD_10_CSD_STRUCTURE_SLICE))
     {
         case 0:
+
             /* CSD version 1.0 */
             a = _mmcsd_get_slice(csd, MMCSD_CSD_10_C_SIZE_SLICE);
             b = _mmcsd_get_slice(csd, MMCSD_CSD_10_C_SIZE_MULT_SLICE);
@@ -107,10 +108,12 @@ uint32_t _mmcsd_get_capacity(const uint32_t* csd)
             return ((a + 1U) << (b + 2U)) << (c - 9U); /* 2^9 == MMCSD_BLOCK_SIZE. */
 
         case 1:
+
             /* CSD version 2.0.*/
             return 1024U * (_mmcsd_get_slice(csd, MMCSD_CSD_20_C_SIZE_SLICE) + 1U);
 
         default:
+
             /* Reserved value detected.*/
             break;
     }

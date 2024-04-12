@@ -262,14 +262,14 @@ static uint8_t AS504x_fetch_diag(AS504x_config_t* cfg)
 static void AS504x_deserialize_diag(AS504x_config_t* cfg)
 {
     cfg->state.sensor_diag.AGC_value = cfg->state.sensor_diag.serial_diag_flgs;
-    cfg->state.sensor_diag.is_OCF = (cfg->state.sensor_diag.serial_diag_flgs
-                                     >> AS504x_SPI_DIAG_OCF_BIT_POS) & 1;
-    cfg->state.sensor_diag.is_COF = (cfg->state.sensor_diag.serial_diag_flgs
-                                     >> AS504x_SPI_DIAG_COF_BIT_POS) & 1;
-    cfg->state.sensor_diag.is_Comp_low = (cfg->state.sensor_diag.serial_diag_flgs
-                                          >> AS504x_SPI_DIAG_COMP_LOW_BIT_POS) & 1;
-    cfg->state.sensor_diag.is_Comp_high = (cfg->state.sensor_diag.serial_diag_flgs
-                                           >> AS504x_SPI_DIAG_COMP_HIGH_BIT_POS) & 1;
+    cfg->state.sensor_diag.is_OCF = (cfg->state.sensor_diag.serial_diag_flgs >>
+                                     AS504x_SPI_DIAG_OCF_BIT_POS) & 1;
+    cfg->state.sensor_diag.is_COF = (cfg->state.sensor_diag.serial_diag_flgs >>
+                                     AS504x_SPI_DIAG_COF_BIT_POS) & 1;
+    cfg->state.sensor_diag.is_Comp_low = (cfg->state.sensor_diag.serial_diag_flgs >>
+                                          AS504x_SPI_DIAG_COMP_LOW_BIT_POS) & 1;
+    cfg->state.sensor_diag.is_Comp_high = (cfg->state.sensor_diag.serial_diag_flgs >>
+                                           AS504x_SPI_DIAG_COMP_HIGH_BIT_POS) & 1;
     cfg->state.sensor_diag.magnitude = cfg->state.sensor_diag.serial_magnitude &
                                        AS504x_SPI_EXCLUDE_PARITY_AND_ERROR_BITMASK;
 }

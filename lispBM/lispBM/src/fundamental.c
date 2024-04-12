@@ -541,7 +541,7 @@ static bool array_equality(lbm_value a, lbm_value b)
 
         if((a_ == NULL) || (b_ == NULL))
         {
-            return false;                       // Not possible to properly report error from here.
+            return false; // Not possible to properly report error from here.
         }
 
         if(a_->size == b_->size)

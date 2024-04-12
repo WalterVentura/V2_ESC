@@ -555,7 +555,7 @@ static void can_bus_display_process(uint32_t dt_ms)
 
                 // uint16_t speed_display = (uint16_t)(speed_km_h * 100.0);//the display needs [km_h * 100]
                 uint16_t speed_display =
-                    (uint16_t) (mc_interface_get_speed() * 3600.0 / 1000.0 * 100.0);                    // the display needs [km_h * 100]
+                    (uint16_t) (mc_interface_get_speed() * 3600.0 / 1000.0 * 100.0); // the display needs [km_h * 100]
 
                 can_tx_buffer[0] = (uint8_t) (speed_display & 0x00ff);
                 can_tx_buffer[1] = (uint8_t) ((speed_display >> 8) & 0x00ff);

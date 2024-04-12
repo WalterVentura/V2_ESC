@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    ext.h
@@ -35,14 +35,15 @@
  * @name    EXT channel modes
  * @{
  */
-#define EXT_CH_MODE_EDGES_MASK      3U  /**< @brief Mask of edges field.    */
-#define EXT_CH_MODE_DISABLED        0U  /**< @brief Channel disabled.       */
-#define EXT_CH_MODE_RISING_EDGE     1U  /**< @brief Rising edge callback.   */
-#define EXT_CH_MODE_FALLING_EDGE    2U  /**< @brief Falling edge callback.  */
-#define EXT_CH_MODE_BOTH_EDGES      3U  /**< @brief Both edges callback.    */
+#define EXT_CH_MODE_EDGES_MASK   3U /**< @brief Mask of edges field.    */
+#define EXT_CH_MODE_DISABLED     0U /**< @brief Channel disabled.       */
+#define EXT_CH_MODE_RISING_EDGE  1U /**< @brief Rising edge callback.   */
+#define EXT_CH_MODE_FALLING_EDGE 2U /**< @brief Falling edge callback.  */
+#define EXT_CH_MODE_BOTH_EDGES   3U /**< @brief Both edges callback.    */
 
-#define EXT_CH_MODE_AUTOSTART       4U  /**< @brief Channel started
-                                             automatically on driver start. */
+#define EXT_CH_MODE_AUTOSTART    4U     /**< @brief Channel started
+                                         *   automatically on driver start. */
+
 /** @} */
 
 /*===========================================================================*/
@@ -60,10 +61,11 @@
 /**
  * @brief   Driver state machine possible states.
  */
-typedef enum {
-  EXT_UNINIT = 0,                   /**< Not initialized.                   */
-  EXT_STOP = 1,                     /**< Stopped.                           */
-  EXT_ACTIVE = 2                    /**< Active.                            */
+typedef enum
+{
+    EXT_UNINIT = 0, /**< Not initialized.                   */
+    EXT_STOP = 1,   /**< Stopped.                           */
+    EXT_ACTIVE = 2  /**< Active.                            */
 } extstate_t;
 
 /**
@@ -81,6 +83,7 @@ typedef struct EXTDriver EXTDriver;
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Enables an EXT channel.
  *
@@ -89,7 +92,7 @@ typedef struct EXTDriver EXTDriver;
  *
  * @iclass
  */
-#define extChannelEnableI(extp, channel) ext_lld_channel_enable(extp, channel)
+#define extChannelEnableI(extp, channel)        ext_lld_channel_enable(extp, channel)
 
 /**
  * @brief   Disables an EXT channel.
@@ -99,7 +102,7 @@ typedef struct EXTDriver EXTDriver;
  *
  * @iclass
  */
-#define extChannelDisableI(extp, channel) ext_lld_channel_disable(extp, channel)
+#define extChannelDisableI(extp, channel)       ext_lld_channel_disable(extp, channel)
 
 /**
  * @brief   Changes the operation mode of a channel.
@@ -115,10 +118,10 @@ typedef struct EXTDriver EXTDriver;
  *
  * @api
  */
-#define extSetChannelMode(extp, channel, extcp) {                           \
-  osalSysLock();                                                            \
-  extSetChannelModeI(extp, channel, extcp);                                 \
-  osalSysUnlock();                                                          \
+#define extSetChannelMode(extp, channel, extcp) { \
+        osalSysLock();                            \
+        extSetChannelModeI(extp, channel, extcp); \
+        osalSysUnlock();                          \
 }
 
 /** @} */
@@ -130,15 +133,20 @@ typedef struct EXTDriver EXTDriver;
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void extInit(void);
-  void extObjectInit(EXTDriver *extp);
-  void extStart(EXTDriver *extp, const EXTConfig *config);
-  void extStop(EXTDriver *extp);
-  void extChannelEnable(EXTDriver *extp, expchannel_t channel);
-  void extChannelDisable(EXTDriver *extp, expchannel_t channel);
-  void extSetChannelModeI(EXTDriver *extp,
-                          expchannel_t channel,
-                          const EXTChannelConfig *extcp);
+void extInit(void);
+
+void extObjectInit(EXTDriver* extp);
+
+void extStart(EXTDriver* extp, const EXTConfig* config);
+
+void extStop(EXTDriver* extp);
+
+void extChannelEnable(EXTDriver* extp, expchannel_t channel);
+
+void extChannelDisable(EXTDriver* extp, expchannel_t channel);
+
+void extSetChannelModeI(EXTDriver* extp, expchannel_t channel, const EXTChannelConfig* extcp);
+
 #ifdef __cplusplus
 }
 #endif

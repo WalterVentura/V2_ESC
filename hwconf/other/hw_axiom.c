@@ -287,19 +287,19 @@ void hw_setup_adc_channels(void)
     ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 6, ADC_SampleTime_15Cycles);  // 15	IGBT_TEMP3
 
     // ADC2 regular channels
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_1, 1, ADC_SampleTime_15Cycles);  // 1	SENS2
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_11, 2, ADC_SampleTime_15Cycles); // 4	CURR2
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_6, 3, ADC_SampleTime_15Cycles);  // 7	IGBT_TEMP2
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_15, 4, ADC_SampleTime_15Cycles); // 10	Throttle1
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_4, 5, ADC_SampleTime_15Cycles);  // 13	IGBT_TEMP1
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_1, 1, ADC_SampleTime_15Cycles);       // 1	SENS2
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_11, 2, ADC_SampleTime_15Cycles);      // 4	CURR2
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_6, 3, ADC_SampleTime_15Cycles);       // 7	IGBT_TEMP2
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_15, 4, ADC_SampleTime_15Cycles);      // 10	Throttle1
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_4, 5, ADC_SampleTime_15Cycles);       // 13	IGBT_TEMP1
     ADC_RegularChannelConfig(ADC2, ADC_Channel_Vrefint, 6, ADC_SampleTime_15Cycles); // 16	VREFINT
 
     // ADC3 regular channels
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_2, 1, ADC_SampleTime_15Cycles);  // 2	SENS3
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_12, 2, ADC_SampleTime_15Cycles); // 5	CURR3
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 3, ADC_SampleTime_15Cycles);  // 8	PCB_TEMP
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_13, 4, ADC_SampleTime_15Cycles); // 11	VBUS
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 5, ADC_SampleTime_15Cycles);  // 14	UNUSED
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_2, 1, ADC_SampleTime_15Cycles);       // 2	SENS3
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_12, 2, ADC_SampleTime_15Cycles);      // 5	CURR3
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 3, ADC_SampleTime_15Cycles);       // 8	PCB_TEMP
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_13, 4, ADC_SampleTime_15Cycles);      // 11	VBUS
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 5, ADC_SampleTime_15Cycles);       // 14	UNUSED
     ADC_RegularChannelConfig(ADC3, ADC_Channel_Vrefint, 6, ADC_SampleTime_15Cycles); // 17
 
     // Injected channels
@@ -562,7 +562,8 @@ char hw_axiom_configure_FPGA(void)
 {
     // use CCM SRAM for this 2kB decompressor buffer
     __attribute__((section(".ram4"))) static uint8_t __LZO_MMODEL outputBuffer[BITSTREAM_CHUNK_SIZE]
-        = {0};
+        =
+        {0};
 
     int r;
     uint32_t index = 0;

@@ -35,11 +35,11 @@
 // UBOX uses a button to press to GND to make internal 12V regulator circuit to start work.
 // And uses an IO of VESC MCU to read this button state,
 // And another IO to hold internal 12V regulator's enable pin.
-#define UBOX_POWER_EN_ON()           do{palSetPad(GPIOA, 15);}while(0)
-#define UBOX_POWER_EN_OFF()          do{palClearPad(GPIOA, 15);}while(0)
+#define UBOX_POWER_EN_ON()           do {palSetPad(GPIOA, 15);} while(0)
+#define UBOX_POWER_EN_OFF()          do {palClearPad(GPIOA, 15);} while(0)
 
-#define UBOX_POWER_KEY_IO_PULL_LOW() do{palClearPad(GPIOC, 13);}while(0)
-#define UBOX_POWER_KEY_IO_RELEASE()  do{palSetPad(GPIOC, 13);}while(0)
+#define UBOX_POWER_KEY_IO_PULL_LOW() do {palClearPad(GPIOC, 13);} while(0)
+#define UBOX_POWER_KEY_IO_RELEASE()  do {palSetPad(GPIOC, 13);} while(0)
 #define UBOX_QUERY_POWER_KEY_IO()    (palReadPad(GPIOC, 13))
 
 void shutdown_ubox_init(void);
@@ -442,6 +442,7 @@ static THD_FUNCTION(shutdown_ubox_thread, arg)
             switch(conf->shutdown_mode)
             {
                 case SHUTDOWN_MODE_ALWAYS_OFF:
+
                     // When the power button being pushed accidently, the regulator will working
                     // Inactive after 10 seconds, MCU cancels the enable signal, regulator shuts down if button released.
                     m_inactivity_time += dt;

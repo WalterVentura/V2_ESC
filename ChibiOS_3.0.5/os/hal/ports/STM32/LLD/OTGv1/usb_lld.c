@@ -1008,7 +1008,7 @@ void usb_lld_start(USBDriver* usbp)
                                                                 * GINTMSK_ESUSPM */| GINTMSK_SOFM;
         }
 
-        otgp->GINTSTS = 0xFFFFFFFF;      /* Clears all pending IRQs, if any. */
+        otgp->GINTSTS = 0xFFFFFFFF; /* Clears all pending IRQs, if any. */
 
 #if defined(_CHIBIOS_RT_)
 

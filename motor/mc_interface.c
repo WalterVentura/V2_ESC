@@ -940,6 +940,7 @@ void mc_interface_set_handbrake(float current)
     {
         case MOTOR_TYPE_BLDC:
         case MOTOR_TYPE_DC:
+
             // TODO: Not implemented yet, use brake mode for now.
             mcpwm_set_brake_current(current);
             break;
@@ -1841,6 +1842,7 @@ float mc_interface_get_battery_level(float* wh_left)
             break;
 
         case BATTERY_TYPE_LEAD_ACID:
+
             // TODO: This does not really work for lead-acid batteries
             battery_avg_voltage = ((2.1 + 2.36) / 2.0) * (float) (conf->si_battery_cells);
             battery_avg_voltage_left = ((2.1 * (float) (conf->si_battery_cells) + v_in) / 2.0);
@@ -3298,7 +3300,7 @@ static void run_timer_tasks(volatile motor_if_state_t* motor)
 #ifdef HW_HAS_3_SHUNTS
 
     if((motor->m_conf.foc_current_sample_mode != FOC_CURRENT_SAMPLE_MODE_HIGH_CURRENT) &&
-       dc_cal_done)                                                                                      // This won't work when high current sampling is used
+       dc_cal_done) // This won't work when high current sampling is used
     {
         motor->m_motor_current_unbalance = mc_interface_get_abs_motor_current_unbalance();
 

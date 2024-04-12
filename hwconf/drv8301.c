@@ -160,6 +160,7 @@ void drv8301_set_current_amp_gain(int gain)
             break;
 
         default:
+
             // gain not supported
             break;
     }

@@ -533,7 +533,7 @@ float utils_throttle_curve(float val, float curve_acc, float curve_brake, int mo
             ret = powf(val_a, 1.0 - curve);
         }
     }
-    else if(mode == 1)      // Natural
+    else if(mode == 1) // Natural
     {
         if(fabsf(curve) < 1e-10)
         {
@@ -551,7 +551,7 @@ float utils_throttle_curve(float val, float curve_acc, float curve_brake, int mo
             }
         }
     }
-    else if(mode == 2)      // Polynomial
+    else if(mode == 2) // Polynomial
     {
         if(curve >= 0.0)
         {
@@ -562,7 +562,7 @@ float utils_throttle_curve(float val, float curve_acc, float curve_brake, int mo
             ret = val_a / (1.0 - curve * (1.0 - val_a));
         }
     }
-    else     // Linear
+    else // Linear
     {
         ret = val_a;
     }

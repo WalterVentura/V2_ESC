@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 /*
  * Concepts and parts of this file have been contributed by Uladzimir Pylinsky
  * aka barthess.
@@ -288,6 +289,7 @@ static void i2c_lld_serve_event_interrupt(I2CDriver* i2cp)
             break;
 
         case I2C_EV9_MASTER_ADD10:
+
             /* Set second addr byte (10-bit addressing)*/
             dp->DR = (0xFF & (i2cp->addr >> 1));
             break;
@@ -295,7 +297,7 @@ static void i2c_lld_serve_event_interrupt(I2CDriver* i2cp)
         case I2C_EV6_MASTER_REC_MODE_SELECTED:
             dp->CR2 &= ~I2C_CR2_ITEVTEN;
             dmaStreamEnable(i2cp->dmarx);
-            dp->CR2 |= I2C_CR2_LAST;         /* Needed in receiver mode. */
+            dp->CR2 |= I2C_CR2_LAST; /* Needed in receiver mode. */
 
             if(dmaStreamGetTransactionSize(i2cp->dmarx) < 2)
             {
@@ -310,6 +312,7 @@ static void i2c_lld_serve_event_interrupt(I2CDriver* i2cp)
             break;
 
         case I2C_EV8_2_MASTER_BYTE_TRANSMITTED:
+
             /* Catches BTF event after the end of transmission.*/
             (void) dp->DR; /* Clear BTF.*/
 
@@ -421,39 +424,39 @@ static void i2c_lld_serve_error_interrupt(I2CDriver* i2cp, uint16_t sr)
 
     i2cp->errors = I2C_NO_ERROR;
 
-    if(sr & I2C_SR1_BERR)                           /* Bus error.           */
+    if(sr & I2C_SR1_BERR) /* Bus error.           */
     {
         i2cp->errors |= I2C_BUS_ERROR;
     }
 
-    if(sr & I2C_SR1_ARLO)                           /* Arbitration lost.    */
+    if(sr & I2C_SR1_ARLO) /* Arbitration lost.    */
     {
         i2cp->errors |= I2C_ARBITRATION_LOST;
     }
 
-    if(sr & I2C_SR1_AF)                             /* Acknowledge fail.    */
+    if(sr & I2C_SR1_AF) /* Acknowledge fail.    */
     {
         i2cp->i2c->CR2 &= ~I2C_CR2_ITEVTEN;
-        i2cp->i2c->CR1 |= I2C_CR1_STOP;             /* Setting stop bit.    */
+        i2cp->i2c->CR1 |= I2C_CR1_STOP; /* Setting stop bit.    */
         i2cp->errors |= I2C_ACK_FAILURE;
     }
 
-    if(sr & I2C_SR1_OVR)                            /* Overrun.             */
+    if(sr & I2C_SR1_OVR) /* Overrun.             */
     {
         i2cp->errors |= I2C_OVERRUN;
     }
 
-    if(sr & I2C_SR1_TIMEOUT)                        /* SMBus Timeout.       */
+    if(sr & I2C_SR1_TIMEOUT) /* SMBus Timeout.       */
     {
         i2cp->errors |= I2C_TIMEOUT;
     }
 
-    if(sr & I2C_SR1_PECERR)                         /* PEC error.           */
+    if(sr & I2C_SR1_PECERR) /* PEC error.           */
     {
         i2cp->errors |= I2C_PEC_ERROR;
     }
 
-    if(sr & I2C_SR1_SMBALERT)                       /* SMBus alert.         */
+    if(sr & I2C_SR1_SMBALERT) /* SMBus alert.         */
     {
         i2cp->errors |= I2C_SMB_ALERT;
     }

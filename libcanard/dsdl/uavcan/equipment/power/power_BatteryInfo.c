@@ -115,13 +115,13 @@ uint32_t uavcan_equipment_power_BatteryInfo_encode_internal(
     source->state_of_health_pct =
         CANARD_INTERNAL_SATURATE_UNSIGNED(source->state_of_health_pct, 127)
         canardEncodeScalar(msg_buf, offset, 7,
-                           (void*) &source->state_of_health_pct);                // 127
+                           (void*) &source->state_of_health_pct); // 127
     offset += 7;
 
     source->state_of_charge_pct =
         CANARD_INTERNAL_SATURATE_UNSIGNED(source->state_of_charge_pct, 127)
         canardEncodeScalar(msg_buf, offset, 7,
-                           (void*) &source->state_of_charge_pct);                // 127
+                           (void*) &source->state_of_charge_pct); // 127
     offset += 7;
 
     source->state_of_charge_pct_stdev = CANARD_INTERNAL_SATURATE_UNSIGNED(

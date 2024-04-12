@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 /*
  * Concepts and parts of this file have been contributed by Fabio Utzig and
  * Xo Wang.
@@ -562,15 +563,15 @@ void icu_lld_start(ICUDriver* icup)
     else
     {
         /* Driver re-configuration scenario, it must be stopped first.*/
-        icup->tim->CR1 = 0;                 /* Timer disabled.              */
-        icup->tim->CCR[0] = 0;              /* Comparator 1 disabled.       */
-        icup->tim->CCR[1] = 0;              /* Comparator 2 disabled.       */
-        icup->tim->CNT = 0;                 /* Counter reset to zero.       */
+        icup->tim->CR1 = 0;    /* Timer disabled.              */
+        icup->tim->CCR[0] = 0; /* Comparator 1 disabled.       */
+        icup->tim->CCR[1] = 0; /* Comparator 2 disabled.       */
+        icup->tim->CNT = 0;    /* Counter reset to zero.       */
     }
 
     /* Timer configuration.*/
-    icup->tim->SR = 0;                      /* Clear eventual pending IRQs. */
-    icup->tim->DIER = icup->config->dier &  /* DMA-related DIER settings.   */
+    icup->tim->SR = 0;                     /* Clear eventual pending IRQs. */
+    icup->tim->DIER = icup->config->dier & /* DMA-related DIER settings.   */
                       ~STM32_TIM_DIER_IRQ_MASK;
     psc = (icup->clock / icup->config->frequency) - 1;
     osalDbgAssert((psc <= 0xFFFF) &&
@@ -653,9 +654,9 @@ void icu_lld_stop(ICUDriver* icup)
     if(icup->state == ICU_READY)
     {
         /* Clock deactivation.*/
-        icup->tim->CR1 = 0;                 /* Timer disabled.              */
-        icup->tim->DIER = 0;                /* All IRQs disabled.           */
-        icup->tim->SR = 0;                  /* Clear eventual pending IRQs. */
+        icup->tim->CR1 = 0;  /* Timer disabled.              */
+        icup->tim->DIER = 0; /* All IRQs disabled.           */
+        icup->tim->SR = 0;   /* Clear eventual pending IRQs. */
 
 #if STM32_ICU_USE_TIM1
 

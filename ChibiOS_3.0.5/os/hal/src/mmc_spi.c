@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 /*
  * Parts of this file have been contributed by Matthias Blaicher.
  */
@@ -866,9 +867,9 @@ bool mmcSequentialWrite(MMCDriver* mmcp, const uint8_t* buffer)
         return HAL_FAILED;
     }
 
-    spiSend(mmcp->config->spip, sizeof(start), start);  /* Data prologue.   */
+    spiSend(mmcp->config->spip, sizeof(start), start);     /* Data prologue.   */
     spiSend(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer); /* Data.            */
-    spiIgnore(mmcp->config->spip, 2);                   /* CRC ignored.     */
+    spiIgnore(mmcp->config->spip, 2);                      /* CRC ignored.     */
     spiReceive(mmcp->config->spip, 1, b);
 
     if((b[0] & 0x1FU) == 0x05U)

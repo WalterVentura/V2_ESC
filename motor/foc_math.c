@@ -116,6 +116,7 @@ void foc_observer_update(float v_alpha, float v_beta, float i_alpha, float i_bet
 
         case FOC_OBSERVER_MXLEMMING:
         case FOC_OBSERVER_MXLEMMING_LAMBDA_COMP:
+
             // LICENCE NOTE:
             // This function deviates slightly from the BSD 3 clause licence.
             // The work here is entirely original to the MESC FOC project, and not based

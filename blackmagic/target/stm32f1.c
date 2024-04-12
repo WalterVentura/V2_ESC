@@ -258,7 +258,7 @@ static int stm32f1_flash_write(struct target_flash* f, target_addr dest, const v
             DEBUG("stm32f1 flash write: comm error\n");
             return -1;
         }
-    } while (sr & FLASH_SR_BSY);
+    } while(sr & FLASH_SR_BSY);
 
     if(sr & SR_ERROR_MASK)
     {

@@ -20,11 +20,11 @@
 #ifndef __TIMING_H
 #define __TIMING_H
 
-struct platform_timeout {
-	uint32_t time;
+struct platform_timeout
+{
+    uint32_t time;
 };
 
 uint32_t platform_time_ms(void);
 
 #endif /* __TIMING_H */
-

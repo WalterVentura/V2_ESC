@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    templates/nilcore_timer.h
@@ -65,9 +65,9 @@
  *
  * @notapi
  */
-static inline void port_timer_start_alarm(systime_t abstime) {
-
-  (void)abstime;
+static inline void port_timer_start_alarm(systime_t abstime)
+{
+    (void) abstime;
 }
 
 /**
@@ -75,8 +75,8 @@ static inline void port_timer_start_alarm(systime_t abstime) {
  *
  * @notapi
  */
-static inline void port_timer_stop_alarm(void) {
-
+static inline void port_timer_stop_alarm(void)
+{
 }
 
 /**
@@ -86,9 +86,9 @@ static inline void port_timer_stop_alarm(void) {
  *
  * @notapi
  */
-static inline void port_timer_set_alarm(systime_t abstime) {
-
-  (void)abstime;
+static inline void port_timer_set_alarm(systime_t abstime)
+{
+    (void) abstime;
 }
 
 /**
@@ -98,9 +98,9 @@ static inline void port_timer_set_alarm(systime_t abstime) {
  *
  * @notapi
  */
-static inline systime_t port_timer_get_time(void) {
-
-  return (systime_t)0;
+static inline systime_t port_timer_get_time(void)
+{
+    return (systime_t) 0;
 }
 
 /**
@@ -110,9 +110,9 @@ static inline systime_t port_timer_get_time(void) {
  *
  * @notapi
  */
-static inline systime_t port_timer_get_alarm(void) {
-
-  return (systime_t)0;
+static inline systime_t port_timer_get_alarm(void)
+{
+    return (systime_t) 0;
 }
 
 #endif /* _NILCORE_TIMER_H_ */

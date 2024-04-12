@@ -477,7 +477,7 @@ int main(void)
                                    (float) (chVTGetSystemTimeX() - tp->time_last)));
                 tp->time_last = tp->time;
                 tp = chRegNextThread(tp);
-            } while (tp != NULL);
+            } while(tp != NULL);
         }
         else if(strncmp(str, ":mem", 4) == 0)
         {

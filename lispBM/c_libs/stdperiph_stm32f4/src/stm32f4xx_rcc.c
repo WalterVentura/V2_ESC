@@ -333,7 +333,7 @@ ErrorStatus RCC_WaitForHSEStartUp(void)
     FlagStatus hsestatus = RESET;
 
     /* Wait till HSE is ready and if Time out is reached exit */
-    do{
+    do {
         hsestatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
         startupcounter++;
     } while((startupcounter != HSE_STARTUP_TIMEOUT) && (hsestatus == RESET));
@@ -436,11 +436,13 @@ void RCC_LSEConfig(uint8_t RCC_LSE)
     switch(RCC_LSE)
     {
         case RCC_LSE_ON:
+
             /* Set LSEON bit */
             *(__IO uint8_t*) BDCR_ADDRESS = RCC_LSE_ON;
             break;
 
         case RCC_LSE_Bypass:
+
             /* Set LSEBYP and LSEON bits */
             *(__IO uint8_t*) BDCR_ADDRESS = RCC_LSE_Bypass | RCC_LSE_ON;
             break;
@@ -1409,6 +1411,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
 
 #if defined(STM32F446xx)
         case 0x0C: /* PLL R used as system clock  source */
+
             /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLLM) * PLLN
              * SYSCLK = PLL_VCO / PLLR
              */
@@ -2848,15 +2851,15 @@ FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
     /* Get the RCC register index */
     tmp = RCC_FLAG >> 5;
 
-    if(tmp == 1)              /* The flag to check is in CR register */
+    if(tmp == 1) /* The flag to check is in CR register */
     {
         statusreg = RCC->CR;
     }
-    else if(tmp == 2)         /* The flag to check is in BDCR register */
+    else if(tmp == 2) /* The flag to check is in BDCR register */
     {
         statusreg = RCC->BDCR;
     }
-    else                     /* The flag to check is in CSR register */
+    else /* The flag to check is in CSR register */
     {
         statusreg = RCC->CSR;
     }

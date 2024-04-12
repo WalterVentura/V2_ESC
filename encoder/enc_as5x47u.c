@@ -177,6 +177,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                 switch(cfg->state.spi_seq)
                 {
                     case SPI_SEQ_TX_MAG_RX_POS:
+
                         // Receive position, then request position while receiving magnitude
                         AS5x47U_process_pos(cfg, rx_data);
                         cfg->state.spi_seq = SPI_SEQ_TX_POS_RX_MAG;
@@ -185,6 +186,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_POS_RX_MAG:
+
                         // Receive magnitude
                         cfg->state.sensor_diag.serial_magnitude = rx_data;
                         cfg->state.sensor_diag.magnitude = rx_data &
@@ -193,6 +195,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_AGC_RX_POS:
+
                         // Receive position, then request position while receiving AGC
                         AS5x47U_process_pos(cfg, rx_data);
                         cfg->state.spi_seq = SPI_SEQ_TX_POS_RX_AGC;
@@ -201,6 +204,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_POS_RX_AGC:
+
                         // Receive AGC
                         cfg->state.sensor_diag.serial_AGC_value = rx_data;
                         cfg->state.sensor_diag.AGC_value = (uint8_t) rx_data;
@@ -208,6 +212,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_DIAG_RX_POS:
+
                         // Receive position, then request position while requesting diagnostic flags
                         AS5x47U_process_pos(cfg, rx_data);
                         cfg->state.spi_seq = SPI_SEQ_TX_POS_RX_DIAG;
@@ -216,6 +221,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_POS_RX_DIAG:
+
                         // Receive diagnostic flags
                         cfg->state.sensor_diag.serial_diag_flgs = rx_data;
                         cfg->state.sensor_diag.is_broken_hall =
@@ -230,6 +236,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_ERRFL_RX_POS:
+
                         // Receive position, then request pos while receiving error flags
                         AS5x47U_process_pos(cfg, rx_data);
                         cfg->state.spi_seq = SPI_SEQ_TX_POS_RX_ERRFL;
@@ -238,6 +245,7 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_TX_POS_RX_ERRFL:
+
                         // Receive error flags
                         cfg->state.spi_seq = 0;
                         cfg->state.sensor_diag.serial_error_flgs = rx_data;
@@ -251,12 +259,14 @@ void enc_as5x47u_spi_callback(SPIDriver* pspi)
                         break;
 
                     case SPI_SEQ_PREV_ERR:
+
                         // Not sure what was just received, but just requested ERRFL, so ignore rx
                         // data and prepare to receive ERRFL next exchange
                         cfg->state.spi_seq = SPI_SEQ_TX_POS_RX_ERRFL;
                         break;
 
                     default:
+
                         // Something went wrong, just start the sequence over.
                         cfg->state.spi_seq = SPI_SEQ_TX_MAG_RX_POS;
                         break;
@@ -347,24 +357,28 @@ void enc_as5x47u_routine(AS5x47U_config_t* cfg)
     switch(cfg->state.spi_seq)
     {
         case SPI_SEQ_TX_MAG_RX_POS:
+
             // Request magnitude
             AS5x47U_start_spi_exchange_precalc_crc(
                 cfg, AS5x47U_SPI_READ_MAGN_MSG, AS5x47U_SPI_READ_MAGN_CRC);
             break;
 
         case SPI_SEQ_TX_AGC_RX_POS:
+
             // Request AGC
             AS5x47U_start_spi_exchange_precalc_crc(cfg, AS5x47U_SPI_READ_AGC_MSG,
                                                    AS5x47U_SPI_READ_AGC_CRC);
             break;
 
         case SPI_SEQ_TX_DIAG_RX_POS:
+
             // Request diagnostic flags
             AS5x47U_start_spi_exchange_precalc_crc(cfg, AS5x47U_SPI_READ_DIAG_MSG,
                                                    AS5x47U_SPI_READ_DIAG_CRC);
             break;
 
         case SPI_SEQ_TX_ERRFL_RX_POS:
+
             // Request error flags
             AS5x47U_start_spi_exchange_precalc_crc(cfg, AS5x47U_SPI_READ_ERRFL_MSG,
                                                    AS5x47U_SPI_READ_ERRFL_CRC);
@@ -372,6 +386,7 @@ void enc_as5x47u_routine(AS5x47U_config_t* cfg)
 
         default:
         case SPI_SEQ_PREV_ERR:
+
             // There was a problem of some sort, request ERRFL
             AS5x47U_start_spi_exchange_precalc_crc(cfg, AS5x47U_SPI_READ_ERRFL_MSG,
                                                    AS5x47U_SPI_READ_ERRFL_CRC);

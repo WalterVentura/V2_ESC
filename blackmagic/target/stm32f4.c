@@ -560,7 +560,7 @@ static int stm32f4_flash_write(struct target_flash* f, target_addr dest, const v
         }
 
         platform_delay(1); // Don't block thread.
-    } while (sr & FLASH_SR_BSY);
+    } while(sr & FLASH_SR_BSY);
 
     if(sr & SR_ERROR_MASK)
     {
@@ -794,6 +794,7 @@ static bool stm32f4_cmd_option(target* t, int argc, char* argv[])
         /* fall through.*/
         case ID_STM32F74X:
         case ID_STM32F76X:
+
             /* F7 Devices have option bytes at 0x1FFF0000. */
             start = 0x1FFF0000;
             readcount++;

@@ -92,6 +92,7 @@ static bool default_handler(USBDriver* usbp)
             ((uint32_t) usbp->setup[1] << 8U)))
     {
         case (uint32_t) USB_RTYPE_RECIPIENT_DEVICE | ((uint32_t) USB_REQ_GET_STATUS << 8):
+
             /* Just returns the current status word.*/
             usbSetupTransfer(usbp, (uint8_t*) &usbp->status, 2, NULL);
             return true;
@@ -123,6 +124,7 @@ static bool default_handler(USBDriver* usbp)
             return false;
 
         case (uint32_t) USB_RTYPE_RECIPIENT_DEVICE | ((uint32_t) USB_REQ_SET_ADDRESS << 8):
+
             /* The SET_ADDRESS handling can be performed here or postponed after
              * the status packed depending on the USB_SET_ADDRESS_MODE low
              * driver setting.*/
@@ -141,6 +143,7 @@ static bool default_handler(USBDriver* usbp)
             return true;
 
         case (uint32_t) USB_RTYPE_RECIPIENT_DEVICE | ((uint32_t) USB_REQ_GET_DESCRIPTOR << 8):
+
             /* Handling descriptor requests from the host.*/
             dp = usbp->config->get_descriptor_cb(usbp, usbp->setup[3],
                                                  usbp->setup[2],
@@ -158,11 +161,13 @@ static bool default_handler(USBDriver* usbp)
             return true;
 
         case (uint32_t) USB_RTYPE_RECIPIENT_DEVICE | ((uint32_t) USB_REQ_GET_CONFIGURATION << 8):
+
             /* Returning the last selected configuration.*/
             usbSetupTransfer(usbp, &usbp->configuration, 1, NULL);
             return true;
 
         case (uint32_t) USB_RTYPE_RECIPIENT_DEVICE | ((uint32_t) USB_REQ_SET_CONFIGURATION << 8):
+
             /* Handling configuration selection from the host.*/
             usbp->configuration = usbp->setup[2];
 
@@ -181,6 +186,7 @@ static bool default_handler(USBDriver* usbp)
 
         case (uint32_t) USB_RTYPE_RECIPIENT_INTERFACE | ((uint32_t) USB_REQ_GET_STATUS << 8):
         case (uint32_t) USB_RTYPE_RECIPIENT_ENDPOINT | ((uint32_t) USB_REQ_SYNCH_FRAME << 8):
+
             /* Just sending two zero bytes, the application can change the behavior
              * using a hook..*/
 
@@ -198,6 +204,7 @@ static bool default_handler(USBDriver* usbp)
                 switch(usb_lld_get_status_in(usbp, usbp->setup[4] & 0x0FU))
                 {
                     case EP_STATUS_STALLED:
+
                         /*lint -save -e9005 [11.8] Removing const is fine.*/
                         usbSetupTransfer(usbp, (uint8_t*) halted_status, 2, NULL);
 
@@ -205,6 +212,7 @@ static bool default_handler(USBDriver* usbp)
                         return true;
 
                     case EP_STATUS_ACTIVE:
+
                         /*lint -save -e9005 [11.8] Removing const is fine.*/
                         usbSetupTransfer(usbp, (uint8_t*) active_status, 2, NULL);
 
@@ -221,6 +229,7 @@ static bool default_handler(USBDriver* usbp)
                 switch(usb_lld_get_status_out(usbp, usbp->setup[4] & 0x0FU))
                 {
                     case EP_STATUS_STALLED:
+
                         /*lint -save -e9005 [11.8] Removing const is fine.*/
                         usbSetupTransfer(usbp, (uint8_t*) halted_status, 2, NULL);
 
@@ -228,6 +237,7 @@ static bool default_handler(USBDriver* usbp)
                         return true;
 
                     case EP_STATUS_ACTIVE:
+
                         /*lint -save -e9005 [11.8] Removing const is fine.*/
                         usbSetupTransfer(usbp, (uint8_t*) active_status, 2, NULL);
 
@@ -293,6 +303,7 @@ static bool default_handler(USBDriver* usbp)
         case (uint32_t) USB_RTYPE_RECIPIENT_INTERFACE | ((uint32_t) USB_REQ_SET_FEATURE << 8):
         case (uint32_t) USB_RTYPE_RECIPIENT_INTERFACE | ((uint32_t) USB_REQ_GET_INTERFACE << 8):
         case (uint32_t) USB_RTYPE_RECIPIENT_INTERFACE | ((uint32_t) USB_REQ_SET_INTERFACE << 8):
+
         /* All the above requests are not handled here, if you need them then
          * use the hook mechanism and provide handling.*/
         default:
@@ -909,6 +920,7 @@ void _usb_ep0in(USBDriver* usbp, usbep_t ep)
 
         /* Falls through. */
         case USB_EP0_WAITING_TX0:
+
             /* Transmit phase over, receiving the zero sized status packet.*/
             usbp->ep0state = USB_EP0_WAITING_STS;
 #if (USB_EP0_STATUS_STAGE == USB_EP0_STATUS_STAGE_SW)
@@ -935,11 +947,13 @@ void _usb_ep0in(USBDriver* usbp, usbep_t ep)
         case USB_EP0_WAITING_SETUP:
         case USB_EP0_WAITING_STS:
         case USB_EP0_RX:
+
             /* All the above are invalid states in the IN phase.*/
             osalDbgAssert(false, "EP0 state machine error");
 
         /* Falls through. */
         case USB_EP0_ERROR:
+
             /* Error response, the state machine goes into an error state, the low
              * level layer will have to reset it to USB_EP0_WAITING_SETUP after
              * receiving a SETUP packet.*/
@@ -971,6 +985,7 @@ void _usb_ep0out(USBDriver* usbp, usbep_t ep)
     switch(usbp->ep0state)
     {
         case USB_EP0_RX:
+
             /* Receive phase over, sending the zero sized status packet.*/
             usbp->ep0state = USB_EP0_SENDING_STS;
 #if (USB_EP0_STATUS_STAGE == USB_EP0_STATUS_STAGE_SW)
@@ -984,6 +999,7 @@ void _usb_ep0out(USBDriver* usbp, usbep_t ep)
             return;
 
         case USB_EP0_WAITING_STS:
+
             /* Status packet received, it must be zero sized, invoking the callback
              * if defined.*/
 #if (USB_EP0_STATUS_STAGE == USB_EP0_STATUS_STAGE_SW)
@@ -1007,11 +1023,13 @@ void _usb_ep0out(USBDriver* usbp, usbep_t ep)
         case USB_EP0_TX:
         case USB_EP0_WAITING_TX0:
         case USB_EP0_SENDING_STS:
+
             /* All the above are invalid states in the IN phase.*/
             osalDbgAssert(false, "EP0 state machine error");
 
         /* Falls through. */
         case USB_EP0_ERROR:
+
             /* Error response, the state machine goes into an error state, the low
              * level layer will have to reset it to USB_EP0_WAITING_SETUP after
              * receiving a SETUP packet.*/

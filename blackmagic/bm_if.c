@@ -88,7 +88,7 @@ static struct target_controller gdb_controller =
 static void display_target(int i, target* t, void* context)
 {
     (void) context;
-    commands_printf("%2d   %c  %s", i, target_attached(t) ? '*':' ', target_driver_name(t));
+    commands_printf("%2d   %c  %s", i, target_attached(t) ? '*' : ' ', target_driver_name(t));
 }
 
 static int idcode_to_device(uint32_t idcode)
@@ -99,7 +99,7 @@ static int idcode_to_device(uint32_t idcode)
     {
         case 0x413:
             ret = 1;
-            break;              // STM32F40x
+            break; // STM32F40x
 
         case 0x001D: /* nRF51822 (rev 1) QFAA CA/C0 */
         case 0x001E: /* nRF51422 (rev 1) QFAA CA */
@@ -170,23 +170,23 @@ static int idcode_to_device(uint32_t idcode)
 
         case 0x422:
             ret = 9;
-            break;              // STM32F30x
+            break; // STM32F30x
 
         case 0x415:
             ret = 10;
-            break;               // STM32L47x
+            break; // STM32L47x
 
         case 0x468:
             ret = 11;
-            break;               // STM32G43
+            break; // STM32G43
 
         case 0x469:
             ret = 12;
-            break;               // STM32G47
+            break; // STM32G47
 
         case 0x479:
             ret = 13;
-            break;               // STM32G49
+            break; // STM32G49
 
         default:
             ret = -2;

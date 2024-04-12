@@ -1829,16 +1829,19 @@ extern unsigned char _HShift;
 #elif (LZO_CC_GNUC >= 0x030400ul) && !(LZO_CC_PCC_GNUC) && (LZO_ARCH_AMD64 || LZO_ARCH_I386)
 #  define __lzo_struct_packed(s)       struct s {
 #  define __lzo_struct_packed_end()    } __attribute__((__gcc_struct__, __packed__));
+
 #  define __lzo_struct_packed_ma_end() } __lzo_may_alias __attribute__((__gcc_struct__, \
                                                                         __packed__));
 #elif (LZO_CC_ARMCC || LZO_CC_CLANG || LZO_CC_GNUC || LZO_CC_INTELC_GNUC || LZO_CC_LLVM || \
        LZO_CC_PATHSCALE || (LZO_CC_PGI >= 0x0d0a00ul) || (LZO_CC_SUNPROC >= 0x5100))
 #  define __lzo_struct_packed(s)       struct s {
 #  define __lzo_struct_packed_end()    } __attribute__((__packed__));
+
 #  define __lzo_struct_packed_ma_end() } __lzo_may_alias __attribute__((__packed__));
 #elif (LZO_CC_IBMC >= 700)
 #  define __lzo_struct_packed(s)       __lzo_gnuc_extension__ struct s {
 #  define __lzo_struct_packed_end()    } __attribute__((__packed__));
+
 #  define __lzo_struct_packed_ma_end() } __lzo_may_alias __attribute__((__packed__));
 #elif (LZO_CC_INTELC_MSC) || (LZO_CC_MSC && (_MSC_VER >= 1300))
 #  define __lzo_struct_packed(s)       __pragma(pack(push,1)) struct s {
@@ -1846,6 +1849,7 @@ extern unsigned char _HShift;
 #elif (LZO_CC_WATCOMC && (__WATCOMC__ >= 900))
 #  define __lzo_struct_packed(s)       _Packed struct s {
 #  define __lzo_struct_packed_end()    };
+
 #endif
 #endif
 #if defined(__lzo_struct_packed) && !defined(__lzo_struct_packed_ma)
@@ -1884,10 +1888,13 @@ extern unsigned char _HShift;
     LZO_CC_LLVM || LZO_CC_PATHSCALE)
 #  define __lzo_struct_align16(s)    struct s {
 #  define __lzo_struct_align16_end() } __attribute__((__aligned__(16)));
+
 #  define __lzo_struct_align32(s)    struct s {
 #  define __lzo_struct_align32_end() } __attribute__((__aligned__(32)));
+
 #  define __lzo_struct_align64(s)    struct s {
 #  define __lzo_struct_align64_end() } __attribute__((__aligned__(64)));
+
 #endif
 #endif
 #if !defined(__lzo_union_um)
@@ -2076,10 +2083,10 @@ extern unsigned char _HShift;
 #endif
 #if !defined(LZO_COMPILE_TIME_ASSERT)
 #  if (LZO_CC_AZTECC)
-#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME(lzo_cta_t__)[1 - !(e)];}
+#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME (lzo_cta_t__)[1 - !(e)];}
 #  elif (LZO_CC_CLANG && (LZO_CC_CLANG >= 0x030000ul))
-#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME(lzo_cta_t__)[1 -     \
-                                                                                       2*!(e)] \
+#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME (lzo_cta_t__)[1 -     \
+                                                                                        2*!(e)] \
                                                __attribute__((__unused__));}
 
 #  elif (LZO_CC_DMC || LZO_CC_PACIFICC || LZO_CC_SYMANTECC || LZO_CC_ZORTECHC)
@@ -2093,8 +2100,8 @@ extern unsigned char _HShift;
                                                                                    !!(e)} \
                                                __attribute__((__unused__));}
 #  elif (LZO_CC_GNUC >= 0x040700ul)
-#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME(lzo_cta_t__)[1 -     \
-                                                                                       2*!(e)] \
+#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME (lzo_cta_t__)[1 -     \
+                                                                                        2*!(e)] \
                                                __attribute__((__unused__));}
 
 #  elif (LZO_CC_MSC && (_MSC_VER < 900))
@@ -2107,7 +2114,8 @@ extern unsigned char _HShift;
     case !(e):                                                  \
         break;
 #  else
-#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME(lzo_cta_t__)[1 - 2*!(e)];}
+#    define LZO_COMPILE_TIME_ASSERT(e)        {typedef int __LZO_CTA_NAME (lzo_cta_t__)[1 - 2*!(e)]; \
+}
 #  endif
 #endif
 #if (LZO_LANG_ASSEMBLER)
@@ -3982,7 +3990,7 @@ LZO_COMPILE_TIME_ASSERT_HEADER(sizeof(*(lzo_memops_TU8p) 0) == 8)
     lzo_uint n__n = (nn);                                                                         \
     while((void) 0, n__n >= 8) { LZO_MEMOPS_COPY8(d__n, s__n); d__n += 8; s__n += 8; n__n -= 8; } \
     if((void) 0, n__n >= 4) { LZO_MEMOPS_COPY4(d__n, s__n); d__n += 4; s__n += 4; n__n -= 4; }    \
-    if((void) 0, n__n > 0) do { *d__n++ = *s__n++; } while (--n__n > 0);                          \
+    if((void) 0, n__n > 0) do { *d__n++ = *s__n++; } while(--n__n > 0);                           \
     LZO_BLOCK_END
 
 __lzo_static_forceinline lzo_uint16_t lzo_memops_get_le16(const lzo_voidp ss)
@@ -4472,19 +4480,19 @@ lzo_adler32(lzo_uint32_t adler, const lzo_bytep buf, lzo_uint len)
 
         if(k >= 16)
         {
-            do{
+            do {
                 LZO_DO16(buf, 0);
                 buf += 16;
                 k -= 16;
-            } while (k >= 16);
+            } while(k >= 16);
         }
 
         if(k != 0)
         {
-            do{
+            do {
                 s1 += *buf++;
                 s2 += s1;
-            } while (--k > 0);
+            } while(--k > 0);
         }
 
         s1 %= LZO_BASE;
@@ -4529,7 +4537,7 @@ LZOLIB_PUBLIC(int, lzo_hmemcmp) (const lzo_hvoid_p s1, const lzo_hvoid_p s2, lzo
 
     if __lzo_likely(len > 0)
 
-    do{
+    do {
         int d = *p1 - *p2;
 
         if(d != 0)
@@ -4539,7 +4547,9 @@ LZOLIB_PUBLIC(int, lzo_hmemcmp) (const lzo_hvoid_p s1, const lzo_hvoid_p s2, lzo
 
         p1++;
         p2++;
-    } while __lzo_likely(--len > 0);
+    }
+
+    while __lzo_likely(--len > 0);
 
     return 0;
 #else
@@ -4557,9 +4567,9 @@ LZOLIB_PUBLIC(lzo_hvoid_p, lzo_hmemcpy) (lzo_hvoid_p dest, const lzo_hvoid_p src
         return dest;
     }
 
-    do{
+    do {
         *p1++ = *p2++;
-    }while __lzo_likely(--len > 0);
+    } while __lzo_likely(--len > 0);
 
     return dest;
 #else
@@ -4579,18 +4589,18 @@ LZOLIB_PUBLIC(lzo_hvoid_p, lzo_hmemmove) (lzo_hvoid_p dest, const lzo_hvoid_p sr
 
     if(p1 < p2)
     {
-        do{
+        do {
             *p1++ = *p2++;
-        }while __lzo_likely(--len > 0);
+        } while __lzo_likely(--len > 0);
     }
     else
     {
         p1 += len;
         p2 += len;
 
-        do{
+        do {
             *--p1 = *--p2;
-        }while __lzo_likely(--len > 0);
+        } while __lzo_likely(--len > 0);
     }
 
     return dest;
@@ -4606,9 +4616,11 @@ LZOLIB_PUBLIC(lzo_hvoid_p, lzo_hmemset) (lzo_hvoid_p s, int cc, lzo_hsize_t len)
 
     if __lzo_likely(len > 0)
 
-    do{
+    do {
         *p++ = c;
-    }while __lzo_likely(--len > 0);
+    }
+
+    while __lzo_likely(--len > 0);
 
     return s;
 #else
@@ -5284,7 +5296,7 @@ next:
                     {
                         do {
                             *op++ = *ii++;
-                        } while (--t > 0);
+                        } while(--t > 0);
                     }
 #endif
                 }
@@ -5328,14 +5340,14 @@ next:
                         op += 16;
                         ii += 16;
                         t -= 16;
-                    } while (t >= 16);
+                    } while(t >= 16);
 
                     if(t > 0)
 #endif
                     {
                         do {
                             *op++ = *ii++;
-                        } while (--t > 0);
+                        } while(--t > 0);
                     }
                 }
             }
@@ -5354,7 +5366,7 @@ next:
 
                     if __lzo_unlikely(ip + m_len >= ip_end)
                     goto m_len_done;
-                } while (v == 0);
+                } while(v == 0);
             }
 
 #if (LZO_ABI_BIG_ENDIAN) && defined(lzo_bitops_ctlz64)
@@ -5363,10 +5375,10 @@ next:
 
             if((v >> (64 - CHAR_BIT)) == 0)
             {
-                do{
+                do {
                     v <<= CHAR_BIT;
                     m_len += 1;
-                } while ((v >> (64 - CHAR_BIT)) == 0);
+                } while((v >> (64 - CHAR_BIT)) == 0);
             }
 
 #elif (LZO_ABI_LITTLE_ENDIAN) && defined(lzo_bitops_cttz64)
@@ -5375,19 +5387,19 @@ next:
 
             if((v & UCHAR_MAX) == 0)
             {
-                do{
+                do {
                     v >>= CHAR_BIT;
                     m_len += 1;
-                } while ((v & UCHAR_MAX) == 0);
+                } while((v & UCHAR_MAX) == 0);
             }
 
 #else
 
             if(ip[m_len] == m_pos[m_len])
             {
-                do{
+                do {
                     m_len += 1;
-                } while (ip[m_len] == m_pos[m_len]);
+                } while(ip[m_len] == m_pos[m_len]);
             }
 
 #endif
@@ -5411,7 +5423,7 @@ next:
 
                     if __lzo_unlikely(ip + m_len >= ip_end)
                     goto m_len_done;
-                } while (v == 0);
+                } while(v == 0);
             }
 
 #if (LZO_ABI_BIG_ENDIAN) && defined(lzo_bitops_ctlz32)
@@ -5420,10 +5432,10 @@ next:
 
             if((v >> (32 - CHAR_BIT)) == 0)
             {
-                do{
+                do {
                     v <<= CHAR_BIT;
                     m_len += 1;
-                } while ((v >> (32 - CHAR_BIT)) == 0);
+                } while((v >> (32 - CHAR_BIT)) == 0);
             }
 
 #elif (LZO_ABI_LITTLE_ENDIAN) && defined(lzo_bitops_cttz32)
@@ -5432,19 +5444,19 @@ next:
 
             if((v & UCHAR_MAX) == 0)
             {
-                do{
+                do {
                     v >>= CHAR_BIT;
                     m_len += 1;
-                } while ((v & UCHAR_MAX) == 0);
+                } while((v & UCHAR_MAX) == 0);
             }
 
 #else
 
             if(ip[m_len] == m_pos[m_len])
             {
-                do{
+                do {
                     m_len += 1;
-                } while (ip[m_len] == m_pos[m_len]);
+                } while(ip[m_len] == m_pos[m_len]);
             }
 
 #endif
@@ -5506,7 +5518,7 @@ next:
 
                     if __lzo_unlikely(ip + m_len >= ip_end)
                     goto m_len_done;
-                } while (ip[m_len] == m_pos[m_len]);
+                } while(ip[m_len] == m_pos[m_len]);
             }
 
 #endif
@@ -5853,9 +5865,9 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
         NEED_OP(t);
         NEED_IP(t + 3);
 
-        do{
+        do {
             *op++ = *ip++;
-        } while (--t > 0);
+        } while(--t > 0);
 
         goto first_literal_run;
     }
@@ -5891,12 +5903,12 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
 
         if(t >= 8)
         {
-            do{
+            do {
                 UA_COPY8(op, ip);
                 op += 8;
                 ip += 8;
                 t -= 8;
-            } while (t >= 8);
+            } while(t >= 8);
         }
 
         if(t >= 4)
@@ -5941,20 +5953,20 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
                     op += 4;
                     ip += 4;
                     t -= 4;
-                } while (t >= 4);
+                } while(t >= 4);
 
                 if(t > 0)
                 {
-                    do{
+                    do {
                         *op++ = *ip++;
-                    } while (--t > 0);
+                    } while(--t > 0);
                 }
             }
             else
             {
-                do{
+                do {
                     *op++ = *ip++;
-                } while (--t > 0);
+                } while(--t > 0);
             }
         }
 
@@ -5970,9 +5982,9 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
             *op++ = *ip++;
             *op++ = *ip++;
 
-            do{
+            do {
                 *op++ = *ip++;
-            } while (--t > 0);
+            } while(--t > 0);
         }
 #endif
 
@@ -6230,12 +6242,12 @@ match:
 
                 if(t >= 8)
                 {
-                    do{
+                    do {
                         UA_COPY8(op, m_pos);
                         op += 8;
                         m_pos += 8;
                         t -= 8;
-                    } while (t >= 8);
+                    } while(t >= 8);
                 }
 
                 if(t >= 4)
@@ -6283,13 +6295,13 @@ match:
                     op += 4;
                     m_pos += 4;
                     t -= 4;
-                } while (t >= 4);
+                } while(t >= 4);
 
                 if(t > 0)
                 {
-                    do{
+                    do {
                         *op++ = *m_pos++;
-                    } while (--t > 0);
+                    } while(--t > 0);
                 }
             }
             else
@@ -6299,9 +6311,9 @@ copy_match:
                 *op++ = *m_pos++;
                 *op++ = *m_pos++;
 
-                do{
+                do {
                     *op++ = *m_pos++;
-                } while (--t > 0);
+                } while(--t > 0);
             }
 
 #endif
@@ -6325,9 +6337,9 @@ match_next:
             NEED_IP(t + 3);
 #if 0
 
-            do{
+            do {
                 *op++ = *ip++;
-            } while (--t > 0);
+            } while(--t > 0);
 
 #else
             *op++ = *ip++;
@@ -6552,9 +6564,9 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
         NEED_OP(t);
         NEED_IP(t + 3);
 
-        do{
+        do {
             *op++ = *ip++;
-        } while (--t > 0);
+        } while(--t > 0);
 
         goto first_literal_run;
     }
@@ -6590,12 +6602,12 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
 
         if(t >= 8)
         {
-            do{
+            do {
                 UA_COPY8(op, ip);
                 op += 8;
                 ip += 8;
                 t -= 8;
-            } while (t >= 8);
+            } while(t >= 8);
         }
 
         if(t >= 4)
@@ -6640,20 +6652,20 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
                     op += 4;
                     ip += 4;
                     t -= 4;
-                } while (t >= 4);
+                } while(t >= 4);
 
                 if(t > 0)
                 {
-                    do{
+                    do {
                         *op++ = *ip++;
-                    } while (--t > 0);
+                    } while(--t > 0);
                 }
             }
             else
             {
-                do{
+                do {
                     *op++ = *ip++;
-                } while (--t > 0);
+                } while(--t > 0);
             }
         }
 
@@ -6669,9 +6681,9 @@ DO_DECOMPRESS(const lzo_bytep in, lzo_uint in_len,
             *op++ = *ip++;
             *op++ = *ip++;
 
-            do{
+            do {
                 *op++ = *ip++;
-            } while (--t > 0);
+            } while(--t > 0);
         }
 #endif
 
@@ -6929,12 +6941,12 @@ match:
 
                 if(t >= 8)
                 {
-                    do{
+                    do {
                         UA_COPY8(op, m_pos);
                         op += 8;
                         m_pos += 8;
                         t -= 8;
-                    } while (t >= 8);
+                    } while(t >= 8);
                 }
 
                 if(t >= 4)
@@ -6982,13 +6994,13 @@ match:
                     op += 4;
                     m_pos += 4;
                     t -= 4;
-                } while (t >= 4);
+                } while(t >= 4);
 
                 if(t > 0)
                 {
-                    do{
+                    do {
                         *op++ = *m_pos++;
-                    } while (--t > 0);
+                    } while(--t > 0);
                 }
             }
             else
@@ -6998,9 +7010,9 @@ copy_match:
                 *op++ = *m_pos++;
                 *op++ = *m_pos++;
 
-                do{
+                do {
                     *op++ = *m_pos++;
-                } while (--t > 0);
+                } while(--t > 0);
             }
 
 #endif
@@ -7024,9 +7036,9 @@ match_next:
             NEED_IP(t + 3);
 #if 0
 
-            do{
+            do {
                 *op++ = *ip++;
-            } while (--t > 0);
+            } while(--t > 0);
 
 #else
             *op++ = *ip++;

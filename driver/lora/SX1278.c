@@ -116,7 +116,7 @@ void SX1278_config(SX1278_t* module)
         uint8_t tmp;
         SX1278_SPIWrite(LR_RegModemConfig1,
                         ((SX1278_LoRaBandwidth[module->LoRa_BW] << 4) +
-                         (SX1278_CodingRate[module->LoRa_CR] << 1) + 0x01));  // Implicit Enable CRC Enable(0x02) & Error Coding rate 4/5(0x01), 4/6(0x02), 4/7(0x03), 4/8(0x04)
+                         (SX1278_CodingRate[module->LoRa_CR] << 1) + 0x01)); // Implicit Enable CRC Enable(0x02) & Error Coding rate 4/5(0x01), 4/6(0x02), 4/7(0x03), 4/8(0x04)
 
         SX1278_SPIWrite(LR_RegModemConfig2,
                         ((SX1278_SpreadFactor[module->LoRa_SF] << 4) +
@@ -128,15 +128,15 @@ void SX1278_config(SX1278_t* module)
         SX1278_SPIWrite(0x31, tmp);
         SX1278_SPIWrite(0x37, 0x0C);
     }
-    else     // ???
+    else // ???
     {
         SX1278_SPIWrite(LR_RegModemConfig1,
                         ((SX1278_LoRaBandwidth[module->LoRa_BW] << 4) +
-                         (SX1278_CodingRate[module->LoRa_CR] << 1) + 0x00));  // Explicit Enable CRC Enable(0x02) & Error Coding rate 4/5(0x01), 4/6(0x02), 4/7(0x03), 4/8(0x04)
+                         (SX1278_CodingRate[module->LoRa_CR] << 1) + 0x00)); // Explicit Enable CRC Enable(0x02) & Error Coding rate 4/5(0x01), 4/6(0x02), 4/7(0x03), 4/8(0x04)
 
         SX1278_SPIWrite(LR_RegModemConfig2,
                         ((SX1278_SpreadFactor[module->LoRa_SF] << 4) +
-                         (SX1278_CRC_Sum[module->LoRa_CRC_sum] << 2) + 0x00));  // SFactor &  LNA gain set by the internal AGC loop
+                         (SX1278_CRC_Sum[module->LoRa_CRC_sum] << 2) + 0x00)); // SFactor &  LNA gain set by the internal AGC loop
     }
 
     SX1278_SPIWrite(LR_RegModemConfig3, 0x04);   // OK
@@ -190,15 +190,15 @@ int SX1278_LoRaEntryRx(SX1278_t* module, uint8_t length, uint32_t timeout)
 
     SX1278_config(module); // Setting base parameter
     SX1278_disableInvertIQ();
-    SX1278_SPIWrite(REG_LR_PADAC, 0x84);    // Normal and RX
-    SX1278_SPIWrite(LR_RegHopPeriod, 0xFF); // No FHSS
+    SX1278_SPIWrite(REG_LR_PADAC, 0x84);       // Normal and RX
+    SX1278_SPIWrite(LR_RegHopPeriod, 0xFF);    // No FHSS
     SX1278_SPIWrite(REG_LR_DIOMAPPING1, 0x01); // DIO=00,DIO1=00,DIO2=00, DIO3=01
     SX1278_SPIWrite(LR_RegIrqFlagsMask, 0x3F); // Open RxDone interrupt & Timeout
     SX1278_clearLoRaIrq();
     SX1278_SPIWrite(LR_RegPayloadLength, length); // Payload Length 21byte(this register must difine when the data long of one byte in SF is 6)
-    addr = SX1278_SPIRead(LR_RegFifoRxBaseAddr); // Read RxBaseAddr
-    SX1278_SPIWrite(LR_RegFifoAddrPtr, addr);    // RxBaseAddr->FiFoAddrPtr
-    SX1278_SPIWrite(LR_RegOpMode, 0x8d);         // Mode//Low Frequency Mode
+    addr = SX1278_SPIRead(LR_RegFifoRxBaseAddr);  // Read RxBaseAddr
+    SX1278_SPIWrite(LR_RegFifoAddrPtr, addr);     // RxBaseAddr->FiFoAddrPtr
+    SX1278_SPIWrite(LR_RegOpMode, 0x8d);          // Mode//Low Frequency Mode
     module->readBytes = 0;
 
     while(1)

@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    serial.h
@@ -35,11 +35,11 @@
  * @name    Serial status flags
  * @{
  */
-#define SD_PARITY_ERROR         (eventflags_t)32    /**< @brief Parity.     */
-#define SD_FRAMING_ERROR        (eventflags_t)64    /**< @brief Framing.    */
-#define SD_OVERRUN_ERROR        (eventflags_t)128   /**< @brief Overflow.   */
-#define SD_NOISE_ERROR          (eventflags_t)256   /**< @brief Line noise. */
-#define SD_BREAK_DETECTED       (eventflags_t)512   /**< @brief LIN Break.  */
+#define SD_PARITY_ERROR   (eventflags_t) 32  /**< @brief Parity.     */
+#define SD_FRAMING_ERROR  (eventflags_t) 64  /**< @brief Framing.    */
+#define SD_OVERRUN_ERROR  (eventflags_t) 128 /**< @brief Overflow.   */
+#define SD_NOISE_ERROR    (eventflags_t) 256 /**< @brief Line noise. */
+#define SD_BREAK_DETECTED (eventflags_t) 512 /**< @brief LIN Break.  */
 /** @} */
 
 /*===========================================================================*/
@@ -50,13 +50,14 @@
  * @name    Serial configuration options
  * @{
  */
+
 /**
  * @brief   Default bit rate.
  * @details Configuration parameter, this is the baud rate selected for the
  *          default configuration.
  */
 #if !defined(SERIAL_DEFAULT_BITRATE) || defined(__DOXYGEN__)
-#define SERIAL_DEFAULT_BITRATE      38400
+#define SERIAL_DEFAULT_BITRATE 38400
 #endif
 
 /**
@@ -67,8 +68,9 @@
  *          buffers.
  */
 #if !defined(SERIAL_BUFFERS_SIZE) || defined(__DOXYGEN__)
-#define SERIAL_BUFFERS_SIZE         16
+#define SERIAL_BUFFERS_SIZE    16
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -82,10 +84,11 @@
 /**
  * @brief Driver state machine possible states.
  */
-typedef enum {
-  SD_UNINIT = 0,                    /**< Not initialized.                   */
-  SD_STOP = 1,                      /**< Stopped.                           */
-  SD_READY = 2                      /**< Ready.                             */
+typedef enum
+{
+    SD_UNINIT = 0, /**< Not initialized.                   */
+    SD_STOP = 1,   /**< Stopped.                           */
+    SD_READY = 2   /**< Ready.                             */
 } sdstate_t;
 
 /**
@@ -98,16 +101,17 @@ typedef struct SerialDriver SerialDriver;
 /**
  * @brief   @p SerialDriver specific methods.
  */
-#define _serial_driver_methods                                              \
-  _base_asynchronous_channel_methods
+#define _serial_driver_methods \
+    _base_asynchronous_channel_methods
 
 /**
  * @extends BaseAsynchronousChannelVMT
  *
  * @brief   @p SerialDriver virtual methods table.
  */
-struct SerialDriverVMT {
-  _serial_driver_methods
+struct SerialDriverVMT
+{
+    _serial_driver_methods
 };
 
 /**
@@ -117,10 +121,11 @@ struct SerialDriverVMT {
  * @details This class extends @p BaseAsynchronousChannel by adding physical
  *          I/O queues.
  */
-struct SerialDriver {
-  /** @brief Virtual Methods Table.*/
-  const struct SerialDriverVMT *vmt;
-  _serial_driver_data
+struct SerialDriver
+{
+    /** @brief Virtual Methods Table.*/
+    const struct SerialDriverVMT* vmt;
+    _serial_driver_data
 };
 
 /*===========================================================================*/
@@ -131,6 +136,7 @@ struct SerialDriver {
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Direct write to a @p SerialDriver.
  * @note    This function bypasses the indirect access to the channel and
@@ -141,7 +147,7 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdPut(sdp, b) oqPut(&(sdp)->oqueue, b)
+#define sdPut(sdp, b)           oqPut(&(sdp)->oqueue, b)
 
 /**
  * @brief   Direct write to a @p SerialDriver with timeout specification.
@@ -165,7 +171,7 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdGet(sdp) iqGet(&(sdp)->iqueue)
+#define sdGet(sdp)              iqGet(&(sdp)->iqueue)
 
 /**
  * @brief   Direct read from a @p SerialDriver with timeout specification.
@@ -177,7 +183,7 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdGetTimeout(sdp, t) iqGetTimeout(&(sdp)->iqueue, t)
+#define sdGetTimeout(sdp, t)    iqGetTimeout(&(sdp)->iqueue, t)
 
 /**
  * @brief   Direct blocking write to a @p SerialDriver.
@@ -189,8 +195,8 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdWrite(sdp, b, n)                                                  \
-  oqWriteTimeout(&(sdp)->oqueue, b, n, TIME_INFINITE)
+#define sdWrite(sdp, b, n) \
+    oqWriteTimeout(&(sdp)->oqueue, b, n, TIME_INFINITE)
 
 /**
  * @brief   Direct blocking write to a @p SerialDriver with timeout
@@ -203,8 +209,8 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdWriteTimeout(sdp, b, n, t)                                        \
-  oqWriteTimeout(&(sdp)->oqueue, b, n, t)
+#define sdWriteTimeout(sdp, b, n, t) \
+    oqWriteTimeout(&(sdp)->oqueue, b, n, t)
 
 /**
  * @brief   Direct non-blocking write to a @p SerialDriver.
@@ -216,8 +222,8 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdAsynchronousWrite(sdp, b, n)                                      \
-  oqWriteTimeout(&(sdp)->oqueue, b, n, TIME_IMMEDIATE)
+#define sdAsynchronousWrite(sdp, b, n) \
+    oqWriteTimeout(&(sdp)->oqueue, b, n, TIME_IMMEDIATE)
 
 /**
  * @brief   Direct blocking read from a @p SerialDriver.
@@ -229,8 +235,8 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdRead(sdp, b, n)                                                   \
-  iqReadTimeout(&(sdp)->iqueue, b, n, TIME_INFINITE)
+#define sdRead(sdp, b, n) \
+    iqReadTimeout(&(sdp)->iqueue, b, n, TIME_INFINITE)
 
 /**
  * @brief   Direct blocking read from a @p SerialDriver with timeout
@@ -243,8 +249,8 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdReadTimeout(sdp, b, n, t)                                         \
-  iqReadTimeout(&(sdp)->iqueue, b, n, t)
+#define sdReadTimeout(sdp, b, n, t) \
+    iqReadTimeout(&(sdp)->iqueue, b, n, t)
 
 /**
  * @brief   Direct non-blocking read from a @p SerialDriver.
@@ -256,8 +262,9 @@ struct SerialDriver {
  *
  * @api
  */
-#define sdAsynchronousRead(sdp, b, n)                                       \
-  iqReadTimeout(&(sdp)->iqueue, b, n, TIME_IMMEDIATE)
+#define sdAsynchronousRead(sdp, b, n) \
+    iqReadTimeout(&(sdp)->iqueue, b, n, TIME_IMMEDIATE)
+
 /** @} */
 
 /*===========================================================================*/
@@ -267,14 +274,22 @@ struct SerialDriver {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void sdInit(void);
-  void sdObjectInit(SerialDriver *sdp, qnotify_t inotify, qnotify_t onotify);
-  void sdStart(SerialDriver *sdp, const SerialConfig *config);
-  void sdStop(SerialDriver *sdp);
-  void sdIncomingDataI(SerialDriver *sdp, uint8_t b);
-  msg_t sdRequestDataI(SerialDriver *sdp);
-  bool sdPutWouldBlock(SerialDriver *sdp);
-  bool sdGetWouldBlock(SerialDriver *sdp);
+void sdInit(void);
+
+void sdObjectInit(SerialDriver* sdp, qnotify_t inotify, qnotify_t onotify);
+
+void sdStart(SerialDriver* sdp, const SerialConfig* config);
+
+void sdStop(SerialDriver* sdp);
+
+void sdIncomingDataI(SerialDriver* sdp, uint8_t b);
+
+msg_t sdRequestDataI(SerialDriver* sdp);
+
+bool sdPutWouldBlock(SerialDriver* sdp);
+
+bool sdGetWouldBlock(SerialDriver* sdp);
+
 #ifdef __cplusplus
 }
 #endif

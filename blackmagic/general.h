@@ -35,14 +35,14 @@
 
 #ifndef DEBUG
 #include <stdio.h>
-#define DEBUG	printf
+#define DEBUG printf
 #endif
 
 #define ALIGN(x, n) (((x) + (n) - 1) & ~((n) - 1))
 #undef MIN
-#define MIN(x, y)  (((x) < (y)) ? (x) : (y))
+#define MIN(x, y)   (((x) < (y)) ? (x) : (y))
 #undef MAX
-#define MAX(x, y)  (((x) > (y)) ? (x) : (y))
+#define MAX(x, y)   (((x) > (y)) ? (x) : (y))
 
 #ifdef _WIN32
 #  ifdef _WIN64
@@ -51,8 +51,7 @@
 #    define PRI_SIZET PRIu32
 #  endif
 #else
-#  define PRI_SIZET "zu"
+#  define PRI_SIZET   "zu"
 #endif
 
 #endif
-

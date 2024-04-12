@@ -92,8 +92,8 @@ const stm32_dma_stream_t _stm32_dma_streams[STM32_DMA_STREAMS] =
  */
 typedef struct
 {
-    stm32_dmaisr_t dma_func;            /**< @brief DMA callback function.  */
-    void*          dma_param;           /**< @brief DMA callback parameter. */
+    stm32_dmaisr_t dma_func;  /**< @brief DMA callback function.  */
+    void*          dma_param; /**< @brief DMA callback parameter. */
 } dma_isr_redir_t;
 
 /**

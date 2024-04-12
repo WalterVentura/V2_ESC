@@ -69,7 +69,7 @@ static void hal_lld_backup_domain_init(void)
     RCC->CSR |= RCC_CSR_LSEON;
 
     while((RCC->CSR & RCC_CSR_LSERDY) == 0)
-        ;                                 /* Waits until LSE is stable.   */
+        ; /* Waits until LSE is stable.   */
 
 #endif
 
@@ -132,6 +132,7 @@ void hal_lld_init(void)
  *
  * @special
  */
+
 /**
  * @brief   Clocks and internal voltage initialization.
  */
@@ -144,12 +145,12 @@ void stm32_clock_init(void)
 
     /* Core voltage setup.*/
     while((PWR->CSR & PWR_CSR_VOSF) != 0)
-        ;                       /* Waits until regulator is stable.         */
+        ; /* Waits until regulator is stable.         */
 
     PWR->CR = STM32_VOS;
 
     while((PWR->CSR & PWR_CSR_VOSF) != 0)
-        ;                       /* Waits until regulator is stable.         */
+        ; /* Waits until regulator is stable.         */
 
     /* Initial clocks setup and wait for MSI stabilization, the MSI clock is
      * always enabled because it is the fallback clock when PLL the fails.
@@ -159,7 +160,7 @@ void stm32_clock_init(void)
     RCC->CR = RCC_CR_MSION;
 
     while((RCC->CR & RCC_CR_MSIRDY) == 0)
-        ;                       /* Waits until MSI is stable.               */
+        ; /* Waits until MSI is stable.               */
 
 #if STM32_HSI_ENABLED
 
@@ -167,7 +168,7 @@ void stm32_clock_init(void)
     RCC->CR |= RCC_CR_HSION;
 
     while((RCC->CR & RCC_CR_HSIRDY) == 0)
-        ;                       /* Waits until HSI is stable.               */
+        ; /* Waits until HSI is stable.               */
 
 #endif
 
@@ -182,7 +183,7 @@ void stm32_clock_init(void)
     RCC->CR |= RCC_CR_HSEON;
 
     while((RCC->CR & RCC_CR_HSERDY) == 0)
-        ;                       /* Waits until HSE is stable.               */
+        ; /* Waits until HSE is stable.               */
 
 #endif
 
@@ -192,7 +193,7 @@ void stm32_clock_init(void)
     RCC->CSR |= RCC_CSR_LSION;
 
     while((RCC->CSR & RCC_CSR_LSIRDY) == 0)
-        ;                       /* Waits until LSI is stable.               */
+        ; /* Waits until LSI is stable.               */
 
 #endif
 
@@ -207,7 +208,7 @@ void stm32_clock_init(void)
     }
 
     while((RCC->CSR & RCC_CSR_LSERDY) == 0)
-        ;                       /* Waits until LSE is stable.               */
+        ; /* Waits until LSE is stable.               */
 
 #endif
 
@@ -218,7 +219,7 @@ void stm32_clock_init(void)
     RCC->CR |= RCC_CR_PLLON;
 
     while(!(RCC->CR & RCC_CR_PLLRDY))
-        ;                       /* Waits until PLL is stable.               */
+        ; /* Waits until PLL is stable.               */
 
 #endif
 
@@ -238,7 +239,7 @@ void stm32_clock_init(void)
 
     /* Switching to the configured clock source if it is different from MSI.*/
 #if (STM32_SW != STM32_SW_MSI)
-    RCC->CFGR |= STM32_SW;      /* Switches on the selected clock source.   */
+    RCC->CFGR |= STM32_SW; /* Switches on the selected clock source.   */
 
     while((RCC->CFGR & RCC_CFGR_SWS) != (STM32_SW << 2))
         ;

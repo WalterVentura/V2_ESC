@@ -917,8 +917,8 @@ static void terminal_encoder(int argc, const char** argv)
             commands_printf(
                 "Resolver Loss Of Signal (>57%c error): errors: %d, error rate: %.3f %%", 0xB0,
                 encoder_cfg_ad2s1205.state.resolver_loss_of_signal_error_cnt,
-                (double) (encoder_cfg_ad2s1205.state.resolver_loss_of_signal_error_rate
-                          * 100.0));
+                (double) (encoder_cfg_ad2s1205.state.resolver_loss_of_signal_error_rate *
+                          100.0));
             commands_printf("Resolver Loss Of Signal peak error rate: %.3f %%",
                             (double) encoder_cfg_ad2s1205.state.resolver_LOS_peak_error_rate *
                             (double) 100.0);

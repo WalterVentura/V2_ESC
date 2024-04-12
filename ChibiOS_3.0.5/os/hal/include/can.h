@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    can.h
@@ -35,32 +35,38 @@
  * @name    CAN status flags
  * @{
  */
+
 /**
  * @brief   Errors rate warning.
  */
-#define CAN_LIMIT_WARNING           1
+#define CAN_LIMIT_WARNING  1
+
 /**
  * @brief   Errors rate error.
  */
-#define CAN_LIMIT_ERROR             2
+#define CAN_LIMIT_ERROR    2
+
 /**
  * @brief   Bus off condition reached.
  */
-#define CAN_BUS_OFF_ERROR           4
+#define CAN_BUS_OFF_ERROR  4
+
 /**
  * @brief   Framing error of some kind on the CAN bus.
  */
-#define CAN_FRAMING_ERROR           8
+#define CAN_FRAMING_ERROR  8
+
 /**
  * @brief   Overflow in receive queue.
  */
-#define CAN_OVERFLOW_ERROR          16
+#define CAN_OVERFLOW_ERROR 16
+
 /** @} */
 
 /**
  * @brief   Special mailbox identifier.
  */
-#define CAN_ANY_MAILBOX             0
+#define CAN_ANY_MAILBOX    0
 
 /*===========================================================================*/
 /* Driver pre-compile time settings.                                         */
@@ -70,6 +76,7 @@
  * @name    CAN configuration options
  * @{
  */
+
 /**
  * @brief   Sleep mode related APIs inclusion switch.
  * @details This option can only be enabled if the CAN implementation supports
@@ -77,8 +84,9 @@
  *          the underlying implementation.
  */
 #if !defined(CAN_USE_SLEEP_MODE) || defined(__DOXYGEN__)
-#define CAN_USE_SLEEP_MODE          TRUE
+#define CAN_USE_SLEEP_MODE TRUE
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -92,12 +100,13 @@
 /**
  * @brief   Driver state machine possible states.
  */
-typedef enum {
-  CAN_UNINIT = 0,                           /**< Not initialized.           */
-  CAN_STOP = 1,                             /**< Stopped.                   */
-  CAN_STARTING = 2,                         /**< Starting.                  */
-  CAN_READY = 3,                            /**< Ready.                     */
-  CAN_SLEEP = 4                             /**< Sleep state.               */
+typedef enum
+{
+    CAN_UNINIT = 0,   /**< Not initialized.           */
+    CAN_STOP = 1,     /**< Stopped.                   */
+    CAN_STARTING = 2, /**< Starting.                  */
+    CAN_READY = 3,    /**< Ready.                     */
+    CAN_SLEEP = 4     /**< Sleep state.               */
 } canstate_t;
 
 #include "can_lld.h"
@@ -110,10 +119,12 @@ typedef enum {
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Converts a mailbox index to a bit mask.
  */
 #define CAN_MAILBOX_TO_MASK(mbx) (1 << ((mbx) - 1))
+
 /** @} */
 
 /*===========================================================================*/
@@ -123,21 +134,23 @@ typedef enum {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void canInit(void);
-  void canObjectInit(CANDriver *canp);
-  void canStart(CANDriver *canp, const CANConfig *config);
-  void canStop(CANDriver *canp);
-  msg_t canTransmit(CANDriver *canp,
-                    canmbx_t mailbox,
-                    const CANTxFrame *ctfp,
-                    systime_t timeout);
-  msg_t canReceive(CANDriver *canp,
-                   canmbx_t mailbox,
-                   CANRxFrame *crfp,
-                   systime_t timeout);
+void canInit(void);
+
+void canObjectInit(CANDriver* canp);
+
+void canStart(CANDriver* canp, const CANConfig* config);
+
+void canStop(CANDriver* canp);
+
+msg_t canTransmit(CANDriver* canp, canmbx_t mailbox, const CANTxFrame* ctfp, systime_t timeout);
+
+msg_t canReceive(CANDriver* canp, canmbx_t mailbox, CANRxFrame* crfp, systime_t timeout);
+
 #if CAN_USE_SLEEP_MODE
-  void canSleep(CANDriver *canp);
-  void canWakeup(CANDriver *canp);
+void canSleep(CANDriver* canp);
+
+void canWakeup(CANDriver* canp);
+
 #endif
 #ifdef __cplusplus
 }

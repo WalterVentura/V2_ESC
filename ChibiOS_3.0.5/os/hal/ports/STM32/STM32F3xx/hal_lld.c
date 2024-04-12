@@ -77,7 +77,7 @@ static void hal_lld_backup_domain_init(void)
 #endif
 
     while((RCC->BDCR & RCC_BDCR_LSERDY) == 0)
-        ;                                 /* Waits until LSE is stable.   */
+        ; /* Waits until LSE is stable.   */
 
 #endif
 
@@ -156,19 +156,19 @@ void stm32_clock_init(void)
 
     /* HSI setup, it enforces the reset situation in order to handle possible
      * problems with JTAG probes and re-initializations.*/
-    RCC->CR |= RCC_CR_HSION;                /* Make sure HSI is ON.         */
+    RCC->CR |= RCC_CR_HSION; /* Make sure HSI is ON.         */
 
     while(!(RCC->CR & RCC_CR_HSIRDY))
-        ;                                   /* Wait until HSI is stable.    */
+        ; /* Wait until HSI is stable.    */
 
     /* HSI is selected as new source without touching the other fields in
      * CFGR. Clearing the register has to be postponed after HSI is the
      * new source.*/
-    RCC->CFGR &= ~RCC_CFGR_SW;              /* Reset SW */
-    RCC->CFGR |= RCC_CFGR_SWS_HSI;          /* Select HSI as internal*/
+    RCC->CFGR &= ~RCC_CFGR_SW;     /* Reset SW */
+    RCC->CFGR |= RCC_CFGR_SWS_HSI; /* Select HSI as internal*/
 
     while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_HSI)
-        ;                                   /* Wait until HSI is selected.  */
+        ; /* Wait until HSI is selected.  */
 
     /* Registers finally cleared to reset values.*/
     RCC->CR &= RCC_CR_HSITRIM | RCC_CR_HSION; /* CR Reset value.              */
@@ -188,7 +188,7 @@ void stm32_clock_init(void)
 #endif
 
     while(!(RCC->CR & RCC_CR_HSERDY))
-        ;                                   /* Waits until HSE is stable.   */
+        ; /* Waits until HSE is stable.   */
 
 #endif
 
@@ -198,7 +198,7 @@ void stm32_clock_init(void)
     RCC->CSR |= RCC_CSR_LSION;
 
     while((RCC->CSR & RCC_CSR_LSIRDY) == 0)
-        ;                                   /* Waits until LSI is stable.   */
+        ; /* Waits until LSI is stable.   */
 
 #endif
 
@@ -217,7 +217,7 @@ void stm32_clock_init(void)
     RCC->CR |= RCC_CR_PLLON;
 
     while(!(RCC->CR & RCC_CR_PLLRDY))
-        ;                                   /* Waits until PLL is stable.   */
+        ; /* Waits until PLL is stable.   */
 
 #endif
 
@@ -231,7 +231,7 @@ void stm32_clock_init(void)
     RCC->CFGR |= STM32_SW;
 
     while((RCC->CFGR & RCC_CFGR_SWS) != (STM32_SW << 2))
-        ;                                   /* Waits selection complete.    */
+        ; /* Waits selection complete.    */
 
 #endif
 

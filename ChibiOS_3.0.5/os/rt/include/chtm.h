@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chtm.h
@@ -53,11 +53,12 @@
 /**
  * @brief   Type of a time measurement calibration data.
  */
-typedef struct {
-  /**
-   * @brief   Measurement calibration value.
-   */
-  rtcnt_t               offset;
+typedef struct
+{
+    /**
+     * @brief   Measurement calibration value.
+     */
+    rtcnt_t offset;
 } tm_calibration_t;
 
 /**
@@ -69,12 +70,13 @@ typedef struct {
  * @note    Interrupts can affect measurement if the measurement is performed
  *          with interrupts enabled.
  */
-typedef struct {
-  rtcnt_t               best;           /**< @brief Best measurement.       */
-  rtcnt_t               worst;          /**< @brief Worst measurement.      */
-  rtcnt_t               last;           /**< @brief Last measurement.       */
-  ucnt_t                n;              /**< @brief Number of measurements. */
-  rttime_t              cumulative;     /**< @brief Cumulative measurement. */
+typedef struct
+{
+    rtcnt_t  best;       /**< @brief Best measurement.       */
+    rtcnt_t  worst;      /**< @brief Worst measurement.      */
+    rtcnt_t  last;       /**< @brief Last measurement.       */
+    ucnt_t   n;          /**< @brief Number of measurements. */
+    rttime_t cumulative; /**< @brief Cumulative measurement. */
 } time_measurement_t;
 
 /*===========================================================================*/
@@ -88,12 +90,16 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void _tm_init(void);
-  void chTMObjectInit(time_measurement_t *tmp);
-  NOINLINE void chTMStartMeasurementX(time_measurement_t *tmp);
-  NOINLINE void chTMStopMeasurementX(time_measurement_t *tmp);
-  NOINLINE void chTMChainMeasurementToX(time_measurement_t *tmp1,
-                                        time_measurement_t *tmp2);
+void _tm_init(void);
+
+void chTMObjectInit(time_measurement_t* tmp);
+
+NOINLINE void chTMStartMeasurementX(time_measurement_t* tmp);
+
+NOINLINE void chTMStopMeasurementX(time_measurement_t* tmp);
+
+NOINLINE void chTMChainMeasurementToX(time_measurement_t* tmp1, time_measurement_t* tmp2);
+
 #ifdef __cplusplus
 }
 #endif

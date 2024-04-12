@@ -236,6 +236,7 @@ void chVTDoResetI(virtual_timer_t* vtp)
 
     /* If the new first timer has a delta of zero then the alarm is not
      * modified, the already programmed alarm will serve it.*/
+
 /*  if (ch.vtlist.vt_next->vt_delta == 0) {
  *  return;
  * }*/

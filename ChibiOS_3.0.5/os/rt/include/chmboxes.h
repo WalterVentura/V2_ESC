@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chmboxes.h
@@ -53,17 +53,18 @@
 /**
  * @brief   Structure representing a mailbox object.
  */
-typedef struct {
-  msg_t                 *mb_buffer;     /**< @brief Pointer to the mailbox
-                                                    buffer.                 */
-  msg_t                 *mb_top;        /**< @brief Pointer to the location
-                                                    after the buffer.       */
-  msg_t                 *mb_wrptr;      /**< @brief Write pointer.          */
-  msg_t                 *mb_rdptr;      /**< @brief Read pointer.           */
-  semaphore_t           mb_fullsem;     /**< @brief Full counter
-                                                    @p semaphore_t.         */
-  semaphore_t           mb_emptysem;    /**< @brief Empty counter
-                                                    @p semaphore_t.         */
+typedef struct
+{
+    msg_t*      mb_buffer;   /**< @brief Pointer to the mailbox
+                              *          buffer.                 */
+    msg_t*      mb_top;      /**< @brief Pointer to the location
+                              *          after the buffer.       */
+    msg_t*      mb_wrptr;    /**< @brief Write pointer.          */
+    msg_t*      mb_rdptr;    /**< @brief Read pointer.           */
+    semaphore_t mb_fullsem;  /**< @brief Full counter
+                              *          @p semaphore_t.         */
+    semaphore_t mb_emptysem; /**< @brief Empty counter
+                              *          @p semaphore_t.         */
 } mailbox_t;
 
 /*===========================================================================*/
@@ -79,13 +80,13 @@ typedef struct {
  * @param[in] buffer    pointer to the mailbox buffer area
  * @param[in] size      size of the mailbox buffer area
  */
-#define _MAILBOX_DATA(name, buffer, size) {                             \
-  (msg_t *)(buffer),                                                    \
-  (msg_t *)(buffer) + size,                                             \
-  (msg_t *)(buffer),                                                    \
-  (msg_t *)(buffer),                                                    \
-  _SEMAPHORE_DATA(name.mb_fullsem, 0),                                  \
-  _SEMAPHORE_DATA(name.mb_emptysem, size),                              \
+#define _MAILBOX_DATA(name, buffer, size) {      \
+        (msg_t*) (buffer),                       \
+        (msg_t*) (buffer) + size,                \
+        (msg_t*) (buffer),                       \
+        (msg_t*) (buffer),                       \
+        _SEMAPHORE_DATA(name.mb_fullsem, 0),     \
+        _SEMAPHORE_DATA(name.mb_emptysem, size), \
 }
 
 /**
@@ -97,8 +98,8 @@ typedef struct {
  * @param[in] buffer    pointer to the mailbox buffer area
  * @param[in] size      size of the mailbox buffer area
  */
-#define MAILBOX_DECL(name, buffer, size)                                \
-  mailbox_t name = _MAILBOX_DATA(name, buffer, size)
+#define MAILBOX_DECL(name, buffer, size) \
+    mailbox_t name = _MAILBOX_DATA(name, buffer, size)
 
 /*===========================================================================*/
 /* External declarations.                                                    */
@@ -107,18 +108,30 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void chMBObjectInit(mailbox_t *mbp, msg_t *buf, cnt_t n);
-  void chMBReset(mailbox_t *mbp);
-  void chMBResetI(mailbox_t *mbp);
-  msg_t chMBPost(mailbox_t *mbp, msg_t msg, systime_t timeout);
-  msg_t chMBPostS(mailbox_t *mbp, msg_t msg, systime_t timeout);
-  msg_t chMBPostI(mailbox_t *mbp, msg_t msg);
-  msg_t chMBPostAhead(mailbox_t *mbp, msg_t msg, systime_t timeout);
-  msg_t chMBPostAheadS(mailbox_t *mbp, msg_t msg, systime_t timeout);
-  msg_t chMBPostAheadI(mailbox_t *mbp, msg_t msg);
-  msg_t chMBFetch(mailbox_t *mbp, msg_t *msgp, systime_t timeout);
-  msg_t chMBFetchS(mailbox_t *mbp, msg_t *msgp, systime_t timeout);
-  msg_t chMBFetchI(mailbox_t *mbp, msg_t *msgp);
+void chMBObjectInit(mailbox_t* mbp, msg_t* buf, cnt_t n);
+
+void chMBReset(mailbox_t* mbp);
+
+void chMBResetI(mailbox_t* mbp);
+
+msg_t chMBPost(mailbox_t* mbp, msg_t msg, systime_t timeout);
+
+msg_t chMBPostS(mailbox_t* mbp, msg_t msg, systime_t timeout);
+
+msg_t chMBPostI(mailbox_t* mbp, msg_t msg);
+
+msg_t chMBPostAhead(mailbox_t* mbp, msg_t msg, systime_t timeout);
+
+msg_t chMBPostAheadS(mailbox_t* mbp, msg_t msg, systime_t timeout);
+
+msg_t chMBPostAheadI(mailbox_t* mbp, msg_t msg);
+
+msg_t chMBFetch(mailbox_t* mbp, msg_t* msgp, systime_t timeout);
+
+msg_t chMBFetchS(mailbox_t* mbp, msg_t* msgp, systime_t timeout);
+
+msg_t chMBFetchI(mailbox_t* mbp, msg_t* msgp);
+
 #ifdef __cplusplus
 }
 #endif
@@ -135,12 +148,13 @@ extern "C" {
  *
  * @iclass
  */
-static inline size_t chMBGetSizeI(mailbox_t *mbp) {
+static inline size_t chMBGetSizeI(mailbox_t* mbp)
+{
+    /*lint -save -e9033 [10.8] Perfectly safe pointers
+     * arithmetic.*/
+    return (size_t) (mbp->mb_top - mbp->mb_buffer);
 
-  /*lint -save -e9033 [10.8] Perfectly safe pointers
-    arithmetic.*/
-  return (size_t)(mbp->mb_top - mbp->mb_buffer);
-  /*lint -restore*/
+    /*lint -restore*/
 }
 
 /**
@@ -155,11 +169,11 @@ static inline size_t chMBGetSizeI(mailbox_t *mbp) {
  *
  * @iclass
  */
-static inline cnt_t chMBGetFreeCountI(mailbox_t *mbp) {
+static inline cnt_t chMBGetFreeCountI(mailbox_t* mbp)
+{
+    chDbgCheckClassI();
 
-  chDbgCheckClassI();
-
-  return chSemGetCounterI(&mbp->mb_emptysem);
+    return chSemGetCounterI(&mbp->mb_emptysem);
 }
 
 /**
@@ -174,11 +188,11 @@ static inline cnt_t chMBGetFreeCountI(mailbox_t *mbp) {
  *
  * @iclass
  */
-static inline cnt_t chMBGetUsedCountI(mailbox_t *mbp) {
+static inline cnt_t chMBGetUsedCountI(mailbox_t* mbp)
+{
+    chDbgCheckClassI();
 
-  chDbgCheckClassI();
-
-  return chSemGetCounterI(&mbp->mb_fullsem);
+    return chSemGetCounterI(&mbp->mb_fullsem);
 }
 
 /**
@@ -193,11 +207,11 @@ static inline cnt_t chMBGetUsedCountI(mailbox_t *mbp) {
  *
  * @iclass
  */
-static inline msg_t chMBPeekI(mailbox_t *mbp) {
+static inline msg_t chMBPeekI(mailbox_t* mbp)
+{
+    chDbgCheckClassI();
 
-  chDbgCheckClassI();
-
-  return *mbp->mb_rdptr;
+    return *mbp->mb_rdptr;
 }
 
 #endif /* CH_CFG_USE_MAILBOXES == TRUE */

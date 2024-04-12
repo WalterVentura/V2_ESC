@@ -74,13 +74,13 @@ void hw_init_gpio(void)
 
     palSetPadMode(LIGHT_BACK_GPIO, LIGHT_BACK_PIN,
                   PAL_MODE_OUTPUT_PUSHPULL |
-                  PAL_STM32_OSPEED_HIGHEST);     // Rear light
+                  PAL_STM32_OSPEED_HIGHEST); // Rear light
     palSetPadMode(LIGHT_FORNT_GPIO, LIGHT_FORNT_PIN,
                   PAL_MODE_OUTPUT_PUSHPULL |
-                  PAL_STM32_OSPEED_HIGHEST);     // front light
+                  PAL_STM32_OSPEED_HIGHEST); // front light
     palSetPadMode(FAN_GPIO, FAN_PIN,
                   PAL_MODE_OUTPUT_PUSHPULL |
-                  PAL_STM32_OSPEED_HIGHEST);     // fan// power on DC-DC Converter pull high to enable , pull low disable
+                  PAL_STM32_OSPEED_HIGHEST); // fan// power on DC-DC Converter pull high to enable , pull low disable
     palSetPadMode(EXTERNAL_DCDC_GPIO, EXTERNAL_DCDC_PIN,
                   PAL_MODE_OUTPUT_PUSHPULL | PAL_STM32_OSPEED_HIGHEST); // external dc-dc board power on control
     LIGHT_FRONT_ON();

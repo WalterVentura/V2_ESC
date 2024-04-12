@@ -269,7 +269,7 @@ double lbm_dec_double(lbm_value x)
 
     if(data == NULL)
     {
-        return 0;             // no good way to report error from here currently.
+        return 0; // no good way to report error from here currently.
     }
 
     memcpy(&d, data, sizeof(double));
@@ -755,7 +755,7 @@ lbm_value lbm_heap_allocate_list(lbm_uint n)
             c_cell->car = ENC_SYM_NIL;
             curr = c_cell->cdr;
             count++;
-        } while (count < n);
+        } while(count < n);
 
         lbm_heap_state.freelist = curr;
         c_cell->cdr = ENC_SYM_NIL;
@@ -791,7 +791,7 @@ lbm_value lbm_heap_allocate_list_init_va(unsigned int n, va_list valist)
             c_cell->car = va_arg(valist, lbm_value);
             curr = c_cell->cdr;
             count++;
-        } while (count < n);
+        } while(count < n);
 
         lbm_heap_state.freelist = curr;
         c_cell->cdr = ENC_SYM_NIL;
@@ -1499,7 +1499,7 @@ int lbm_heap_allocate_array(lbm_value* res, lbm_uint size)
 
     *res = cell;
 
-    if(lbm_type_of(cell) == LBM_TYPE_SYMBOL)  // Out of heap memory
+    if(lbm_type_of(cell) == LBM_TYPE_SYMBOL) // Out of heap memory
     {
         lbm_memory_free((lbm_uint*) array->data);
         lbm_memory_free((lbm_uint*) array);
@@ -1518,7 +1518,7 @@ int lbm_lift_array(lbm_value* value, char* data, lbm_uint num_elt)
     lbm_array_header_t* array = NULL;
     lbm_value cell = lbm_heap_allocate_cell(LBM_TYPE_CONS, ENC_SYM_NIL, ENC_SYM_ARRAY_TYPE);
 
-    if(lbm_type_of(cell) == LBM_TYPE_SYMBOL)  // Out of heap memory
+    if(lbm_type_of(cell) == LBM_TYPE_SYMBOL) // Out of heap memory
     {
         *value = cell;
         return 0;

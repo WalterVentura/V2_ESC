@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    hal_streams.h
@@ -39,27 +39,29 @@
  * @name    Streams return codes
  * @{
  */
-#define STM_OK               MSG_OK
-#define STM_TIMEOUT          MSG_TIMEOUT
-#define STM_RESET            MSG_RESET
+#define STM_OK      MSG_OK
+#define STM_TIMEOUT MSG_TIMEOUT
+#define STM_RESET   MSG_RESET
+
 /** @} */
 
 /* The ChibiOS/RT kernel provides the following definitions by itself, this
-   check is performed in order to avoid conflicts. */
+ * check is performed in order to avoid conflicts. */
 #if !defined(_CHIBIOS_RT_) || defined(__DOXYGEN__)
 
 /**
  * @brief   BaseSequentialStream specific methods.
  */
-#define _base_sequential_stream_methods                                     \
-  /* Stream write buffer method.*/                                          \
-  size_t (*write)(void *instance, const uint8_t *bp, size_t n);             \
-  /* Stream read buffer method.*/                                           \
-  size_t (*read)(void *instance, uint8_t *bp, size_t n);                    \
-  /* Channel put method, blocking.*/                                        \
-  msg_t (*put)(void *instance, uint8_t b);                                  \
-  /* Channel get method, blocking.*/                                        \
-  msg_t (*get)(void *instance);                                             \
+#define _base_sequential_stream_methods                            \
+    /* Stream write buffer method.*/                               \
+    size_t (* write)(void* instance, const uint8_t* bp, size_t n); \
+    /* Stream read buffer method.*/                                \
+    size_t (* read)(void* instance, uint8_t* bp, size_t n);        \
+    /* Channel put method, blocking.*/                             \
+    msg_t (* put)(void* instance, uint8_t b);                      \
+    /* Channel get method, blocking.*/                             \
+    msg_t (* get)(void* instance);                                 \
+
 
 /**
  * @brief   @p BaseSequentialStream specific data.
@@ -71,8 +73,9 @@
 /**
  * @brief   @p BaseSequentialStream virtual methods table.
  */
-struct BaseSequentialStreamVMT {
-  _base_sequential_stream_methods
+struct BaseSequentialStreamVMT
+{
+    _base_sequential_stream_methods
 };
 
 /**
@@ -80,10 +83,11 @@ struct BaseSequentialStreamVMT {
  * @details This class represents a generic blocking unbuffered sequential
  *          data stream.
  */
-typedef struct {
-  /** @brief Virtual Methods Table.*/
-  const struct BaseSequentialStreamVMT *vmt;
-  _base_sequential_stream_data
+typedef struct
+{
+    /** @brief Virtual Methods Table.*/
+    const struct BaseSequentialStreamVMT* vmt;
+    _base_sequential_stream_data
 } BaseSequentialStream;
 
 #endif /* !defined(_CHIBIOS_RT_)*/
@@ -92,6 +96,7 @@ typedef struct {
  * @name    Macro Functions (BaseSequentialStream)
  * @{
  */
+
 /**
  * @brief   Sequential Stream write.
  * @details The function writes data from a buffer to a stream.
@@ -120,7 +125,7 @@ typedef struct {
  *
  * @api
  */
-#define streamRead(ip, bp, n) ((ip)->vmt->read(ip, bp, n))
+#define streamRead(ip, bp, n)  ((ip)->vmt->read(ip, bp, n))
 
 /**
  * @brief   Sequential Stream blocking byte write.
@@ -136,7 +141,7 @@ typedef struct {
  *
  * @api
  */
-#define streamPut(ip, b) ((ip)->vmt->put(ip, b))
+#define streamPut(ip, b)       ((ip)->vmt->put(ip, b))
 
 /**
  * @brief   Sequential Stream blocking byte read.
@@ -150,7 +155,8 @@ typedef struct {
  *
  * @api
  */
-#define streamGet(ip) ((ip)->vmt->get(ip))
+#define streamGet(ip)          ((ip)->vmt->get(ip))
+
 /** @} */
 
 #endif /* _HAL_STREAMS_H_ */

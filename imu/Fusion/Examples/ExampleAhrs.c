@@ -85,5 +85,5 @@ int main()
             FusionQuaternionToEulerAngles(FusionAhrsGetQuaternion(&fusionAhrs));
         printf("Roll = %0.1f, Pitch = %0.1f, Yaw = %0.1f\r\n", eulerAngles.angle.roll,
                eulerAngles.angle.pitch, eulerAngles.angle.yaw);
-    } while (false);
+    } while(false);
 }

@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    hal.h
@@ -92,39 +92,42 @@
 /**
  * @brief   Stable release flag.
  */
-#define CH_HAL_STABLE           1
+#define CH_HAL_STABLE 1
 
 /**
  * @name    ChibiOS/HAL version identification
  * @{
  */
+
 /**
  * @brief   HAL version string.
  */
-#define HAL_VERSION             "3.0.2"
+#define HAL_VERSION   "3.0.2"
 
 /**
  * @brief   HAL version major number.
  */
-#define CH_HAL_MAJOR            3
+#define CH_HAL_MAJOR  3
 
 /**
  * @brief   HAL version minor number.
  */
-#define CH_HAL_MINOR            0
+#define CH_HAL_MINOR  0
 
 /**
  * @brief   HAL version patch number.
  */
-#define CH_HAL_PATCH            2
+#define CH_HAL_PATCH  2
+
 /** @} */
 
 /**
  * @name    Return codes
  * @{
  */
-#define HAL_SUCCESS             false
-#define HAL_FAILED              true
+#define HAL_SUCCESS   false
+#define HAL_FAILED    true
+
 /** @} */
 
 /*===========================================================================*/
@@ -150,7 +153,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void halInit(void);
+void halInit(void);
+
 #ifdef __cplusplus
 }
 #endif

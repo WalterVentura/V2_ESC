@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    osal.h
@@ -44,35 +44,40 @@
  * @{
  */
 #if !defined(FALSE) || defined(__DOXYGEN__)
-#define FALSE                               0
+#define FALSE        0
 #endif
 
 #if !defined(TRUE) || defined(__DOXYGEN__)
-#define TRUE                                (!FALSE)
+#define TRUE         (!FALSE)
 #endif
 
-#define OSAL_SUCCESS                        FALSE
-#define OSAL_FAILED                         TRUE
+#define OSAL_SUCCESS FALSE
+#define OSAL_FAILED  TRUE
+
 /** @} */
 
 #if 0
+
 /**
  * @name    Messages
  * @{
  */
-#define MSG_OK                              RDY_OK
-#define MSG_RESET                           RDY_RESET
-#define MSG_TIMEOUT                         RDY_TIMEOUT
+#define MSG_OK      RDY_OK
+#define MSG_RESET   RDY_RESET
+#define MSG_TIMEOUT RDY_TIMEOUT
+
 /** @} */
 #endif
 
 #if 0
+
 /**
  * @name    Special time constants
  * @{
  */
-#define TIME_IMMEDIATE                      ((systime_t)0)
-#define TIME_INFINITE                       ((systime_t)-1)
+#define TIME_IMMEDIATE ((systime_t) 0)
+#define TIME_INFINITE  ((systime_t) -1)
+
 /** @} */
 #endif
 
@@ -80,33 +85,36 @@
  * @name    Systick modes.
  * @{
  */
-#define OSAL_ST_MODE_NONE                   0
-#define OSAL_ST_MODE_PERIODIC               1
-#define OSAL_ST_MODE_FREERUNNING            2
+#define OSAL_ST_MODE_NONE        0
+#define OSAL_ST_MODE_PERIODIC    1
+#define OSAL_ST_MODE_FREERUNNING 2
+
 /** @} */
 
 /**
  * @name    Systick parameters.
  * @{
  */
+
 /**
  * @brief   Size in bits of the @p systick_t type.
  */
-#define OSAL_ST_RESOLUTION                  NIL_CFG_ST_RESOLUTION
+#define OSAL_ST_RESOLUTION NIL_CFG_ST_RESOLUTION
 
 /**
  * @brief   Required systick frequency or resolution.
  */
-#define OSAL_ST_FREQUENCY                   NIL_CFG_ST_FREQUENCY
+#define OSAL_ST_FREQUENCY  NIL_CFG_ST_FREQUENCY
 
 /**
  * @brief   Systick mode required by the underlying OS.
  */
 #if (NIL_CFG_ST_TIMEDELTA == 0) || defined(__DOXYGEN__)
-#define OSAL_ST_MODE                        OSAL_ST_MODE_PERIODIC
+#define OSAL_ST_MODE       OSAL_ST_MODE_PERIODIC
 #else
-#define OSAL_ST_MODE                        OSAL_ST_MODE_FREERUNNING
+#define OSAL_ST_MODE       OSAL_ST_MODE_FREERUNNING
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -121,8 +129,8 @@
 #error "OSAL requires NIL_CFG_USE_EVENTS=TRUE"
 #endif
 
-#if !(OSAL_ST_MODE == OSAL_ST_MODE_NONE) &&                                 \
-    !(OSAL_ST_MODE == OSAL_ST_MODE_PERIODIC) &&                             \
+#if !(OSAL_ST_MODE == OSAL_ST_MODE_NONE) &&     \
+    !(OSAL_ST_MODE == OSAL_ST_MODE_PERIODIC) && \
     !(OSAL_ST_MODE == OSAL_ST_MODE_FREERUNNING)
 #error "invalid OSAL_ST_MODE setting in osal.h"
 #endif
@@ -136,6 +144,7 @@
 /*===========================================================================*/
 
 #if 0
+
 /**
  * @brief   Type of a system status word.
  */
@@ -143,6 +152,7 @@ typedef uint32_t syssts_t;
 #endif
 
 #if 0
+
 /**
  * @brief   Type of a message.
  */
@@ -150,6 +160,7 @@ typedef int32_t msg_t;
 #endif
 
 #if 0
+
 /**
  * @brief   Type of system time counter.
  */
@@ -157,6 +168,7 @@ typedef uint32_t systime_t;
 #endif
 
 #if 0
+
 /**
  * @brief   Type of realtime counter.
  */
@@ -164,10 +176,11 @@ typedef uint32_t rtcnt_t;
 #endif
 
 #if 0
+
 /**
  * @brief   Type of a thread reference.
  */
-typedef thread_t * thread_reference_t;
+typedef thread_t* thread_reference_t;
 #endif
 
 /**
@@ -185,7 +198,7 @@ typedef struct event_source event_source_t;
  * @note    This type is not part of the OSAL API and is provided
  *          exclusively as an example and for convenience.
  */
-typedef void (*eventcallback_t)(event_source_t *p);
+typedef void (* eventcallback_t)(event_source_t* p);
 
 /**
  * @brief   Type of an event flags mask.
@@ -200,10 +213,11 @@ typedef uint32_t eventflags_t;
  * @note    Retrieval and clearing of the flags are not defined in this
  *          API and are implementation-dependent.
  */
-struct event_source {
-  volatile eventflags_t flags;      /**< @brief Stored event flags.         */
-  eventcallback_t       cb;         /**< @brief Event source callback.      */
-  void                  *param;     /**< @brief User defined field.         */
+struct event_source
+{
+    volatile eventflags_t flags; /**< @brief Stored event flags.         */
+    eventcallback_t       cb;    /**< @brief Event source callback.      */
+    void*                 param; /**< @brief User defined field.         */
 };
 
 /**
@@ -220,8 +234,9 @@ typedef semaphore_t mutex_t;
  * @note    In this implementation it is implemented as a single reference
  *          because there are no real threads.
  */
-typedef struct {
-  semaphore_t   sem;
+typedef struct
+{
+    semaphore_t sem;
 } threads_queue_t;
 
 /*===========================================================================*/
@@ -232,6 +247,7 @@ typedef struct {
  * @name    Debug related macros
  * @{
  */
+
 /**
  * @brief   Condition assertion.
  * @details If the condition check fails then the OSAL panics with a
@@ -258,25 +274,26 @@ typedef struct {
  *
  * @api
  */
-#define osalDbgCheck(c) chDbgAssert(c, "parameter check")
+#define osalDbgCheck(c)          chDbgAssert(c, "parameter check")
 
 /**
  * @brief   I-Class state check.
  * @note    Not implemented in this simplified OSAL.
  */
-#define osalDbgCheckClassI() /*chDbgCheckClassI()*/
+#define osalDbgCheckClassI()     /*chDbgCheckClassI()*/
 
 /**
  * @brief   S-Class state check.
  * @note    Not implemented in this simplified OSAL.
  */
-#define osalDbgCheckClassS() /*chDbgCheckClassS()*/
+#define osalDbgCheckClassS()     /*chDbgCheckClassS()*/
 /** @} */
 
 /**
  * @name    IRQ service routines wrappers
  * @{
  */
+
 /**
  * @brief   Priority level verification macro.
  */
@@ -286,13 +303,13 @@ typedef struct {
  * @brief   IRQ prologue code.
  * @details This macro must be inserted at the start of all IRQ handlers.
  */
-#define OSAL_IRQ_PROLOGUE() CH_IRQ_PROLOGUE()
+#define OSAL_IRQ_PROLOGUE()           CH_IRQ_PROLOGUE()
 
 /**
  * @brief   IRQ epilogue code.
  * @details This macro must be inserted at the end of all IRQ handlers.
  */
-#define OSAL_IRQ_EPILOGUE() CH_IRQ_EPILOGUE()
+#define OSAL_IRQ_EPILOGUE()           CH_IRQ_EPILOGUE()
 
 /**
  * @brief   IRQ handler function declaration.
@@ -300,13 +317,15 @@ typedef struct {
  *
  * @param[in] id        a vector name as defined in @p vectors.s
  */
-#define OSAL_IRQ_HANDLER(id) CH_IRQ_HANDLER(id)
+#define OSAL_IRQ_HANDLER(id)          CH_IRQ_HANDLER(id)
+
 /** @} */
 
 /**
  * @name    Time conversion utilities
  * @{
  */
+
 /**
  * @brief   Seconds to system ticks.
  * @details Converts from seconds to system ticks number.
@@ -317,7 +336,7 @@ typedef struct {
  *
  * @api
  */
-#define OSAL_S2ST(sec) S2ST(sec)
+#define OSAL_S2ST(sec)   S2ST(sec)
 
 /**
  * @brief   Milliseconds to system ticks.
@@ -342,12 +361,14 @@ typedef struct {
  * @api
  */
 #define OSAL_US2ST(usec) US2ST(usec)
+
 /** @} */
 
 /**
  * @name    Time conversion utilities for the realtime counter
  * @{
  */
+
 /**
  * @brief   Seconds to realtime counter.
  * @details Converts from seconds to realtime counter cycles.
@@ -359,7 +380,7 @@ typedef struct {
  *
  * @api
  */
-#define OSAL_S2RTC(freq, sec) S2RTC(freq, sec)
+#define OSAL_S2RTC(freq, sec)   S2RTC(freq, sec)
 
 /**
  * @brief   Milliseconds to realtime counter.
@@ -388,12 +409,14 @@ typedef struct {
  * @api
  */
 #define OSAL_US2RTC(freq, usec) US2RTC(freq, usec)
+
 /** @} */
 
 /**
  * @name    Sleep macros using absolute time
  * @{
  */
+
 /**
  * @brief   Delays the invoking thread for the specified number of seconds.
  * @note    The specified time is rounded up to a value allowed by the real
@@ -404,7 +427,7 @@ typedef struct {
  *
  * @api
  */
-#define osalThreadSleepSeconds(sec) osalThreadSleep(OSAL_S2ST(sec))
+#define osalThreadSleepSeconds(sec)       osalThreadSleep(OSAL_S2ST(sec))
 
 /**
  * @brief   Delays the invoking thread for the specified number of
@@ -431,6 +454,7 @@ typedef struct {
  * @api
  */
 #define osalThreadSleepMicroseconds(usec) osalThreadSleep(OSAL_US2ST(usec))
+
 /** @} */
 
 /*===========================================================================*/
@@ -440,8 +464,10 @@ typedef struct {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void osalThreadDequeueNextI(threads_queue_t *tqp, msg_t msg);
-  void osalThreadDequeueAllI(threads_queue_t *tqp, msg_t msg);
+void osalThreadDequeueNextI(threads_queue_t* tqp, msg_t msg);
+
+void osalThreadDequeueAllI(threads_queue_t* tqp, msg_t msg);
+
 #ifdef __cplusplus
 }
 #endif
@@ -455,8 +481,8 @@ extern "C" {
  *
  * @api
  */
-static inline void osalInit(void) {
-
+static inline void osalInit(void)
+{
 }
 
 /**
@@ -466,9 +492,9 @@ static inline void osalInit(void) {
  *
  * @api
  */
-static inline void osalSysHalt(const char *reason) {
-
-  chSysHalt(reason);
+static inline void osalSysHalt(const char* reason)
+{
+    chSysHalt(reason);
 }
 
 /**
@@ -476,9 +502,9 @@ static inline void osalSysHalt(const char *reason) {
  *
  * @special
  */
-static inline void osalSysDisable(void) {
-
-  chSysDisable();
+static inline void osalSysDisable(void)
+{
+    chSysDisable();
 }
 
 /**
@@ -486,9 +512,9 @@ static inline void osalSysDisable(void) {
  *
  * @special
  */
-static inline void osalSysEnable(void) {
-
-  chSysEnable();
+static inline void osalSysEnable(void)
+{
+    chSysEnable();
 }
 
 /**
@@ -497,9 +523,9 @@ static inline void osalSysEnable(void) {
  *
  * @special
  */
-static inline void osalSysLock(void) {
-
-  chSysLock();
+static inline void osalSysLock(void)
+{
+    chSysLock();
 }
 
 /**
@@ -508,9 +534,9 @@ static inline void osalSysLock(void) {
  *
  * @special
  */
-static inline void osalSysUnlock(void) {
-
-  chSysUnlock();
+static inline void osalSysUnlock(void)
+{
+    chSysUnlock();
 }
 
 /**
@@ -519,9 +545,9 @@ static inline void osalSysUnlock(void) {
  *
  * @special
  */
-static inline void osalSysLockFromISR(void) {
-
-  chSysLockFromISR();
+static inline void osalSysLockFromISR(void)
+{
+    chSysLockFromISR();
 }
 
 /**
@@ -530,9 +556,9 @@ static inline void osalSysLockFromISR(void) {
  *
  * @special
  */
-static inline void osalSysUnlockFromISR(void) {
-
-  chSysUnlockFromISR();
+static inline void osalSysUnlockFromISR(void)
+{
+    chSysUnlockFromISR();
 }
 
 /**
@@ -548,9 +574,9 @@ static inline void osalSysUnlockFromISR(void) {
  *
  * @xclass
  */
-static inline syssts_t osalSysGetStatusAndLockX(void) {
-
-  return chSysGetStatusAndLockX();
+static inline syssts_t osalSysGetStatusAndLockX(void)
+{
+    return chSysGetStatusAndLockX();
 }
 
 /**
@@ -562,9 +588,9 @@ static inline syssts_t osalSysGetStatusAndLockX(void) {
  *
  * @xclass
  */
-static inline void osalSysRestoreStatusX(syssts_t sts) {
-
-  chSysRestoreStatusX(sts);
+static inline void osalSysRestoreStatusX(syssts_t sts)
+{
+    chSysRestoreStatusX(sts);
 }
 
 /**
@@ -577,10 +603,11 @@ static inline void osalSysRestoreStatusX(syssts_t sts) {
  * @xclass
  */
 #if (PORT_SUPPORTS_RT == TRUE) || defined(__DOXYGEN__)
-static inline void osalSysPolledDelayX(rtcnt_t cycles) {
-
-  chSysPolledDelayX(cycles);
+static inline void osalSysPolledDelayX(rtcnt_t cycles)
+{
+    chSysPolledDelayX(cycles);
 }
+
 #endif
 
 /**
@@ -589,10 +616,11 @@ static inline void osalSysPolledDelayX(rtcnt_t cycles) {
  *          service from the HAL.
  */
 #if (OSAL_ST_MODE != OSAL_ST_MODE_NONE) || defined(__DOXYGEN__)
-static inline void osalOsTimerHandlerI(void) {
-
-  chSysTimerHandlerI();
+static inline void osalOsTimerHandlerI(void)
+{
+    chSysTimerHandlerI();
 }
+
 #endif
 
 /**
@@ -604,9 +632,9 @@ static inline void osalOsTimerHandlerI(void) {
  *
  * @sclass
  */
-static inline void osalOsRescheduleS(void) {
-
-  chSchRescheduleS();
+static inline void osalOsRescheduleS(void)
+{
+    chSchRescheduleS();
 }
 
 /**
@@ -622,9 +650,9 @@ static inline void osalOsRescheduleS(void) {
  *
  * @xclass
  */
-static inline systime_t osalOsGetSystemTimeX(void) {
-
-  return chVTGetSystemTimeX();
+static inline systime_t osalOsGetSystemTimeX(void)
+{
+    return chVTGetSystemTimeX();
 }
 
 /**
@@ -641,11 +669,9 @@ static inline systime_t osalOsGetSystemTimeX(void) {
  *
  * @xclass
  */
-static inline bool osalOsIsTimeWithinX(systime_t time,
-                                       systime_t start,
-                                       systime_t end) {
-
-  return chVTIsTimeWithinX(time, start, end);
+static inline bool osalOsIsTimeWithinX(systime_t time, systime_t start, systime_t end)
+{
+    return chVTIsTimeWithinX(time, start, end);
 }
 
 /**
@@ -660,9 +686,9 @@ static inline bool osalOsIsTimeWithinX(systime_t time,
  *
  * @sclass
  */
-static inline void osalThreadSleepS(systime_t time) {
-
-  chThdSleepS(time);
+static inline void osalThreadSleepS(systime_t time)
+{
+    chThdSleepS(time);
 }
 
 /**
@@ -677,9 +703,9 @@ static inline void osalThreadSleepS(systime_t time) {
  *
  * @api
  */
-static inline void osalThreadSleep(systime_t time) {
-
-  chThdSleep(time);
+static inline void osalThreadSleep(systime_t time)
+{
+    chThdSleep(time);
 }
 
 /**
@@ -692,9 +718,9 @@ static inline void osalThreadSleep(systime_t time) {
  *
  * @sclass
  */
-static inline msg_t osalThreadSuspendS(thread_reference_t *trp) {
-
-  return chThdSuspendTimeoutS(trp, TIME_INFINITE);
+static inline msg_t osalThreadSuspendS(thread_reference_t* trp)
+{
+    return chThdSuspendTimeoutS(trp, TIME_INFINITE);
 }
 
 /**
@@ -716,10 +742,9 @@ static inline msg_t osalThreadSuspendS(thread_reference_t *trp) {
  *
  * @sclass
  */
-static inline msg_t osalThreadSuspendTimeoutS(thread_reference_t *trp,
-                                              systime_t timeout) {
-
-  return chThdSuspendTimeoutS(trp, timeout);
+static inline msg_t osalThreadSuspendTimeoutS(thread_reference_t* trp, systime_t timeout)
+{
+    return chThdSuspendTimeoutS(trp, timeout);
 }
 
 /**
@@ -732,9 +757,9 @@ static inline msg_t osalThreadSuspendTimeoutS(thread_reference_t *trp,
  *
  * @iclass
  */
-static inline void osalThreadResumeI(thread_reference_t *trp, msg_t msg) {
-
-  chThdResumeI(trp, msg);
+static inline void osalThreadResumeI(thread_reference_t* trp, msg_t msg)
+{
+    chThdResumeI(trp, msg);
 }
 
 /**
@@ -747,10 +772,10 @@ static inline void osalThreadResumeI(thread_reference_t *trp, msg_t msg) {
  *
  * @iclass
  */
-static inline void osalThreadResumeS(thread_reference_t *trp, msg_t msg) {
-
-  chThdResumeI(trp, msg);
-  chSchRescheduleS();
+static inline void osalThreadResumeS(thread_reference_t* trp, msg_t msg)
+{
+    chThdResumeI(trp, msg);
+    chSchRescheduleS();
 }
 
 /**
@@ -760,9 +785,9 @@ static inline void osalThreadResumeS(thread_reference_t *trp, msg_t msg) {
  *
  * @init
  */
-static inline void osalThreadQueueObjectInit(threads_queue_t *tqp) {
-
-  chSemObjectInit(&tqp->sem, (cnt_t)0);
+static inline void osalThreadQueueObjectInit(threads_queue_t* tqp)
+{
+    chSemObjectInit(&tqp->sem, (cnt_t) 0);
 }
 
 /**
@@ -788,10 +813,9 @@ static inline void osalThreadQueueObjectInit(threads_queue_t *tqp) {
  *
  * @sclass
  */
-static inline msg_t osalThreadEnqueueTimeoutS(threads_queue_t *tqp,
-                                              systime_t time) {
-
-  return chSemWaitTimeoutS(&tqp->sem, time);
+static inline msg_t osalThreadEnqueueTimeoutS(threads_queue_t* tqp, systime_t time)
+{
+    return chSemWaitTimeoutS(&tqp->sem, time);
 }
 
 /**
@@ -801,13 +825,13 @@ static inline msg_t osalThreadEnqueueTimeoutS(threads_queue_t *tqp,
  *
  * @init
  */
-static inline void osalEventObjectInit(event_source_t *esp) {
+static inline void osalEventObjectInit(event_source_t* esp)
+{
+    osalDbgCheck(esp != NULL);
 
-  osalDbgCheck(esp != NULL);
-
-  esp->flags = 0;
-  esp->cb    = NULL;
-  esp->param = NULL;
+    esp->flags = 0;
+    esp->cb = NULL;
+    esp->param = NULL;
 }
 
 /**
@@ -818,15 +842,16 @@ static inline void osalEventObjectInit(event_source_t *esp) {
  *
  * @iclass
  */
-static inline void osalEventBroadcastFlagsI(event_source_t *esp,
-                                            eventflags_t flags) {
+static inline void osalEventBroadcastFlagsI(event_source_t* esp, eventflags_t flags)
+{
+    osalDbgCheck(esp != NULL);
 
-  osalDbgCheck(esp != NULL);
+    esp->flags |= flags;
 
-  esp->flags |= flags;
-  if (esp->cb != NULL) {
-    esp->cb(esp);
-  }
+    if(esp->cb != NULL)
+    {
+        esp->cb(esp);
+    }
 }
 
 /**
@@ -837,15 +862,14 @@ static inline void osalEventBroadcastFlagsI(event_source_t *esp,
  *
  * @iclass
  */
-static inline void osalEventBroadcastFlags(event_source_t *esp,
-                                           eventflags_t flags) {
+static inline void osalEventBroadcastFlags(event_source_t* esp, eventflags_t flags)
+{
+    osalDbgCheck(esp != NULL);
 
-  osalDbgCheck(esp != NULL);
-
-  chSysLock();
-  osalEventBroadcastFlagsI(esp, flags);
-  chSchRescheduleS();
-  chSysUnlock();
+    chSysLock();
+    osalEventBroadcastFlagsI(esp, flags);
+    chSchRescheduleS();
+    chSysUnlock();
 }
 
 /**
@@ -861,14 +885,12 @@ static inline void osalEventBroadcastFlags(event_source_t *esp,
  *
  * @api
  */
-static inline void osalEventSetCallback(event_source_t *esp,
-                                        eventcallback_t cb,
-                                        void *param) {
+static inline void osalEventSetCallback(event_source_t* esp, eventcallback_t cb, void* param)
+{
+    osalDbgCheck(esp != NULL);
 
-  osalDbgCheck(esp != NULL);
-
-  esp->cb    = cb;
-  esp->param = param;
+    esp->cb = cb;
+    esp->param = param;
 }
 
 /**
@@ -878,9 +900,9 @@ static inline void osalEventSetCallback(event_source_t *esp,
  *
  * @init
  */
-static inline void osalMutexObjectInit(mutex_t *mp) {
-
-  chSemObjectInit((semaphore_t *)mp, (cnt_t)1);
+static inline void osalMutexObjectInit(mutex_t* mp)
+{
+    chSemObjectInit((semaphore_t*) mp, (cnt_t) 1);
 }
 
 /**
@@ -892,9 +914,9 @@ static inline void osalMutexObjectInit(mutex_t *mp) {
  *
  * @api
  */
-static inline void osalMutexLock(mutex_t *mp) {
-
-  (void) chSemWait((semaphore_t *)mp);
+static inline void osalMutexLock(mutex_t* mp)
+{
+    (void) chSemWait((semaphore_t*) mp);
 }
 
 /**
@@ -910,9 +932,9 @@ static inline void osalMutexLock(mutex_t *mp) {
  *
  * @api
  */
-static inline void osalMutexUnlock(mutex_t *mp) {
-
-  chSemSignal((semaphore_t *)mp);
+static inline void osalMutexUnlock(mutex_t* mp)
+{
+    chSemSignal((semaphore_t*) mp);
 }
 
 #endif /* _OSAL_H_ */

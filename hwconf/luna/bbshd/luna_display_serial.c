@@ -572,6 +572,7 @@ static void serial_display_byte_process(unsigned char byte)
                     continue;
 
                 case CMD_PEDAL_MOV:
+
                     // TODO: return pedal activity. 0: no activity
                     serial_buffer.tx[0] = 0x01;
                     serial_send_packet(serial_buffer.tx, 1);
@@ -580,6 +581,7 @@ static void serial_display_byte_process(unsigned char byte)
                     continue;
 
                 case CMD_BATT_SOC:
+
                     // Battery state of charge 0-100%.
                 {
                     float wh_left = 0.0;

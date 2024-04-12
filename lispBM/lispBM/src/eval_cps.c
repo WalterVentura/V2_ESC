@@ -1005,7 +1005,7 @@ lbm_flash_status lbm_write_const_array_padded(uint8_t* data, lbm_uint n, lbm_uin
     lbm_uint full_words = n / sizeof(lbm_uint);
     lbm_uint n_mod = n % sizeof(lbm_uint);
 
-    if(n_mod == 0)  // perfect fit.
+    if(n_mod == 0) // perfect fit.
     {
         return lbm_write_const_raw((lbm_uint*) data, full_words, res);
     }
@@ -1406,7 +1406,7 @@ bool lbm_wait_ctx(lbm_cid cid, lbm_uint timeout_ms)
                 i++;
             }
         }
-    } while (exists && i < timeout_ms);
+    } while(exists && i < timeout_ms);
 
     if(exists)
     {
@@ -1514,7 +1514,7 @@ static eval_context_t* dequeue_ctx_nm(eval_context_queue_t* q)
     // q->first should only be NULL if q->last is.
     eval_context_t* res = q->first;
 
-    if(q->first == q->last)  // One thing in queue
+    if(q->first == q->last) // One thing in queue
     {
         q->first = NULL;
         q->last = NULL;
@@ -2079,7 +2079,7 @@ static int find_match(lbm_value plist, lbm_value* earr, lbm_uint num, lbm_value*
             curr_p = get_cdr(curr_p);
         }
 
-        curr_p = plist;   /* search all patterns against next exp */
+        curr_p = plist; /* search all patterns against next exp */
         n++;
     }
 
@@ -2428,7 +2428,7 @@ static binding_location_status create_binding_location_internal(lbm_value key, l
         return BL_OK;
     }
 
-    if(lbm_type_of(key) == LBM_TYPE_SYMBOL)  // default case
+    if(lbm_type_of(key) == LBM_TYPE_SYMBOL) // default case
     {
         lbm_value binding;
         lbm_value new_env_tmp;
@@ -2537,7 +2537,7 @@ static void let_bind_values_eval(lbm_value binds, lbm_value exp, lbm_value env, 
  */
 static void eval_var(eval_context_t* ctx)
 {
-    if(ctx->K.sp >= 4)  // Possibly in progn
+    if(ctx->K.sp >= 4) // Possibly in progn
     {
         lbm_value sv = ctx->K.data[ctx->K.sp - 1];
 
@@ -3854,6 +3854,7 @@ static void application(eval_context_t* ctx, lbm_value* fun_args, lbm_uint arg_c
             break;
 
         default:
+
             // Symbols that are "special" but not in the way caught above
             // ends up here.
             lbm_set_error_reason("Symbol does not represent a function");
@@ -4315,7 +4316,7 @@ static void cont_merge_rest(eval_context_t* ctx)
     lbm_value b = lbm_cdr(a);
     lbm_set_cdr(a, ENC_SYM_NIL); // terminate 1 element list
 
-    if(ctx->r == ENC_SYM_NIL)  // Comparison false
+    if(ctx->r == ENC_SYM_NIL) // Comparison false
 
     {
         if(sptr[0] == ENC_SYM_NIL)
@@ -5269,7 +5270,7 @@ static void cont_read_append_continue(eval_context_t* ctx)
 
     sptr[0] = first_cell;
     sptr[1] = last_cell;
-    sptr[2] = stream;  // unchanged.
+    sptr[2] = stream; // unchanged.
     stack_push_4(&ctx->K,
                  READ_APPEND_CONTINUE,
                  stream,

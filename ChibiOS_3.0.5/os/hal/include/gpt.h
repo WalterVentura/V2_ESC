@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    gpt.h
@@ -46,12 +46,13 @@
 /**
  * @brief   Driver state machine possible states.
  */
-typedef enum {
-  GPT_UNINIT = 0,                   /**< Not initialized.                   */
-  GPT_STOP = 1,                     /**< Stopped.                           */
-  GPT_READY = 2,                    /**< Ready.                             */
-  GPT_CONTINUOUS = 3,               /**< Active in continuous mode.         */
-  GPT_ONESHOT = 4                   /**< Active in one shot mode.           */
+typedef enum
+{
+    GPT_UNINIT = 0,     /**< Not initialized.                   */
+    GPT_STOP = 1,       /**< Stopped.                           */
+    GPT_READY = 2,      /**< Ready.                             */
+    GPT_CONTINUOUS = 3, /**< Active in continuous mode.         */
+    GPT_ONESHOT = 4     /**< Active in one shot mode.           */
 } gptstate_t;
 
 /**
@@ -64,7 +65,7 @@ typedef struct GPTDriver GPTDriver;
  *
  * @param[in] gptp      pointer to a @p GPTDriver object
  */
-typedef void (*gptcallback_t)(GPTDriver *gptp);
+typedef void (* gptcallback_t)(GPTDriver* gptp);
 
 #include "gpt_lld.h"
 
@@ -83,8 +84,8 @@ typedef void (*gptcallback_t)(GPTDriver *gptp);
  *
  * @iclass
  */
-#define gptChangeIntervalI(gptp, interval) {                                \
-  gpt_lld_change_interval(gptp, interval);                                  \
+#define gptChangeIntervalI(gptp, interval) {     \
+        gpt_lld_change_interval(gptp, interval); \
 }
 
 /**
@@ -96,7 +97,7 @@ typedef void (*gptcallback_t)(GPTDriver *gptp);
  *
  * @xclass
  */
-#define gptGetIntervalX(gptp) gpt_lld_get_interval(gptp)
+#define gptGetIntervalX(gptp)              gpt_lld_get_interval(gptp)
 
 /**
  * @brief   Returns the counter value of GPT peripheral.
@@ -109,7 +110,7 @@ typedef void (*gptcallback_t)(GPTDriver *gptp);
  *
  * @xclass
  */
-#define gptGetCounterX(gptp) gpt_lld_get_counter(gptp)
+#define gptGetCounterX(gptp)               gpt_lld_get_counter(gptp)
 
 /*===========================================================================*/
 /* External declarations.                                                    */
@@ -118,18 +119,30 @@ typedef void (*gptcallback_t)(GPTDriver *gptp);
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void gptInit(void);
-  void gptObjectInit(GPTDriver *gptp);
-  void gptStart(GPTDriver *gptp, const GPTConfig *config);
-  void gptStop(GPTDriver *gptp);
-  void gptStartContinuous(GPTDriver *gptp, gptcnt_t interval);
-  void gptStartContinuousI(GPTDriver *gptp, gptcnt_t interval);
-  void gptChangeInterval(GPTDriver *gptp, gptcnt_t interval);
-  void gptStartOneShot(GPTDriver *gptp, gptcnt_t interval);
-  void gptStartOneShotI(GPTDriver *gptp, gptcnt_t interval);
-  void gptStopTimer(GPTDriver *gptp);
-  void gptStopTimerI(GPTDriver *gptp);
-  void gptPolledDelay(GPTDriver *gptp, gptcnt_t interval);
+void gptInit(void);
+
+void gptObjectInit(GPTDriver* gptp);
+
+void gptStart(GPTDriver* gptp, const GPTConfig* config);
+
+void gptStop(GPTDriver* gptp);
+
+void gptStartContinuous(GPTDriver* gptp, gptcnt_t interval);
+
+void gptStartContinuousI(GPTDriver* gptp, gptcnt_t interval);
+
+void gptChangeInterval(GPTDriver* gptp, gptcnt_t interval);
+
+void gptStartOneShot(GPTDriver* gptp, gptcnt_t interval);
+
+void gptStartOneShotI(GPTDriver* gptp, gptcnt_t interval);
+
+void gptStopTimer(GPTDriver* gptp);
+
+void gptStopTimerI(GPTDriver* gptp);
+
+void gptPolledDelay(GPTDriver* gptp, gptcnt_t interval);
+
 #ifdef __cplusplus
 }
 #endif

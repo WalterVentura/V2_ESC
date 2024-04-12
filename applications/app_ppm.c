@@ -370,7 +370,7 @@ static THD_FUNCTION(ppm_thread, arg)
                 current_mode = true;
 
                 if(((servo_val >= 0.0) && (rpm_now >= 0.0)) ||
-                   ((servo_val < 0.0) && (rpm_now <= 0.0)))                                    // Accelerate
+                   ((servo_val < 0.0) && (rpm_now <= 0.0))) // Accelerate
                 {
                     current = servo_val * mcconf->lo_current_max;
                 }
@@ -668,7 +668,7 @@ static THD_FUNCTION(ppm_thread, arg)
                         }
                         else if(autoTCdisengaged &&
                                 (rpm_highest < rpm_local + config.tc_max_diff) &&
-                                (rpm_lowest > rpm_local - config.tc_max_diff))                                                                        // No Fault anymore and no traction control action needed = re-enable traction control
+                                (rpm_lowest > rpm_local - config.tc_max_diff)) // No Fault anymore and no traction control action needed = re-enable traction control
                         {
                             autoTCdisengaged = false;
                         }

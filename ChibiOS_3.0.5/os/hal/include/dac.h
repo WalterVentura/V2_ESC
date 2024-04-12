@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    dac.h
@@ -39,12 +39,13 @@
  * @name    DAC configuration options
  * @{
  */
+
 /**
  * @brief   Enables synchronous APIs.
  * @note    Disabling this option saves both code and data space.
  */
 #if !defined(DAC_USE_WAIT) || defined(__DOXYGEN__)
-#define DAC_USE_WAIT                TRUE
+#define DAC_USE_WAIT             TRUE
 #endif
 
 /**
@@ -52,8 +53,9 @@
  * @note    Disabling this option saves both code and data space.
  */
 #if !defined(DAC_USE_MUTUAL_EXCLUSION) || defined(__DOXYGEN__)
-#define DAC_USE_MUTUAL_EXCLUSION    TRUE
+#define DAC_USE_MUTUAL_EXCLUSION TRUE
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -67,13 +69,14 @@
 /**
  * @brief   Driver state machine possible states.
  */
-typedef enum {
-  DAC_UNINIT = 0,                   /**< Not initialized.                   */
-  DAC_STOP = 1,                     /**< Stopped.                           */
-  DAC_READY = 2,                    /**< Ready.                             */
-  DAC_ACTIVE = 3,                   /**< Exchanging data.                   */
-  DAC_COMPLETE = 4,                 /**< Asynchronous operation complete.   */
-  DAC_ERROR = 5 			        /**< Error.                             */
+typedef enum
+{
+    DAC_UNINIT = 0,   /**< Not initialized.                   */
+    DAC_STOP = 1,     /**< Stopped.                           */
+    DAC_READY = 2,    /**< Ready.                             */
+    DAC_ACTIVE = 3,   /**< Exchanging data.                   */
+    DAC_COMPLETE = 4, /**< Asynchronous operation complete.   */
+    DAC_ERROR = 5     /**< Error.                             */
 } dacstate_t;
 
 #include "dac_lld.h"
@@ -87,6 +90,7 @@ typedef enum {
  * @{
  */
 #if (DAC_USE_WAIT == TRUE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Waits for operation completion.
  * @details This function waits for the driver to complete the current
@@ -99,7 +103,7 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_wait_s(dacp) osalThreadSuspendS(&(dacp)->thread)
+#define _dac_wait_s(dacp)      osalThreadSuspendS(&(dacp)->thread)
 
 /**
  * @brief   Resumes a thread waiting for a conversion completion.
@@ -108,7 +112,7 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_reset_i(dacp) osalThreadResumeI(&(dacp)->thread, MSG_RESET)
+#define _dac_reset_i(dacp)     osalThreadResumeI(&(dacp)->thread, MSG_RESET)
 
 /**
  * @brief   Resumes a thread waiting for a conversion completion.
@@ -117,7 +121,7 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_reset_s(dacp) osalThreadResumeS(&(dacp)->thread, MSG_RESET)
+#define _dac_reset_s(dacp)     osalThreadResumeS(&(dacp)->thread, MSG_RESET)
 
 /**
  * @brief   Wakes up the waiting thread.
@@ -126,10 +130,10 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_wakeup_isr(dacp) {                                             \
-  osalSysLockFromISR();                                                     \
-  osalThreadResumeI(&(dacp)->thread, MSG_OK);                               \
-  osalSysUnlockFromISR();                                                   \
+#define _dac_wakeup_isr(dacp)  {                    \
+        osalSysLockFromISR();                       \
+        osalThreadResumeI(&(dacp)->thread, MSG_OK); \
+        osalSysUnlockFromISR();                     \
 }
 
 /**
@@ -139,10 +143,10 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_timeout_isr(dacp) {                                            \
-  osalSysLockFromISR();                                                     \
-  osalThreadResumeI(&(dacp)->thread, MSG_TIMEOUT);                          \
-  osalSysUnlockFromISR();                                                   \
+#define _dac_timeout_isr(dacp) {                         \
+        osalSysLockFromISR();                            \
+        osalThreadResumeI(&(dacp)->thread, MSG_TIMEOUT); \
+        osalSysUnlockFromISR();                          \
 }
 
 #else /* !DAC_USE_WAIT */
@@ -165,10 +169,10 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_isr_half_code(dacp) {                                          \
-  if ((dacp)->grpp->end_cb != NULL) {                                       \
-    (dacp)->grpp->end_cb(dacp, (dacp)->samples, (dacp)->depth / 2);         \
-  }                                                                         \
+#define _dac_isr_half_code(dacp)       {                                    \
+        if((dacp)->grpp->end_cb != NULL) {                                  \
+            (dacp)->grpp->end_cb(dacp, (dacp)->samples, (dacp)->depth / 2); \
+        }                                                                   \
 }
 
 /**
@@ -185,19 +189,19 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_isr_full_code(dacp) {                                          \
-  if ((dacp)->grpp->end_cb != NULL) {                                       \
-    if ((dacp)->depth > 1) {                                                \
-      /* Invokes the callback passing the 2nd half of the buffer.*/         \
-      size_t half = (dacp)->depth / 2;                                      \
-      size_t half_index = half * (dacp)->grpp->num_channels;                \
-      (dacp)->grpp->end_cb(dacp, (dacp)->samples + half_index, half);       \
-    }                                                                       \
-    else {                                                                  \
-      /* Invokes the callback passing the whole buffer.*/                   \
-      (dacp)->grpp->end_cb(dacp, (dacp)->samples, (dacp)->depth);           \
-    }                                                                       \
-  }                                                                         \
+#define _dac_isr_full_code(dacp)       {                                        \
+        if((dacp)->grpp->end_cb != NULL) {                                      \
+            if((dacp)->depth > 1) {                                             \
+                /* Invokes the callback passing the 2nd half of the buffer.*/   \
+                size_t half = (dacp)->depth / 2;                                \
+                size_t half_index = half * (dacp)->grpp->num_channels;          \
+                (dacp)->grpp->end_cb(dacp, (dacp)->samples + half_index, half); \
+            }                                                                   \
+            else {                                                              \
+                /* Invokes the callback passing the whole buffer.*/             \
+                (dacp)->grpp->end_cb(dacp, (dacp)->samples, (dacp)->depth);     \
+            }                                                                   \
+        }                                                                       \
 }
 
 /**
@@ -215,17 +219,18 @@ typedef enum {
  *
  * @notapi
  */
-#define _dac_isr_error_code(dacp, err) {                                    \
-  dac_lld_stop_conversion(dacp);                                            \
-  if ((dacp)->grpp->error_cb != NULL) {                                     \
-    (dacp)->state = DAC_ERROR;                                              \
-    (dacp)->grpp->error_cb(dacp, err);                                      \
-    if ((dacp)->state == DAC_ERROR)                                         \
-      (dacp)->state = DAC_READY;                                            \
-  }                                                                         \
-  (dacp)->grpp = NULL;                                                      \
-  _dac_timeout_isr(dacp);                                                   \
+#define _dac_isr_error_code(dacp, err) {       \
+        dac_lld_stop_conversion(dacp);         \
+        if((dacp)->grpp->error_cb != NULL) {   \
+            (dacp)->state = DAC_ERROR;         \
+            (dacp)->grpp->error_cb(dacp, err); \
+            if((dacp)->state == DAC_ERROR)     \
+            (dacp)->state = DAC_READY;         \
+        }                                      \
+        (dacp)->grpp = NULL;                   \
+        _dac_timeout_isr(dacp);                \
 }
+
 /** @} */
 
 /*===========================================================================*/
@@ -235,26 +240,36 @@ typedef enum {
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void dacInit(void);
-  void dacObjectInit(DACDriver *dacp);
-  void dacStart(DACDriver *dacp, const DACConfig *config);
-  void dacStop(DACDriver *dacp);
-  void dacPutChannelX(DACDriver *dacp,
-                      dacchannel_t channel,
-                      dacsample_t sample);
-  void dacStartConversion(DACDriver *dacp, const DACConversionGroup *grpp,
-                          const dacsample_t *samples, size_t depth);
-  void dacStartConversionI(DACDriver *dacp, const DACConversionGroup *grpp,
-                           const dacsample_t *samples, size_t depth);
-  void dacStopConversion(DACDriver *dacp);
-  void dacStopConversionI(DACDriver *dacp);
+void dacInit(void);
+
+void dacObjectInit(DACDriver* dacp);
+
+void dacStart(DACDriver* dacp, const DACConfig* config);
+
+void dacStop(DACDriver* dacp);
+
+void dacPutChannelX(DACDriver* dacp, dacchannel_t channel, dacsample_t sample);
+
+void dacStartConversion(DACDriver* dacp, const DACConversionGroup* grpp, const dacsample_t* samples,
+                        size_t depth);
+
+void dacStartConversionI(DACDriver* dacp, const DACConversionGroup* grpp,
+                         const dacsample_t* samples, size_t depth);
+
+void dacStopConversion(DACDriver* dacp);
+
+void dacStopConversionI(DACDriver* dacp);
+
 #if DAC_USE_WAIT
-  msg_t dacConvert(DACDriver *dacp, const DACConversionGroup *grpp,
-                   const dacsample_t *samples, size_t depth);
+msg_t dacConvert(DACDriver* dacp, const DACConversionGroup* grpp, const dacsample_t* samples,
+                 size_t depth);
+
 #endif
 #if DAC_USE_MUTUAL_EXCLUSION
-  void dacAcquireBus(DACDriver *dacp);
-  void dacReleaseBus(DACDriver *dacp);
+void dacAcquireBus(DACDriver* dacp);
+
+void dacReleaseBus(DACDriver* dacp);
+
 #endif
 #ifdef __cplusplus
 }

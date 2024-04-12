@@ -253,6 +253,7 @@ static THD_FUNCTION(pas_thread, arg)
                 break;
 
             case PAS_CTRL_TYPE_CADENCE:
+
                 // Map pedal rpm to assist level
 
                 // NOTE: If the limits are the same a numerical instability is approached, so in that case

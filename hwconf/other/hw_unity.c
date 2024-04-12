@@ -176,23 +176,23 @@ void hw_init_gpio(void)
 void hw_setup_adc_channels(void)
 {
     // ADC1 regular channels
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 1, ADC_SampleTime_15Cycles); // 0
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 2, ADC_SampleTime_15Cycles); // 3
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 3, ADC_SampleTime_15Cycles); // 6
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 4, ADC_SampleTime_15Cycles); // 9
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_14, 1, ADC_SampleTime_15Cycles);      // 0
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 2, ADC_SampleTime_15Cycles);       // 3
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 3, ADC_SampleTime_15Cycles);       // 6
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_5, 4, ADC_SampleTime_15Cycles);       // 9
     ADC_RegularChannelConfig(ADC1, ADC_Channel_Vrefint, 5, ADC_SampleTime_15Cycles); // 12
 
     // ADC2 regular channels
     ADC_RegularChannelConfig(ADC2, ADC_Channel_15, 1, ADC_SampleTime_15Cycles); // 1
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_8, 2, ADC_SampleTime_15Cycles); // 4
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_1, 3, ADC_SampleTime_15Cycles); // 7
-    ADC_RegularChannelConfig(ADC2, ADC_Channel_4, 4, ADC_SampleTime_15Cycles); // 10
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_8, 2, ADC_SampleTime_15Cycles);  // 4
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_1, 3, ADC_SampleTime_15Cycles);  // 7
+    ADC_RegularChannelConfig(ADC2, ADC_Channel_4, 4, ADC_SampleTime_15Cycles);  // 10
     ADC_RegularChannelConfig(ADC2, ADC_Channel_11, 5, ADC_SampleTime_15Cycles); // 13
 
     // ADC3 regular channels
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 1, ADC_SampleTime_15Cycles); // 2
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_3, 1, ADC_SampleTime_15Cycles);  // 2
     ADC_RegularChannelConfig(ADC3, ADC_Channel_10, 2, ADC_SampleTime_15Cycles); // 5
-    ADC_RegularChannelConfig(ADC3, ADC_Channel_2, 3, ADC_SampleTime_15Cycles); // 8
+    ADC_RegularChannelConfig(ADC3, ADC_Channel_2, 3, ADC_SampleTime_15Cycles);  // 8
     ADC_RegularChannelConfig(ADC3, ADC_Channel_13, 4, ADC_SampleTime_15Cycles); // 11
     ADC_RegularChannelConfig(ADC3, ADC_Channel_12, 5, ADC_SampleTime_15Cycles); // 14
 

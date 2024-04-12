@@ -90,7 +90,7 @@ void queue_prio_insert(thread_t* tp, threads_queue_t* tqp)
 
     do {
         cp = cp->p_next;
-    } while ((cp != (thread_t*) tqp) && (cp->p_prio >= tp->p_prio));
+    } while((cp != (thread_t*) tqp) && (cp->p_prio >= tp->p_prio));
 
     tp->p_next = cp;
     tp->p_prev = cp->p_prev;
@@ -236,7 +236,7 @@ thread_t* chSchReadyI(thread_t* tp)
 
     do {
         cp = cp->p_next;
-    } while (cp->p_prio >= tp->p_prio);
+    } while(cp->p_prio >= tp->p_prio);
 
     /* Insertion on p_prev.*/
     tp->p_next = cp;
@@ -295,6 +295,7 @@ static void wakeup(void* p)
     switch(tp->p_state)
     {
         case CH_STATE_READY:
+
             /* Handling the special case where the thread has been made ready by
              * another thread with higher priority.*/
             chSysUnlockFromISR();
@@ -316,11 +317,13 @@ static void wakeup(void* p)
         case CH_STATE_WTCOND:
 #endif
         case CH_STATE_QUEUED:
+
             /* States requiring dequeuing.*/
             (void) queue_dequeue(tp);
             break;
 
         default:
+
             /* Any other state, nothing to do.*/
             break;
     }
@@ -541,7 +544,7 @@ void chSchDoRescheduleAhead(void)
 
     do {
         cp = cp->p_next;
-    } while (cp->p_prio > otp->p_prio);
+    } while(cp->p_prio > otp->p_prio);
 
     /* Insertion on p_prev.*/
     otp->p_next = cp;
