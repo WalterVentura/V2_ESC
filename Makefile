@@ -323,8 +323,9 @@ CORES := $(shell nproc)
 CORES_MINUS_ONE := $(shell expr $(CORES) - 1)
 MAKEFLAGS += -j$(CORES_MINUS_ONE) -s
 
-C_SOURCES := $(shell find . -name "*.c")
-C_HEADERS := $(shell find . -name "*.h")
+C_SOURCES := $(shell find . -path ./tools -prune -o -name "*.c" -print)
+C_HEADERS := $(shell find . -path ./tools -prune -o -name "*.h" -print)
+
 
 format:
 	@uncrustify -c uncrustify.cfg --replace --no-backup $(C_SOURCES) $(C_HEADERS)
