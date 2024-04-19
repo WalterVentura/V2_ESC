@@ -47,8 +47,8 @@ typedef struct
     // FieldTypes
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        int16_t* data;                        // Dynamic Array 14bit[20] max items
+        uint8_t  len;  // Dynamic array length
+        int16_t* data; // Dynamic Array 14bit[20] max items
     } cmd;
 } uavcan_equipment_esc_RawCommand;
 

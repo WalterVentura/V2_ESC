@@ -224,13 +224,13 @@ typedef struct
     lbm_uint    num_alloc;        // Number of cells allocated.
     lbm_uint    num_alloc_arrays; // Number of arrays allocated.
 
-    lbm_uint    gc_num;        // Number of times gc has been performed.
-    lbm_uint    gc_marked;     // Number of cells marked by mark phase.
-    lbm_uint    gc_recovered;  // Number of cells recovered by sweep phase.
+    lbm_uint    gc_num;              // Number of times gc has been performed.
+    lbm_uint    gc_marked;           // Number of cells marked by mark phase.
+    lbm_uint    gc_recovered;        // Number of cells recovered by sweep phase.
     lbm_uint    gc_recovered_arrays; // Number of arrays recovered by sweep.
-    lbm_uint    gc_least_free; // The smallest length of the freelist.
-    lbm_uint    gc_last_free;  // Number of elements on the freelist
-                               // after most recent GC.
+    lbm_uint    gc_least_free;       // The smallest length of the freelist.
+    lbm_uint    gc_last_free;        // Number of elements on the freelist
+                                     // after most recent GC.
 } lbm_heap_state_t;
 
 extern lbm_heap_state_t lbm_heap_state;
@@ -251,8 +251,8 @@ typedef struct
  */
 typedef struct
 {
-    lbm_uint  size;         /// Number of elements
-    lbm_uint* data;         /// pointer to lbm_memory array or C array.
+    lbm_uint  size; /// Number of elements
+    lbm_uint* data; /// pointer to lbm_memory array or C array.
 } lbm_array_header_t;
 
 /** Lock GC mutex

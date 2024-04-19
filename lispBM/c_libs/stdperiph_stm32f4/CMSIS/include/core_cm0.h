@@ -69,7 +69,7 @@ extern "C" {
 #define __CM0_CMSIS_VERSION_MAIN (0x03) /*!< [31:16] CMSIS HAL main version   */
 #define __CM0_CMSIS_VERSION_SUB  (0x20) /*!< [15:0]  CMSIS HAL sub version    */
 #define __CM0_CMSIS_VERSION      ((__CM0_CMSIS_VERSION_MAIN << 16) | \
-                                  __CM0_CMSIS_VERSION_SUB)                 /*!< CMSIS HAL version number         */
+                                  __CM0_CMSIS_VERSION_SUB) /*!< CMSIS HAL version number         */
 
 #define __CORTEX_M               (0x00)                                    /*!< Cortex-M Core                    */
 
@@ -193,19 +193,19 @@ typedef union
     struct
     {
 #if (__CORTEX_M != 0x04)
-        uint32_t _reserved0 : 27;        /*!< bit:  0..26  Reserved                           */
+        uint32_t _reserved0 : 27; /*!< bit:  0..26  Reserved                           */
 #else
-        uint32_t _reserved0 : 16;        /*!< bit:  0..15  Reserved                           */
-        uint32_t GE : 4;                 /*!< bit: 16..19  Greater than or Equal flags        */
-        uint32_t _reserved1 : 7;         /*!< bit: 20..26  Reserved                           */
+        uint32_t _reserved0 : 16; /*!< bit:  0..15  Reserved                           */
+        uint32_t GE : 4;          /*!< bit: 16..19  Greater than or Equal flags        */
+        uint32_t _reserved1 : 7;  /*!< bit: 20..26  Reserved                           */
 #endif
-        uint32_t Q : 1;                  /*!< bit:     27  Saturation condition flag          */
-        uint32_t V : 1;                  /*!< bit:     28  Overflow condition code flag       */
-        uint32_t C : 1;                  /*!< bit:     29  Carry condition code flag          */
-        uint32_t Z : 1;                  /*!< bit:     30  Zero condition code flag           */
-        uint32_t N : 1;                  /*!< bit:     31  Negative condition code flag       */
-    } b;                                 /*!< Structure used for bit  access                  */
-    uint32_t w;                          /*!< Type      used for word access                  */
+        uint32_t Q : 1; /*!< bit:     27  Saturation condition flag          */
+        uint32_t V : 1; /*!< bit:     28  Overflow condition code flag       */
+        uint32_t C : 1; /*!< bit:     29  Carry condition code flag          */
+        uint32_t Z : 1; /*!< bit:     30  Zero condition code flag           */
+        uint32_t N : 1; /*!< bit:     31  Negative condition code flag       */
+    } b;                /*!< Structure used for bit  access                  */
+    uint32_t w;         /*!< Type      used for word access                  */
 } APSR_Type;
 
 /** \brief  Union type to access the Interrupt Program Status Register (IPSR).
@@ -214,10 +214,10 @@ typedef union
 {
     struct
     {
-        uint32_t ISR : 9;                /*!< bit:  0.. 8  Exception number                   */
-        uint32_t _reserved0 : 23;        /*!< bit:  9..31  Reserved                           */
-    } b;                                 /*!< Structure used for bit  access                  */
-    uint32_t w;                          /*!< Type      used for word access                  */
+        uint32_t ISR : 9;         /*!< bit:  0.. 8  Exception number                   */
+        uint32_t _reserved0 : 23; /*!< bit:  9..31  Reserved                           */
+    } b;                          /*!< Structure used for bit  access                  */
+    uint32_t w;                   /*!< Type      used for word access                  */
 } IPSR_Type;
 
 /** \brief  Union type to access the Special-Purpose Program Status Registers (xPSR).
@@ -226,23 +226,23 @@ typedef union
 {
     struct
     {
-        uint32_t ISR : 9;                /*!< bit:  0.. 8  Exception number                   */
+        uint32_t ISR : 9; /*!< bit:  0.. 8  Exception number                   */
 #if (__CORTEX_M != 0x04)
-        uint32_t _reserved0 : 15;        /*!< bit:  9..23  Reserved                           */
+        uint32_t _reserved0 : 15; /*!< bit:  9..23  Reserved                           */
 #else
-        uint32_t _reserved0 : 7;         /*!< bit:  9..15  Reserved                           */
-        uint32_t GE : 4;                 /*!< bit: 16..19  Greater than or Equal flags        */
-        uint32_t _reserved1 : 4;         /*!< bit: 20..23  Reserved                           */
+        uint32_t _reserved0 : 7; /*!< bit:  9..15  Reserved                           */
+        uint32_t GE : 4;         /*!< bit: 16..19  Greater than or Equal flags        */
+        uint32_t _reserved1 : 4; /*!< bit: 20..23  Reserved                           */
 #endif
-        uint32_t T : 1;                  /*!< bit:     24  Thumb bit        (read 0)          */
-        uint32_t IT : 2;                 /*!< bit: 25..26  saved IT state   (read 0)          */
-        uint32_t Q : 1;                  /*!< bit:     27  Saturation condition flag          */
-        uint32_t V : 1;                  /*!< bit:     28  Overflow condition code flag       */
-        uint32_t C : 1;                  /*!< bit:     29  Carry condition code flag          */
-        uint32_t Z : 1;                  /*!< bit:     30  Zero condition code flag           */
-        uint32_t N : 1;                  /*!< bit:     31  Negative condition code flag       */
-    } b;                                 /*!< Structure used for bit  access                  */
-    uint32_t w;                          /*!< Type      used for word access                  */
+        uint32_t T : 1;  /*!< bit:     24  Thumb bit        (read 0)          */
+        uint32_t IT : 2; /*!< bit: 25..26  saved IT state   (read 0)          */
+        uint32_t Q : 1;  /*!< bit:     27  Saturation condition flag          */
+        uint32_t V : 1;  /*!< bit:     28  Overflow condition code flag       */
+        uint32_t C : 1;  /*!< bit:     29  Carry condition code flag          */
+        uint32_t Z : 1;  /*!< bit:     30  Zero condition code flag           */
+        uint32_t N : 1;  /*!< bit:     31  Negative condition code flag       */
+    } b;                 /*!< Structure used for bit  access                  */
+    uint32_t w;          /*!< Type      used for word access                  */
 } xPSR_Type;
 
 /** \brief  Union type to access the Control Registers (CONTROL).
@@ -251,12 +251,12 @@ typedef union
 {
     struct
     {
-        uint32_t nPRIV : 1;              /*!< bit:      0  Execution privilege in Thread mode */
-        uint32_t SPSEL : 1;              /*!< bit:      1  Stack to be used                   */
-        uint32_t FPCA : 1;               /*!< bit:      2  FP extension active flag           */
-        uint32_t _reserved0 : 29;        /*!< bit:  3..31  Reserved                           */
-    } b;                                 /*!< Structure used for bit  access                  */
-    uint32_t w;                          /*!< Type      used for word access                  */
+        uint32_t nPRIV : 1;       /*!< bit:      0  Execution privilege in Thread mode */
+        uint32_t SPSEL : 1;       /*!< bit:      1  Stack to be used                   */
+        uint32_t FPCA : 1;        /*!< bit:      2  FP extension active flag           */
+        uint32_t _reserved0 : 29; /*!< bit:  3..31  Reserved                           */
+    } b;                          /*!< Structure used for bit  access                  */
+    uint32_t w;                   /*!< Type      used for word access                  */
 } CONTROL_Type;
 
 /*@} end of group CMSIS_CORE */
@@ -271,16 +271,16 @@ typedef union
  */
 typedef struct
 {
-    __IO uint32_t ISER[1];               /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register           */
+    __IO uint32_t ISER[1]; /*!< Offset: 0x000 (R/W)  Interrupt Set Enable Register           */
     uint32_t      RESERVED0[31];
-    __IO uint32_t ICER[1];               /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register          */
+    __IO uint32_t ICER[1]; /*!< Offset: 0x080 (R/W)  Interrupt Clear Enable Register          */
     uint32_t      RSERVED1[31];
-    __IO uint32_t ISPR[1];               /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register           */
+    __IO uint32_t ISPR[1]; /*!< Offset: 0x100 (R/W)  Interrupt Set Pending Register           */
     uint32_t      RESERVED2[31];
-    __IO uint32_t ICPR[1];               /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register         */
+    __IO uint32_t ICPR[1]; /*!< Offset: 0x180 (R/W)  Interrupt Clear Pending Register         */
     uint32_t      RESERVED3[31];
     uint32_t      RESERVED4[64];
-    __IO uint32_t IP[8];                 /*!< Offset: 0x300 (R/W)  Interrupt Priority Register              */
+    __IO uint32_t IP[8]; /*!< Offset: 0x300 (R/W)  Interrupt Priority Register              */
 } NVIC_Type;
 
 /*@} end of group CMSIS_NVIC */
@@ -295,15 +295,15 @@ typedef struct
  */
 typedef struct
 {
-    __I uint32_t  CPUID;                 /*!< Offset: 0x000 (R/ )  CPUID Base Register                                   */
-    __IO uint32_t ICSR;                  /*!< Offset: 0x004 (R/W)  Interrupt Control and State Register                  */
+    __I uint32_t  CPUID; /*!< Offset: 0x000 (R/ )  CPUID Base Register                                   */
+    __IO uint32_t ICSR;  /*!< Offset: 0x004 (R/W)  Interrupt Control and State Register                  */
     uint32_t      RESERVED0;
-    __IO uint32_t AIRCR;                 /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset Control Register      */
-    __IO uint32_t SCR;                   /*!< Offset: 0x010 (R/W)  System Control Register                               */
-    __IO uint32_t CCR;                   /*!< Offset: 0x014 (R/W)  Configuration Control Register                        */
+    __IO uint32_t AIRCR; /*!< Offset: 0x00C (R/W)  Application Interrupt and Reset Control Register      */
+    __IO uint32_t SCR;   /*!< Offset: 0x010 (R/W)  System Control Register                               */
+    __IO uint32_t CCR;   /*!< Offset: 0x014 (R/W)  Configuration Control Register                        */
     uint32_t      RESERVED1;
-    __IO uint32_t SHP[2];                /*!< Offset: 0x01C (R/W)  System Handlers Priority Registers. [0] is RESERVED   */
-    __IO uint32_t SHCSR;                 /*!< Offset: 0x024 (R/W)  System Handler Control and State Register             */
+    __IO uint32_t SHP[2]; /*!< Offset: 0x01C (R/W)  System Handlers Priority Registers. [0] is RESERVED   */
+    __IO uint32_t SHCSR;  /*!< Offset: 0x024 (R/W)  System Handler Control and State Register             */
 } SCB_Type;
 
 /* SCB CPUID Register Definitions */
@@ -399,10 +399,10 @@ typedef struct
  */
 typedef struct
 {
-    __IO uint32_t CTRL;                  /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
-    __IO uint32_t LOAD;                  /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register       */
-    __IO uint32_t VAL;                   /*!< Offset: 0x008 (R/W)  SysTick Current Value Register      */
-    __I uint32_t  CALIB;                 /*!< Offset: 0x00C (R/ )  SysTick Calibration Register        */
+    __IO uint32_t CTRL;  /*!< Offset: 0x000 (R/W)  SysTick Control and Status Register */
+    __IO uint32_t LOAD;  /*!< Offset: 0x004 (R/W)  SysTick Reload Value Register       */
+    __IO uint32_t VAL;   /*!< Offset: 0x008 (R/W)  SysTick Current Value Register      */
+    __I uint32_t  CALIB; /*!< Offset: 0x00C (R/ )  SysTick Calibration Register        */
 } SysTick_Type;
 
 /* SysTick Control / Status Register Definitions */
@@ -591,12 +591,12 @@ __STATIC_INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
     {
         return ((uint32_t) (((SCB->SHP[_SHP_IDX(IRQn)] >> _BIT_SHIFT(IRQn)) & 0xFF) >>
                             (8 - __NVIC_PRIO_BITS)));
-    }                                                                                                          /* get priority for Cortex-M0 system interrupts */
+    } /* get priority for Cortex-M0 system interrupts */
     else
     {
         return ((uint32_t) (((NVIC->IP[_IP_IDX(IRQn)] >> _BIT_SHIFT(IRQn)) & 0xFF) >>
                             (8 - __NVIC_PRIO_BITS)));
-    }                                                                                                          /* get priority for device specific interrupts  */
+    } /* get priority for device specific interrupts  */
 }
 
 /** \brief  System Reset
@@ -605,14 +605,14 @@ __STATIC_INLINE uint32_t NVIC_GetPriority(IRQn_Type IRQn)
  */
 __STATIC_INLINE void NVIC_SystemReset(void)
 {
-    __DSB();                                                   /* Ensure all outstanding memory accesses included
-                                                                * buffered write are completed before reset */
+    __DSB(); /* Ensure all outstanding memory accesses included
+              * buffered write are completed before reset */
     SCB->AIRCR = ((0x5FA << SCB_AIRCR_VECTKEY_Pos) |
                   SCB_AIRCR_SYSRESETREQ_Msk);
-    __DSB();                                                   /* Ensure completion of memory access */
+    __DSB(); /* Ensure completion of memory access */
 
     while(1)
-        ;                                                      /* wait until reset */
+        ; /* wait until reset */
 }
 
 /*@} end of CMSIS_Core_NVICFunctions */
@@ -646,7 +646,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 {
     if((ticks - 1) > SysTick_LOAD_RELOAD_Msk)
     {
-        return (1);                                            /* Reload value impossible */
+        return (1); /* Reload value impossible */
     }
 
     SysTick->LOAD = ticks - 1;                                   /* set reload register */
@@ -654,8 +654,8 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
     SysTick->VAL = 0;                                            /* Load the SysTick Counter Value */
     SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk |
                     SysTick_CTRL_TICKINT_Msk |
-                    SysTick_CTRL_ENABLE_Msk;                   /* Enable SysTick IRQ and SysTick Timer */
-    return (0);                                                /* Function successful */
+                    SysTick_CTRL_ENABLE_Msk; /* Enable SysTick IRQ and SysTick Timer */
+    return (0);                              /* Function successful */
 }
 
 #endif

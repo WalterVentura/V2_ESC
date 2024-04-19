@@ -48,8 +48,8 @@ typedef struct
     // FieldTypes
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        int32_t* data;                        // Dynamic Array 18bit[20] max items
+        uint8_t  len;  // Dynamic array length
+        int32_t* data; // Dynamic Array 18bit[20] max items
     } rpm;
 } uavcan_equipment_esc_RPMCommand;
 

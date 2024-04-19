@@ -78,8 +78,8 @@ typedef struct
         uint8_t                     boolean_value; // bit len 8
         struct
         {
-            uint8_t  len;                     // Dynamic array length
-            uint8_t* data;                    // Dynamic Array 8bit[128] max items
+            uint8_t  len;  // Dynamic array length
+            uint8_t* data; // Dynamic Array 8bit[128] max items
         } string_value;
     };
 } uavcan_protocol_param_Value;

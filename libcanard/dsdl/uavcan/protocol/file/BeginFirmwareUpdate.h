@@ -64,7 +64,7 @@ extern "C"
 
 #define UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_ID               40
 #define UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_NAME \
-                                                                  "uavcan.protocol.file.BeginFirmwareUpdate"
+    "uavcan.protocol.file.BeginFirmwareUpdate"
 #define UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_SIGNATURE        (0xB7D725DF72724126ULL)
 
 #define UAVCAN_PROTOCOL_FILE_BEGINFIRMWAREUPDATE_REQUEST_MAX_SIZE ((1616 + 7) / 8)
@@ -115,8 +115,8 @@ typedef struct
     uint8_t error; // bit len 8
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[127] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[127] max items
     } optional_error_message;
 } uavcan_protocol_file_BeginFirmwareUpdateResponse;
 

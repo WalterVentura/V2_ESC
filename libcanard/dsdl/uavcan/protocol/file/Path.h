@@ -51,8 +51,8 @@ typedef struct
     // FieldTypes
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[200] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[200] max items
     } path;
 } uavcan_protocol_file_Path;
 

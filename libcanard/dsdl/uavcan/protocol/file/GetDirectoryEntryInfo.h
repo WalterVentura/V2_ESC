@@ -57,7 +57,7 @@ extern "C"
 
 #define UAVCAN_PROTOCOL_FILE_GETDIRECTORYENTRYINFO_ID               46
 #define UAVCAN_PROTOCOL_FILE_GETDIRECTORYENTRYINFO_NAME \
-                                                                    "uavcan.protocol.file.GetDirectoryEntryInfo"
+    "uavcan.protocol.file.GetDirectoryEntryInfo"
 #define UAVCAN_PROTOCOL_FILE_GETDIRECTORYENTRYINFO_SIGNATURE        (0x8C46E8AB568BDA79ULL)
 
 #define UAVCAN_PROTOCOL_FILE_GETDIRECTORYENTRYINFO_REQUEST_MAX_SIZE ((1640 + 7) / 8)

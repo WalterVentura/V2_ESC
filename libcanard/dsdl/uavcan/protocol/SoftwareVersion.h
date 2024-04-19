@@ -74,7 +74,7 @@ extern "C"
  ******************************************************************************/
 
 #define UAVCAN_PROTOCOL_SOFTWAREVERSION_NAME \
-                                                                       "uavcan.protocol.SoftwareVersion"
+    "uavcan.protocol.SoftwareVersion"
 #define UAVCAN_PROTOCOL_SOFTWAREVERSION_SIGNATURE                      (0xDD46FD376527FEA1ULL)
 
 #define UAVCAN_PROTOCOL_SOFTWAREVERSION_MAX_SIZE                       ((120 + 7) / 8)

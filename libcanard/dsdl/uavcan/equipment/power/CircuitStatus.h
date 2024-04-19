@@ -44,7 +44,7 @@ extern "C"
 
 #define UAVCAN_EQUIPMENT_POWER_CIRCUITSTATUS_ID                      1091
 #define UAVCAN_EQUIPMENT_POWER_CIRCUITSTATUS_NAME \
-                                                                     "uavcan.equipment.power.CircuitStatus"
+    "uavcan.equipment.power.CircuitStatus"
 #define UAVCAN_EQUIPMENT_POWER_CIRCUITSTATUS_SIGNATURE               (0x8313D33D0DDDA115ULL)
 
 #define UAVCAN_EQUIPMENT_POWER_CIRCUITSTATUS_MAX_SIZE                ((56 + 7) / 8)

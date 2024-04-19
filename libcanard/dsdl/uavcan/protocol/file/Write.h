@@ -75,8 +75,8 @@ typedef struct
     uavcan_protocol_file_Path path;   //
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[192] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[192] max items
     } data;
 } uavcan_protocol_file_WriteRequest;
 

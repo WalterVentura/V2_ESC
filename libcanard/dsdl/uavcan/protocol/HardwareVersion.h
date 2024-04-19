@@ -52,7 +52,7 @@ extern "C"
  ******************************************************************************/
 
 #define UAVCAN_PROTOCOL_HARDWAREVERSION_NAME \
-                                                                               "uavcan.protocol.HardwareVersion"
+    "uavcan.protocol.HardwareVersion"
 #define UAVCAN_PROTOCOL_HARDWAREVERSION_SIGNATURE                              (0xAD5C4C933F4A0C4ULL)
 
 #define UAVCAN_PROTOCOL_HARDWAREVERSION_MAX_SIZE                               ((2192 + 7) / 8)
@@ -70,8 +70,8 @@ typedef struct
     uint8_t unique_id[16]; // Static Array 8bit[16] max items
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[255] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[255] max items
     } certificate_of_authenticity;
 } uavcan_protocol_HardwareVersion;
 

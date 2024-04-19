@@ -104,8 +104,8 @@ typedef struct
     uavcan_protocol_HardwareVersion hardware_version; //
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[80] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[80] max items
     } name;
 } uavcan_protocol_GetNodeInfoResponse;
 

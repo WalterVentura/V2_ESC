@@ -52,7 +52,7 @@ extern "C"
 
 #define UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_ID        1090
 #define UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_NAME \
-                                                                  "uavcan.equipment.power.PrimaryPowerSupplyStatus"
+    "uavcan.equipment.power.PrimaryPowerSupplyStatus"
 #define UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_SIGNATURE (0xBBA05074AD757480ULL)
 
 #define UAVCAN_EQUIPMENT_POWER_PRIMARYPOWERSUPPLYSTATUS_MAX_SIZE  ((47 + 7) / 8)

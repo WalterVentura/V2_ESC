@@ -104,7 +104,7 @@ extern "C"
 
 #define UAVCAN_EQUIPMENT_POWER_BATTERYINFO_ID                       1092
 #define UAVCAN_EQUIPMENT_POWER_BATTERYINFO_NAME \
-                                                                    "uavcan.equipment.power.BatteryInfo"
+    "uavcan.equipment.power.BatteryInfo"
 #define UAVCAN_EQUIPMENT_POWER_BATTERYINFO_SIGNATURE                (0x249C26548A711966ULL)
 
 #define UAVCAN_EQUIPMENT_POWER_BATTERYINFO_MAX_SIZE                 ((437 + 7) / 8)
@@ -143,8 +143,8 @@ typedef struct
     uint32_t model_instance_id;         // bit len 32
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[31] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[31] max items
     } model_name;
 } uavcan_equipment_power_BatteryInfo;
 

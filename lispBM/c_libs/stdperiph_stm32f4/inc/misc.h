@@ -68,9 +68,9 @@ typedef struct
                                                  *   between 0 and 15 as described in the table @ref MISC_NVIC_Priority_Table
                                                  *   A lower priority value indicates a higher priority */
 
-    FunctionalState NVIC_IRQChannelCmd;       /*!< Specifies whether the IRQ channel defined in NVIC_IRQChannel
-                                               *   will be enabled or disabled.
-                                               *   This parameter can be set either to ENABLE or DISABLE */
+    FunctionalState NVIC_IRQChannelCmd; /*!< Specifies whether the IRQ channel defined in NVIC_IRQChannel
+                                         *   will be enabled or disabled.
+                                         *   This parameter can be set either to ENABLE or DISABLE */
 } NVIC_InitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/

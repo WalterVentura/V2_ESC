@@ -83,19 +83,19 @@ typedef struct
  */
 typedef struct
 {
-    uint32_t ADC_Mode;                    /*!< Configures the ADC to operate in
-                                           *   independent or multi mode.
-                                           *   This parameter can be a value of @ref ADC_Common_mode */
-    uint32_t ADC_Prescaler;               /*!< Select the frequency of the clock
-                                           *   to the ADC. The clock is common for all the ADCs.
-                                           *   This parameter can be a value of @ref ADC_Prescaler */
-    uint32_t ADC_DMAAccessMode;           /*!< Configures the Direct memory access
-                                           *  mode for multi ADC mode.
-                                           *   This parameter can be a value of
-                                           *   @ref ADC_Direct_memory_access_mode_for_multi_mode */
-    uint32_t ADC_TwoSamplingDelay;        /*!< Configures the Delay between 2 sampling phases.
-                                           *   This parameter can be a value of
-                                           *   @ref ADC_delay_between_2_sampling_phases */
+    uint32_t ADC_Mode;             /*!< Configures the ADC to operate in
+                                    *   independent or multi mode.
+                                    *   This parameter can be a value of @ref ADC_Common_mode */
+    uint32_t ADC_Prescaler;        /*!< Select the frequency of the clock
+                                    *   to the ADC. The clock is common for all the ADCs.
+                                    *   This parameter can be a value of @ref ADC_Prescaler */
+    uint32_t ADC_DMAAccessMode;    /*!< Configures the Direct memory access
+                                    *  mode for multi ADC mode.
+                                    *   This parameter can be a value of
+                                    *   @ref ADC_Direct_memory_access_mode_for_multi_mode */
+    uint32_t ADC_TwoSamplingDelay; /*!< Configures the Delay between 2 sampling phases.
+                                    *   This parameter can be a value of
+                                    *   @ref ADC_delay_between_2_sampling_phases */
 } ADC_CommonInitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/

@@ -111,8 +111,8 @@ typedef struct
     uavcan_protocol_param_Value value; //
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[92] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[92] max items
     } name;
 } uavcan_protocol_param_GetSetRequest;
 
@@ -154,8 +154,8 @@ typedef struct
     uavcan_protocol_param_NumericValue min_value; //
     struct
     {
-        uint8_t  len;                         // Dynamic array length
-        uint8_t* data;                        // Dynamic Array 8bit[92] max items
+        uint8_t  len;  // Dynamic array length
+        uint8_t* data; // Dynamic Array 8bit[92] max items
     } name;
 } uavcan_protocol_param_GetSetResponse;
 

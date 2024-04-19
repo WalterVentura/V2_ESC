@@ -84,96 +84,96 @@ extern "C" {
 typedef enum
 {
 /******  Cortex-M4 Processor Exceptions Numbers ****************************************************************/
-    NonMaskableInt_IRQn = -14,          /*!< 2 Non Maskable Interrupt                                          */
-    MemoryManagement_IRQn = -12,        /*!< 4 Cortex-M4 Memory Management Interrupt                           */
-    BusFault_IRQn = -11,                /*!< 5 Cortex-M4 Bus Fault Interrupt                                   */
-    UsageFault_IRQn = -10,              /*!< 6 Cortex-M4 Usage Fault Interrupt                                 */
-    SVCall_IRQn = -5,                   /*!< 11 Cortex-M4 SV Call Interrupt                                    */
-    DebugMonitor_IRQn = -4,             /*!< 12 Cortex-M4 Debug Monitor Interrupt                              */
-    PendSV_IRQn = -2,                   /*!< 14 Cortex-M4 Pend SV Interrupt                                    */
-    SysTick_IRQn = -1,                  /*!< 15 Cortex-M4 System Tick Interrupt                                */
+    NonMaskableInt_IRQn = -14,   /*!< 2 Non Maskable Interrupt                                          */
+    MemoryManagement_IRQn = -12, /*!< 4 Cortex-M4 Memory Management Interrupt                           */
+    BusFault_IRQn = -11,         /*!< 5 Cortex-M4 Bus Fault Interrupt                                   */
+    UsageFault_IRQn = -10,       /*!< 6 Cortex-M4 Usage Fault Interrupt                                 */
+    SVCall_IRQn = -5,            /*!< 11 Cortex-M4 SV Call Interrupt                                    */
+    DebugMonitor_IRQn = -4,      /*!< 12 Cortex-M4 Debug Monitor Interrupt                              */
+    PendSV_IRQn = -2,            /*!< 14 Cortex-M4 Pend SV Interrupt                                    */
+    SysTick_IRQn = -1,           /*!< 15 Cortex-M4 System Tick Interrupt                                */
 /******  STM32 specific Interrupt Numbers **********************************************************************/
-    WWDG_IRQn = 0,                      /*!< Window WatchDog Interrupt                                         */
-    PVD_IRQn = 1,                       /*!< PVD through EXTI Line detection Interrupt                         */
-    TAMP_STAMP_IRQn = 2,                /*!< Tamper and TimeStamp interrupts through the EXTI line             */
-    RTC_WKUP_IRQn = 3,                  /*!< RTC Wakeup interrupt through the EXTI line                        */
-    FLASH_IRQn = 4,                     /*!< FLASH global Interrupt                                            */
-    RCC_IRQn = 5,                       /*!< RCC global Interrupt                                              */
-    EXTI0_IRQn = 6,                     /*!< EXTI Line0 Interrupt                                              */
-    EXTI1_IRQn = 7,                     /*!< EXTI Line1 Interrupt                                              */
-    EXTI2_IRQn = 8,                     /*!< EXTI Line2 Interrupt                                              */
-    EXTI3_IRQn = 9,                     /*!< EXTI Line3 Interrupt                                              */
-    EXTI4_IRQn = 10,                    /*!< EXTI Line4 Interrupt                                              */
-    DMA1_Stream0_IRQn = 11,             /*!< DMA1 Stream 0 global Interrupt                                    */
-    DMA1_Stream1_IRQn = 12,             /*!< DMA1 Stream 1 global Interrupt                                    */
-    DMA1_Stream2_IRQn = 13,             /*!< DMA1 Stream 2 global Interrupt                                    */
-    DMA1_Stream3_IRQn = 14,             /*!< DMA1 Stream 3 global Interrupt                                    */
-    DMA1_Stream4_IRQn = 15,             /*!< DMA1 Stream 4 global Interrupt                                    */
-    DMA1_Stream5_IRQn = 16,             /*!< DMA1 Stream 5 global Interrupt                                    */
-    DMA1_Stream6_IRQn = 17,             /*!< DMA1 Stream 6 global Interrupt                                    */
-    ADC_IRQn = 18,                      /*!< ADC1, ADC2 and ADC3 global Interrupts                             */
-    CAN1_TX_IRQn = 19,                  /*!< CAN1 TX Interrupt                                                 */
-    CAN1_RX0_IRQn = 20,                 /*!< CAN1 RX0 Interrupt                                                */
-    CAN1_RX1_IRQn = 21,                 /*!< CAN1 RX1 Interrupt                                                */
-    CAN1_SCE_IRQn = 22,                 /*!< CAN1 SCE Interrupt                                                */
-    EXTI9_5_IRQn = 23,                  /*!< External Line[9:5] Interrupts                                     */
-    TIM1_BRK_TIM9_IRQn = 24,            /*!< TIM1 Break interrupt and TIM9 global interrupt                    */
-    TIM1_UP_TIM10_IRQn = 25,            /*!< TIM1 Update Interrupt and TIM10 global interrupt                  */
-    TIM1_TRG_COM_TIM11_IRQn = 26,       /*!< TIM1 Trigger and Commutation Interrupt and TIM11 global interrupt */
-    TIM1_CC_IRQn = 27,                  /*!< TIM1 Capture Compare Interrupt                                    */
-    TIM2_IRQn = 28,                     /*!< TIM2 global Interrupt                                             */
-    TIM3_IRQn = 29,                     /*!< TIM3 global Interrupt                                             */
-    TIM4_IRQn = 30,                     /*!< TIM4 global Interrupt                                             */
-    I2C1_EV_IRQn = 31,                  /*!< I2C1 Event Interrupt                                              */
-    I2C1_ER_IRQn = 32,                  /*!< I2C1 Error Interrupt                                              */
-    I2C2_EV_IRQn = 33,                  /*!< I2C2 Event Interrupt                                              */
-    I2C2_ER_IRQn = 34,                  /*!< I2C2 Error Interrupt                                              */
-    SPI1_IRQn = 35,                     /*!< SPI1 global Interrupt                                             */
-    SPI2_IRQn = 36,                     /*!< SPI2 global Interrupt                                             */
-    USART1_IRQn = 37,                   /*!< USART1 global Interrupt                                           */
-    USART2_IRQn = 38,                   /*!< USART2 global Interrupt                                           */
-    USART3_IRQn = 39,                   /*!< USART3 global Interrupt                                           */
-    EXTI15_10_IRQn = 40,                /*!< External Line[15:10] Interrupts                                   */
-    RTC_Alarm_IRQn = 41,                /*!< RTC Alarm (A and B) through EXTI Line Interrupt                   */
-    OTG_FS_WKUP_IRQn = 42,              /*!< USB OTG FS Wakeup through EXTI line interrupt                     */
-    TIM8_BRK_TIM12_IRQn = 43,           /*!< TIM8 Break Interrupt and TIM12 global interrupt                   */
-    TIM8_UP_TIM13_IRQn = 44,            /*!< TIM8 Update Interrupt and TIM13 global interrupt                  */
-    TIM8_TRG_COM_TIM14_IRQn = 45,       /*!< TIM8 Trigger and Commutation Interrupt and TIM14 global interrupt */
-    TIM8_CC_IRQn = 46,                  /*!< TIM8 Capture Compare Interrupt                                    */
-    DMA1_Stream7_IRQn = 47,             /*!< DMA1 Stream7 Interrupt                                            */
-    FSMC_IRQn = 48,                     /*!< FSMC global Interrupt                                             */
-    SDIO_IRQn = 49,                     /*!< SDIO global Interrupt                                             */
-    TIM5_IRQn = 50,                     /*!< TIM5 global Interrupt                                             */
-    SPI3_IRQn = 51,                     /*!< SPI3 global Interrupt                                             */
-    UART4_IRQn = 52,                    /*!< UART4 global Interrupt                                            */
-    UART5_IRQn = 53,                    /*!< UART5 global Interrupt                                            */
-    TIM6_DAC_IRQn = 54,                 /*!< TIM6 global and DAC1&2 underrun error  interrupts                 */
-    TIM7_IRQn = 55,                     /*!< TIM7 global interrupt                                             */
-    DMA2_Stream0_IRQn = 56,             /*!< DMA2 Stream 0 global Interrupt                                    */
-    DMA2_Stream1_IRQn = 57,             /*!< DMA2 Stream 1 global Interrupt                                    */
-    DMA2_Stream2_IRQn = 58,             /*!< DMA2 Stream 2 global Interrupt                                    */
-    DMA2_Stream3_IRQn = 59,             /*!< DMA2 Stream 3 global Interrupt                                    */
-    DMA2_Stream4_IRQn = 60,             /*!< DMA2 Stream 4 global Interrupt                                    */
-    ETH_IRQn = 61,                      /*!< Ethernet global Interrupt                                         */
-    ETH_WKUP_IRQn = 62,                 /*!< Ethernet Wakeup through EXTI line Interrupt                       */
-    CAN2_TX_IRQn = 63,                  /*!< CAN2 TX Interrupt                                                 */
-    CAN2_RX0_IRQn = 64,                 /*!< CAN2 RX0 Interrupt                                                */
-    CAN2_RX1_IRQn = 65,                 /*!< CAN2 RX1 Interrupt                                                */
-    CAN2_SCE_IRQn = 66,                 /*!< CAN2 SCE Interrupt                                                */
-    OTG_FS_IRQn = 67,                   /*!< USB OTG FS global Interrupt                                       */
-    DMA2_Stream5_IRQn = 68,             /*!< DMA2 Stream 5 global interrupt                                    */
-    DMA2_Stream6_IRQn = 69,             /*!< DMA2 Stream 6 global interrupt                                    */
-    DMA2_Stream7_IRQn = 70,             /*!< DMA2 Stream 7 global interrupt                                    */
-    USART6_IRQn = 71,                   /*!< USART6 global interrupt                                           */
-    I2C3_EV_IRQn = 72,                  /*!< I2C3 event interrupt                                              */
-    I2C3_ER_IRQn = 73,                  /*!< I2C3 error interrupt                                              */
-    OTG_HS_EP1_OUT_IRQn = 74,           /*!< USB OTG HS End Point 1 Out global interrupt                       */
-    OTG_HS_EP1_IN_IRQn = 75,            /*!< USB OTG HS End Point 1 In global interrupt                        */
-    OTG_HS_WKUP_IRQn = 76,              /*!< USB OTG HS Wakeup through EXTI interrupt                          */
-    OTG_HS_IRQn = 77,                   /*!< USB OTG HS global interrupt                                       */
-    DCMI_IRQn = 78,                     /*!< DCMI global interrupt                                             */
-    HASH_RNG_IRQn = 80,                 /*!< Hash and RNG global interrupt                                     */
-    FPU_IRQn = 81                       /*!< FPU global interrupt                                              */
+    WWDG_IRQn = 0,                /*!< Window WatchDog Interrupt                                         */
+    PVD_IRQn = 1,                 /*!< PVD through EXTI Line detection Interrupt                         */
+    TAMP_STAMP_IRQn = 2,          /*!< Tamper and TimeStamp interrupts through the EXTI line             */
+    RTC_WKUP_IRQn = 3,            /*!< RTC Wakeup interrupt through the EXTI line                        */
+    FLASH_IRQn = 4,               /*!< FLASH global Interrupt                                            */
+    RCC_IRQn = 5,                 /*!< RCC global Interrupt                                              */
+    EXTI0_IRQn = 6,               /*!< EXTI Line0 Interrupt                                              */
+    EXTI1_IRQn = 7,               /*!< EXTI Line1 Interrupt                                              */
+    EXTI2_IRQn = 8,               /*!< EXTI Line2 Interrupt                                              */
+    EXTI3_IRQn = 9,               /*!< EXTI Line3 Interrupt                                              */
+    EXTI4_IRQn = 10,              /*!< EXTI Line4 Interrupt                                              */
+    DMA1_Stream0_IRQn = 11,       /*!< DMA1 Stream 0 global Interrupt                                    */
+    DMA1_Stream1_IRQn = 12,       /*!< DMA1 Stream 1 global Interrupt                                    */
+    DMA1_Stream2_IRQn = 13,       /*!< DMA1 Stream 2 global Interrupt                                    */
+    DMA1_Stream3_IRQn = 14,       /*!< DMA1 Stream 3 global Interrupt                                    */
+    DMA1_Stream4_IRQn = 15,       /*!< DMA1 Stream 4 global Interrupt                                    */
+    DMA1_Stream5_IRQn = 16,       /*!< DMA1 Stream 5 global Interrupt                                    */
+    DMA1_Stream6_IRQn = 17,       /*!< DMA1 Stream 6 global Interrupt                                    */
+    ADC_IRQn = 18,                /*!< ADC1, ADC2 and ADC3 global Interrupts                             */
+    CAN1_TX_IRQn = 19,            /*!< CAN1 TX Interrupt                                                 */
+    CAN1_RX0_IRQn = 20,           /*!< CAN1 RX0 Interrupt                                                */
+    CAN1_RX1_IRQn = 21,           /*!< CAN1 RX1 Interrupt                                                */
+    CAN1_SCE_IRQn = 22,           /*!< CAN1 SCE Interrupt                                                */
+    EXTI9_5_IRQn = 23,            /*!< External Line[9:5] Interrupts                                     */
+    TIM1_BRK_TIM9_IRQn = 24,      /*!< TIM1 Break interrupt and TIM9 global interrupt                    */
+    TIM1_UP_TIM10_IRQn = 25,      /*!< TIM1 Update Interrupt and TIM10 global interrupt                  */
+    TIM1_TRG_COM_TIM11_IRQn = 26, /*!< TIM1 Trigger and Commutation Interrupt and TIM11 global interrupt */
+    TIM1_CC_IRQn = 27,            /*!< TIM1 Capture Compare Interrupt                                    */
+    TIM2_IRQn = 28,               /*!< TIM2 global Interrupt                                             */
+    TIM3_IRQn = 29,               /*!< TIM3 global Interrupt                                             */
+    TIM4_IRQn = 30,               /*!< TIM4 global Interrupt                                             */
+    I2C1_EV_IRQn = 31,            /*!< I2C1 Event Interrupt                                              */
+    I2C1_ER_IRQn = 32,            /*!< I2C1 Error Interrupt                                              */
+    I2C2_EV_IRQn = 33,            /*!< I2C2 Event Interrupt                                              */
+    I2C2_ER_IRQn = 34,            /*!< I2C2 Error Interrupt                                              */
+    SPI1_IRQn = 35,               /*!< SPI1 global Interrupt                                             */
+    SPI2_IRQn = 36,               /*!< SPI2 global Interrupt                                             */
+    USART1_IRQn = 37,             /*!< USART1 global Interrupt                                           */
+    USART2_IRQn = 38,             /*!< USART2 global Interrupt                                           */
+    USART3_IRQn = 39,             /*!< USART3 global Interrupt                                           */
+    EXTI15_10_IRQn = 40,          /*!< External Line[15:10] Interrupts                                   */
+    RTC_Alarm_IRQn = 41,          /*!< RTC Alarm (A and B) through EXTI Line Interrupt                   */
+    OTG_FS_WKUP_IRQn = 42,        /*!< USB OTG FS Wakeup through EXTI line interrupt                     */
+    TIM8_BRK_TIM12_IRQn = 43,     /*!< TIM8 Break Interrupt and TIM12 global interrupt                   */
+    TIM8_UP_TIM13_IRQn = 44,      /*!< TIM8 Update Interrupt and TIM13 global interrupt                  */
+    TIM8_TRG_COM_TIM14_IRQn = 45, /*!< TIM8 Trigger and Commutation Interrupt and TIM14 global interrupt */
+    TIM8_CC_IRQn = 46,            /*!< TIM8 Capture Compare Interrupt                                    */
+    DMA1_Stream7_IRQn = 47,       /*!< DMA1 Stream7 Interrupt                                            */
+    FSMC_IRQn = 48,               /*!< FSMC global Interrupt                                             */
+    SDIO_IRQn = 49,               /*!< SDIO global Interrupt                                             */
+    TIM5_IRQn = 50,               /*!< TIM5 global Interrupt                                             */
+    SPI3_IRQn = 51,               /*!< SPI3 global Interrupt                                             */
+    UART4_IRQn = 52,              /*!< UART4 global Interrupt                                            */
+    UART5_IRQn = 53,              /*!< UART5 global Interrupt                                            */
+    TIM6_DAC_IRQn = 54,           /*!< TIM6 global and DAC1&2 underrun error  interrupts                 */
+    TIM7_IRQn = 55,               /*!< TIM7 global interrupt                                             */
+    DMA2_Stream0_IRQn = 56,       /*!< DMA2 Stream 0 global Interrupt                                    */
+    DMA2_Stream1_IRQn = 57,       /*!< DMA2 Stream 1 global Interrupt                                    */
+    DMA2_Stream2_IRQn = 58,       /*!< DMA2 Stream 2 global Interrupt                                    */
+    DMA2_Stream3_IRQn = 59,       /*!< DMA2 Stream 3 global Interrupt                                    */
+    DMA2_Stream4_IRQn = 60,       /*!< DMA2 Stream 4 global Interrupt                                    */
+    ETH_IRQn = 61,                /*!< Ethernet global Interrupt                                         */
+    ETH_WKUP_IRQn = 62,           /*!< Ethernet Wakeup through EXTI line Interrupt                       */
+    CAN2_TX_IRQn = 63,            /*!< CAN2 TX Interrupt                                                 */
+    CAN2_RX0_IRQn = 64,           /*!< CAN2 RX0 Interrupt                                                */
+    CAN2_RX1_IRQn = 65,           /*!< CAN2 RX1 Interrupt                                                */
+    CAN2_SCE_IRQn = 66,           /*!< CAN2 SCE Interrupt                                                */
+    OTG_FS_IRQn = 67,             /*!< USB OTG FS global Interrupt                                       */
+    DMA2_Stream5_IRQn = 68,       /*!< DMA2 Stream 5 global interrupt                                    */
+    DMA2_Stream6_IRQn = 69,       /*!< DMA2 Stream 6 global interrupt                                    */
+    DMA2_Stream7_IRQn = 70,       /*!< DMA2 Stream 7 global interrupt                                    */
+    USART6_IRQn = 71,             /*!< USART6 global interrupt                                           */
+    I2C3_EV_IRQn = 72,            /*!< I2C3 event interrupt                                              */
+    I2C3_ER_IRQn = 73,            /*!< I2C3 error interrupt                                              */
+    OTG_HS_EP1_OUT_IRQn = 74,     /*!< USB OTG HS End Point 1 Out global interrupt                       */
+    OTG_HS_EP1_IN_IRQn = 75,      /*!< USB OTG HS End Point 1 In global interrupt                        */
+    OTG_HS_WKUP_IRQn = 76,        /*!< USB OTG HS Wakeup through EXTI interrupt                          */
+    OTG_HS_IRQn = 77,             /*!< USB OTG HS global interrupt                                       */
+    DCMI_IRQn = 78,               /*!< DCMI global interrupt                                             */
+    HASH_RNG_IRQn = 80,           /*!< Hash and RNG global interrupt                                     */
+    FPU_IRQn = 81                 /*!< FPU global interrupt                                              */
 } IRQn_Type;
 
 /**
@@ -218,10 +218,10 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CSR;  /*!< ADC Common status register,                  Address offset: ADC1 base address + 0x300 */
-    __IO uint32_t CCR;  /*!< ADC common control register,                 Address offset: ADC1 base address + 0x304 */
-    __IO uint32_t CDR;  /*!< ADC common regular data register for dual
-                         *   AND triple modes,                            Address offset: ADC1 base address + 0x308 */
+    __IO uint32_t CSR; /*!< ADC Common status register,                  Address offset: ADC1 base address + 0x300 */
+    __IO uint32_t CCR; /*!< ADC common control register,                 Address offset: ADC1 base address + 0x304 */
+    __IO uint32_t CDR; /*!< ADC common regular data register for dual
+                        *   AND triple modes,                            Address offset: ADC1 base address + 0x308 */
 } ADC_Common_TypeDef;
 
 /**
@@ -389,12 +389,12 @@ typedef struct
     __IO uint32_t MACMIIAR;
     __IO uint32_t MACMIIDR;
     __IO uint32_t MACFCR;
-    __IO uint32_t MACVLANTR;           /*    8 */
+    __IO uint32_t MACVLANTR; /*    8 */
     uint32_t      RESERVED0[2];
-    __IO uint32_t MACRWUFFR;           /*   11 */
+    __IO uint32_t MACRWUFFR; /*   11 */
     __IO uint32_t MACPMTCSR;
     uint32_t      RESERVED1[2];
-    __IO uint32_t MACSR;               /*   15 */
+    __IO uint32_t MACSR; /*   15 */
     __IO uint32_t MACIMR;
     __IO uint32_t MACA0HR;
     __IO uint32_t MACA0LR;
@@ -403,15 +403,15 @@ typedef struct
     __IO uint32_t MACA2HR;
     __IO uint32_t MACA2LR;
     __IO uint32_t MACA3HR;
-    __IO uint32_t MACA3LR;             /*   24 */
+    __IO uint32_t MACA3LR; /*   24 */
     uint32_t      RESERVED2[40];
-    __IO uint32_t MMCCR;               /*   65 */
+    __IO uint32_t MMCCR; /*   65 */
     __IO uint32_t MMCRIR;
     __IO uint32_t MMCTIR;
     __IO uint32_t MMCRIMR;
-    __IO uint32_t MMCTIMR;             /*   69 */
+    __IO uint32_t MMCTIMR; /*   69 */
     uint32_t      RESERVED3[14];
-    __IO uint32_t MMCTGFSCCR;          /*   84 */
+    __IO uint32_t MMCTGFSCCR; /*   84 */
     __IO uint32_t MMCTGFMSCCR;
     uint32_t      RESERVED4[5];
     __IO uint32_t MMCTGFCR;
@@ -485,7 +485,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t BTCR[8];  /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
+    __IO uint32_t BTCR[8]; /*!< NOR/PSRAM chip-select control register(BCR) and chip-select timing register(BTR), Address offset: 0x00-1C */
 } FSMC_Bank1_TypeDef;
 
 /**
@@ -494,7 +494,7 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t BWTR[7];  /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
+    __IO uint32_t BWTR[7]; /*!< NOR/PSRAM write timing registers, Address offset: 0x104-0x11C */
 } FSMC_Bank1E_TypeDef;
 
 /**
@@ -525,11 +525,11 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t PCR4;     /*!< PC Card  control register 4,                       Address offset: 0xA0 */
-    __IO uint32_t SR4;      /*!< PC Card  FIFO status and interrupt register 4,     Address offset: 0xA4 */
-    __IO uint32_t PMEM4;    /*!< PC Card  Common memory space timing register 4,    Address offset: 0xA8 */
-    __IO uint32_t PATT4;    /*!< PC Card  Attribute memory space timing register 4, Address offset: 0xAC */
-    __IO uint32_t PIO4;     /*!< PC Card  I/O space timing register 4,              Address offset: 0xB0 */
+    __IO uint32_t PCR4;  /*!< PC Card  control register 4,                       Address offset: 0xA0 */
+    __IO uint32_t SR4;   /*!< PC Card  FIFO status and interrupt register 4,     Address offset: 0xA4 */
+    __IO uint32_t PMEM4; /*!< PC Card  Common memory space timing register 4,    Address offset: 0xA8 */
+    __IO uint32_t PATT4; /*!< PC Card  Attribute memory space timing register 4, Address offset: 0xAC */
+    __IO uint32_t PIO4;  /*!< PC Card  I/O space timing register 4,              Address offset: 0xB0 */
 } FSMC_Bank4_TypeDef;
 
 /**
@@ -569,16 +569,16 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CR1;      /*!< I2C Control register 1,     Address offset: 0x00 */
-    __IO uint32_t CR2;      /*!< I2C Control register 2,     Address offset: 0x04 */
-    __IO uint32_t OAR1;     /*!< I2C Own address register 1, Address offset: 0x08 */
-    __IO uint32_t OAR2;     /*!< I2C Own address register 2, Address offset: 0x0C */
-    __IO uint32_t DR;       /*!< I2C Data register,          Address offset: 0x10 */
-    __IO uint32_t SR1;      /*!< I2C Status register 1,      Address offset: 0x14 */
-    __IO uint32_t SR2;      /*!< I2C Status register 2,      Address offset: 0x18 */
-    __IO uint32_t CCR;      /*!< I2C Clock control register, Address offset: 0x1C */
-    __IO uint32_t TRISE;    /*!< I2C TRISE register,         Address offset: 0x20 */
-    __IO uint32_t FLTR;     /*!< I2C FLTR register,          Address offset: 0x24 */
+    __IO uint32_t CR1;   /*!< I2C Control register 1,     Address offset: 0x00 */
+    __IO uint32_t CR2;   /*!< I2C Control register 2,     Address offset: 0x04 */
+    __IO uint32_t OAR1;  /*!< I2C Own address register 1, Address offset: 0x08 */
+    __IO uint32_t OAR2;  /*!< I2C Own address register 2, Address offset: 0x0C */
+    __IO uint32_t DR;    /*!< I2C Data register,          Address offset: 0x10 */
+    __IO uint32_t SR1;   /*!< I2C Status register 1,      Address offset: 0x14 */
+    __IO uint32_t SR2;   /*!< I2C Status register 2,      Address offset: 0x18 */
+    __IO uint32_t CCR;   /*!< I2C Clock control register, Address offset: 0x1C */
+    __IO uint32_t TRISE; /*!< I2C TRISE register,         Address offset: 0x20 */
+    __IO uint32_t FLTR;  /*!< I2C FLTR register,          Address offset: 0x24 */
 } I2C_TypeDef;
 
 /**
@@ -647,25 +647,25 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t TR;     /*!< RTC time register,                                        Address offset: 0x00 */
-    __IO uint32_t DR;     /*!< RTC date register,                                        Address offset: 0x04 */
-    __IO uint32_t CR;     /*!< RTC control register,                                     Address offset: 0x08 */
-    __IO uint32_t ISR;    /*!< RTC initialization and status register,                   Address offset: 0x0C */
-    __IO uint32_t PRER;   /*!< RTC prescaler register,                                   Address offset: 0x10 */
-    __IO uint32_t WUTR;   /*!< RTC wakeup timer register,                                Address offset: 0x14 */
-    __IO uint32_t CALIBR; /*!< RTC calibration register,                                 Address offset: 0x18 */
-    __IO uint32_t ALRMAR; /*!< RTC alarm A register,                                     Address offset: 0x1C */
-    __IO uint32_t ALRMBR; /*!< RTC alarm B register,                                     Address offset: 0x20 */
-    __IO uint32_t WPR;    /*!< RTC write protection register,                            Address offset: 0x24 */
-    __IO uint32_t SSR;    /*!< RTC sub second register,                                  Address offset: 0x28 */
-    __IO uint32_t SHIFTR; /*!< RTC shift control register,                               Address offset: 0x2C */
-    __IO uint32_t TSTR;   /*!< RTC time stamp time register,                             Address offset: 0x30 */
-    __IO uint32_t TSDR;   /*!< RTC time stamp date register,                             Address offset: 0x34 */
-    __IO uint32_t TSSSR;  /*!< RTC time-stamp sub second register,                       Address offset: 0x38 */
-    __IO uint32_t CALR;   /*!< RTC calibration register,                                 Address offset: 0x3C */
-    __IO uint32_t TAFCR;  /*!< RTC tamper and alternate function configuration register, Address offset: 0x40 */
-    __IO uint32_t ALRMASSR; /*!< RTC alarm A sub second register,                          Address offset: 0x44 */
-    __IO uint32_t ALRMBSSR; /*!< RTC alarm B sub second register,                          Address offset: 0x48 */
+    __IO uint32_t TR;        /*!< RTC time register,                                        Address offset: 0x00 */
+    __IO uint32_t DR;        /*!< RTC date register,                                        Address offset: 0x04 */
+    __IO uint32_t CR;        /*!< RTC control register,                                     Address offset: 0x08 */
+    __IO uint32_t ISR;       /*!< RTC initialization and status register,                   Address offset: 0x0C */
+    __IO uint32_t PRER;      /*!< RTC prescaler register,                                   Address offset: 0x10 */
+    __IO uint32_t WUTR;      /*!< RTC wakeup timer register,                                Address offset: 0x14 */
+    __IO uint32_t CALIBR;    /*!< RTC calibration register,                                 Address offset: 0x18 */
+    __IO uint32_t ALRMAR;    /*!< RTC alarm A register,                                     Address offset: 0x1C */
+    __IO uint32_t ALRMBR;    /*!< RTC alarm B register,                                     Address offset: 0x20 */
+    __IO uint32_t WPR;       /*!< RTC write protection register,                            Address offset: 0x24 */
+    __IO uint32_t SSR;       /*!< RTC sub second register,                                  Address offset: 0x28 */
+    __IO uint32_t SHIFTR;    /*!< RTC shift control register,                               Address offset: 0x2C */
+    __IO uint32_t TSTR;      /*!< RTC time stamp time register,                             Address offset: 0x30 */
+    __IO uint32_t TSDR;      /*!< RTC time stamp date register,                             Address offset: 0x34 */
+    __IO uint32_t TSSSR;     /*!< RTC time-stamp sub second register,                       Address offset: 0x38 */
+    __IO uint32_t CALR;      /*!< RTC calibration register,                                 Address offset: 0x3C */
+    __IO uint32_t TAFCR;     /*!< RTC tamper and alternate function configuration register, Address offset: 0x40 */
+    __IO uint32_t ALRMASSR;  /*!< RTC alarm A sub second register,                          Address offset: 0x44 */
+    __IO uint32_t ALRMBSSR;  /*!< RTC alarm B sub second register,                          Address offset: 0x48 */
     uint32_t      RESERVED7; /*!< Reserved, 0x4C                                                                 */
     __IO uint32_t BKP0R;     /*!< RTC backup register 1,                                    Address offset: 0x50 */
     __IO uint32_t BKP1R;     /*!< RTC backup register 1,                                    Address offset: 0x54 */
@@ -723,15 +723,15 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CR1;      /*!< SPI control register 1 (not used in I2S mode),      Address offset: 0x00 */
-    __IO uint32_t CR2;      /*!< SPI control register 2,                             Address offset: 0x04 */
-    __IO uint32_t SR;       /*!< SPI status register,                                Address offset: 0x08 */
-    __IO uint32_t DR;       /*!< SPI data register,                                  Address offset: 0x0C */
-    __IO uint32_t CRCPR;    /*!< SPI CRC polynomial register (not used in I2S mode), Address offset: 0x10 */
-    __IO uint32_t RXCRCR;   /*!< SPI RX CRC register (not used in I2S mode),         Address offset: 0x14 */
-    __IO uint32_t TXCRCR;   /*!< SPI TX CRC register (not used in I2S mode),         Address offset: 0x18 */
-    __IO uint32_t I2SCFGR;  /*!< SPI_I2S configuration register,                     Address offset: 0x1C */
-    __IO uint32_t I2SPR;    /*!< SPI_I2S prescaler register,                         Address offset: 0x20 */
+    __IO uint32_t CR1;     /*!< SPI control register 1 (not used in I2S mode),      Address offset: 0x00 */
+    __IO uint32_t CR2;     /*!< SPI control register 2,                             Address offset: 0x04 */
+    __IO uint32_t SR;      /*!< SPI status register,                                Address offset: 0x08 */
+    __IO uint32_t DR;      /*!< SPI data register,                                  Address offset: 0x0C */
+    __IO uint32_t CRCPR;   /*!< SPI CRC polynomial register (not used in I2S mode), Address offset: 0x10 */
+    __IO uint32_t RXCRCR;  /*!< SPI RX CRC register (not used in I2S mode),         Address offset: 0x14 */
+    __IO uint32_t TXCRCR;  /*!< SPI TX CRC register (not used in I2S mode),         Address offset: 0x18 */
+    __IO uint32_t I2SCFGR; /*!< SPI_I2S configuration register,                     Address offset: 0x1C */
+    __IO uint32_t I2SPR;   /*!< SPI_I2S prescaler register,                         Address offset: 0x20 */
 } SPI_TypeDef;
 
 /**
@@ -740,27 +740,27 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t CR1;       /*!< TIM control register 1,              Address offset: 0x00 */
-    __IO uint32_t CR2;       /*!< TIM control register 2,              Address offset: 0x04 */
-    __IO uint32_t SMCR;      /*!< TIM slave mode control register,     Address offset: 0x08 */
-    __IO uint32_t DIER;      /*!< TIM DMA/interrupt enable register,   Address offset: 0x0C */
-    __IO uint32_t SR;        /*!< TIM status register,                 Address offset: 0x10 */
-    __IO uint32_t EGR;       /*!< TIM event generation register,       Address offset: 0x14 */
-    __IO uint32_t CCMR1;     /*!< TIM capture/compare mode register 1, Address offset: 0x18 */
-    __IO uint32_t CCMR2;     /*!< TIM capture/compare mode register 2, Address offset: 0x1C */
-    __IO uint32_t CCER;      /*!< TIM capture/compare enable register, Address offset: 0x20 */
-    __IO uint32_t CNT;       /*!< TIM counter register,                Address offset: 0x24 */
-    __IO uint32_t PSC;       /*!< TIM prescaler,                       Address offset: 0x28 */
-    __IO uint32_t ARR;       /*!< TIM auto-reload register,            Address offset: 0x2C */
-    __IO uint32_t RCR;       /*!< TIM repetition counter register,     Address offset: 0x30 */
-    __IO uint32_t CCR1;      /*!< TIM capture/compare register 1,      Address offset: 0x34 */
-    __IO uint32_t CCR2;      /*!< TIM capture/compare register 2,      Address offset: 0x38 */
-    __IO uint32_t CCR3;      /*!< TIM capture/compare register 3,      Address offset: 0x3C */
-    __IO uint32_t CCR4;      /*!< TIM capture/compare register 4,      Address offset: 0x40 */
-    __IO uint32_t BDTR;      /*!< TIM break and dead-time register,    Address offset: 0x44 */
-    __IO uint32_t DCR;       /*!< TIM DMA control register,            Address offset: 0x48 */
-    __IO uint32_t DMAR;      /*!< TIM DMA address for full transfer,   Address offset: 0x4C */
-    __IO uint32_t OR;        /*!< TIM option register,                 Address offset: 0x50 */
+    __IO uint32_t CR1;   /*!< TIM control register 1,              Address offset: 0x00 */
+    __IO uint32_t CR2;   /*!< TIM control register 2,              Address offset: 0x04 */
+    __IO uint32_t SMCR;  /*!< TIM slave mode control register,     Address offset: 0x08 */
+    __IO uint32_t DIER;  /*!< TIM DMA/interrupt enable register,   Address offset: 0x0C */
+    __IO uint32_t SR;    /*!< TIM status register,                 Address offset: 0x10 */
+    __IO uint32_t EGR;   /*!< TIM event generation register,       Address offset: 0x14 */
+    __IO uint32_t CCMR1; /*!< TIM capture/compare mode register 1, Address offset: 0x18 */
+    __IO uint32_t CCMR2; /*!< TIM capture/compare mode register 2, Address offset: 0x1C */
+    __IO uint32_t CCER;  /*!< TIM capture/compare enable register, Address offset: 0x20 */
+    __IO uint32_t CNT;   /*!< TIM counter register,                Address offset: 0x24 */
+    __IO uint32_t PSC;   /*!< TIM prescaler,                       Address offset: 0x28 */
+    __IO uint32_t ARR;   /*!< TIM auto-reload register,            Address offset: 0x2C */
+    __IO uint32_t RCR;   /*!< TIM repetition counter register,     Address offset: 0x30 */
+    __IO uint32_t CCR1;  /*!< TIM capture/compare register 1,      Address offset: 0x34 */
+    __IO uint32_t CCR2;  /*!< TIM capture/compare register 2,      Address offset: 0x38 */
+    __IO uint32_t CCR3;  /*!< TIM capture/compare register 3,      Address offset: 0x3C */
+    __IO uint32_t CCR4;  /*!< TIM capture/compare register 4,      Address offset: 0x40 */
+    __IO uint32_t BDTR;  /*!< TIM break and dead-time register,    Address offset: 0x44 */
+    __IO uint32_t DCR;   /*!< TIM DMA control register,            Address offset: 0x48 */
+    __IO uint32_t DMAR;  /*!< TIM DMA address for full transfer,   Address offset: 0x4C */
+    __IO uint32_t OR;    /*!< TIM option register,                 Address offset: 0x50 */
 } TIM_TypeDef;
 
 /**
@@ -769,13 +769,13 @@ typedef struct
 
 typedef struct
 {
-    __IO uint32_t SR;       /*!< USART Status register,                   Address offset: 0x00 */
-    __IO uint32_t DR;       /*!< USART Data register,                     Address offset: 0x04 */
-    __IO uint32_t BRR;      /*!< USART Baud rate register,                Address offset: 0x08 */
-    __IO uint32_t CR1;      /*!< USART Control register 1,                Address offset: 0x0C */
-    __IO uint32_t CR2;      /*!< USART Control register 2,                Address offset: 0x10 */
-    __IO uint32_t CR3;      /*!< USART Control register 3,                Address offset: 0x14 */
-    __IO uint32_t GTPR;     /*!< USART Guard time and prescaler register, Address offset: 0x18 */
+    __IO uint32_t SR;   /*!< USART Status register,                   Address offset: 0x00 */
+    __IO uint32_t DR;   /*!< USART Data register,                     Address offset: 0x04 */
+    __IO uint32_t BRR;  /*!< USART Baud rate register,                Address offset: 0x08 */
+    __IO uint32_t CR1;  /*!< USART Control register 1,                Address offset: 0x0C */
+    __IO uint32_t CR2;  /*!< USART Control register 2,                Address offset: 0x10 */
+    __IO uint32_t CR3;  /*!< USART Control register 3,                Address offset: 0x14 */
+    __IO uint32_t GTPR; /*!< USART Guard time and prescaler register, Address offset: 0x18 */
 } USART_TypeDef;
 
 /**
@@ -822,7 +822,7 @@ typedef struct
     __IO uint32_t CID;                /* User ID Register                   03Ch*/
     uint32_t      Reserved40[48];     /* Reserved                      040h-0FFh*/
     __IO uint32_t HPTXFSIZ;           /* Host Periodic Tx FIFO Size Reg     100h*/
-    __IO uint32_t DIEPTXF[0x0F]; /* dev Periodic Transmit FIFO */
+    __IO uint32_t DIEPTXF[0x0F];      /* dev Periodic Transmit FIFO */
 }
 
 USB_OTG_GlobalTypeDef;
@@ -867,8 +867,8 @@ typedef struct
     uint32_t      Reserved0C; /* Reserved                       900h + (ep_num * 20h) + 0Ch*/
     __IO uint32_t DIEPTSIZ;   /* IN Endpoint Txfer Size   900h + (ep_num * 20h) + 10h*/
     __IO uint32_t DIEPDMA;    /* IN Endpoint DMA Address Reg    900h + (ep_num * 20h) + 14h*/
-    __IO uint32_t DTXFSTS; /*IN Endpoint Tx FIFO Status Reg 900h + (ep_num * 20h) + 18h*/
-    uint32_t      Reserved18;      /* Reserved  900h+(ep_num*20h)+1Ch-900h+ (ep_num * 20h) + 1Ch*/
+    __IO uint32_t DTXFSTS;    /*IN Endpoint Tx FIFO Status Reg 900h + (ep_num * 20h) + 18h*/
+    uint32_t      Reserved18; /* Reserved  900h+(ep_num*20h)+1Ch-900h+ (ep_num * 20h) + 1Ch*/
 }
 
 USB_OTG_INEndpointTypeDef;
