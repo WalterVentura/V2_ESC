@@ -381,7 +381,6 @@ bool cortexm_probe(ADIv5_AP_t* ap, bool forced)
     do { if((x) (t)) {target_halt_resume(t, 0); return true;} else target_check_error(t); \
     } while(0)
 
-    PROBE(stm32f1_probe);
     PROBE(stm32f4_probe);
     PROBE(stm32h7_probe);
     PROBE(stm32l0_probe); /* STM32L0xx & STM32L1xx */

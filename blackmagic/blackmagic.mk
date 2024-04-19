@@ -9,7 +9,6 @@ BLACKMAGICSRC =	blackmagic/bm_if.c \
 				blackmagic/target/adiv5.c \
 				blackmagic/target/cortexm.c \
 				blackmagic/target/nrf51.c \
-				blackmagic/target/stm32f1.c \
 				blackmagic/target/stm32f4.c \
 				blackmagic/target/stm32h7.c \
 				blackmagic/target/stm32l0.c \

@@ -184,7 +184,6 @@ int tc_system(target* t, target_addr cmd, size_t cmdlen);
 /* Probe for various targets.
  * Actual functions implemented in their respective drivers.
  */
-bool stm32f1_probe(target* t);
 
 bool stm32f4_probe(target* t);
 
