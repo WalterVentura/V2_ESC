@@ -6,12 +6,7 @@ CSRC += \
 	driver/spi_bb.c \
 	driver/timer.c \
 	driver/pwm_servo.c
-	
-CSRC += \
-	driver/lora/SX1278.c \
-	driver/lora/lora.c \
-	driver/lora/SX1278_hw.c 
-	
+		
 CSRC += \
 	driver/nrf/spi_sw.c \
 	driver/nrf/rf.c \
