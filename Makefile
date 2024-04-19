@@ -323,8 +323,15 @@ CORES := $(shell nproc)
 CORES_MINUS_ONE := $(shell expr $(CORES) - 1)
 MAKEFLAGS += -j$(CORES_MINUS_ONE) -s
 
-C_SOURCES := $(shell find . -path ./tools -prune -o -name "*.c" -print)
-C_HEADERS := $(shell find . -path ./tools -prune -o -name "*.h" -print)
+C_SOURCES := $(shell find . \
+-path ./tools -prune -o \
+-path ./ChibiOS_3.0.5 -prune -o \
+-name "*.c" -print)
+
+C_HEADERS := $(shell find . \
+-path ./tools -prune -o \
+-path ./ChibiOS_3.0.5 -prune -o \
+-name "*.h" -print)
 
 
 format:
