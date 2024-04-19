@@ -1,5 +1,5 @@
 /*
-    */
+ */
 
 #ifndef HWCONF_RFM95W_H_
 #define HWCONF_RFM95W_H_
@@ -10,6 +10,7 @@
 
 // Functions
 void lora_init(void);
+
 void lora_stop(void);
 
 #endif /* HWCONF_DRV8301_H_ */

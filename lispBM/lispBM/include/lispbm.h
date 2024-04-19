@@ -1,19 +1,19 @@
 /*
-    Copyright 2022, 2024 Joel Svensson  svenssonjoel@yahoo.se
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  Copyright 2022, 2024 Joel Svensson  svenssonjoel@yahoo.se
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /** \file lispbm.h */
 
@@ -59,12 +59,9 @@ extern "C" {
  * \return 1 on success and 0 on failure.
  */
 
-int lbm_init(lbm_cons_t *heap_storage, lbm_uint heap_size,
-             lbm_uint *memory, lbm_uint memory_size,
-             lbm_uint *memory_bitmap, lbm_uint bitmap_size,
-             lbm_uint gc_stack_size,
-             lbm_uint print_stack_size,
-             lbm_extension_t *extension_storage,
+int lbm_init(lbm_cons_t* heap_storage, lbm_uint heap_size, lbm_uint* memory, lbm_uint memory_size,
+             lbm_uint* memory_bitmap, lbm_uint bitmap_size, lbm_uint gc_stack_size,
+             lbm_uint print_stack_size, lbm_extension_t* extension_storage,
              lbm_uint extension_storage_size);
 
 #ifdef __cplusplus

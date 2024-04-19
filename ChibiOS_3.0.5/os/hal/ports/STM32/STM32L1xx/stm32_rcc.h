@@ -63,7 +63,7 @@
 #define rccEnableAPB1(mask, lp)  { \
         RCC->APB1ENR |= (mask);    \
         if(lp)                     \
-        RCC->APB1LPENR |=(mask);   \
+        RCC->APB1LPENR |= (mask);  \
 }
 
 /**
@@ -103,7 +103,7 @@
 #define rccEnableAPB2(mask, lp)  { \
         RCC->APB2ENR |= (mask);    \
         if(lp)                     \
-        RCC->APB2LPENR |=(mask);   \
+        RCC->APB2LPENR |= (mask);  \
 }
 
 /**
@@ -143,7 +143,7 @@
 #define rccEnableAHB(mask, lp)   { \
         RCC->AHBENR |= (mask);     \
         if(lp)                     \
-        RCC->AHBLPENR |=(mask);    \
+        RCC->AHBLPENR |= (mask);   \
 }
 
 /**

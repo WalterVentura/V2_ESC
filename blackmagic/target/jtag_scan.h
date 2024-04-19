@@ -31,6 +31,7 @@ typedef struct jtag_dev_s
         uint8_t dev;
         uint8_t dr_prescan;
     };
+
     uint8_t     dr_postscan;
 
     uint8_t     ir_len;

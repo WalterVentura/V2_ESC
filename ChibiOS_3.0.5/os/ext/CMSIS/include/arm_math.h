@@ -4847,7 +4847,7 @@ static __INLINE arm_status arm_sqrt_f32(float32_t in, float32_t* pOut)
  */
 arm_status arm_sqrt_q31(
     q31_t in,
-    q31_t* pOut);
+    q31_t * pOut);
 
 /**
  * @brief  Q15 square root function.
@@ -4858,7 +4858,7 @@ arm_status arm_sqrt_q31(
  */
 arm_status arm_sqrt_q15(
     q15_t in,
-    q15_t* pOut);
+    q15_t * pOut);
 
 /**
  * @} end of SQRT group

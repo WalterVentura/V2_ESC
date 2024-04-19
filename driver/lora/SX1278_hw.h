@@ -36,7 +36,6 @@ void SX1278_hw_Reset(void);
  */
 void SX1278_hw_SetNSS(int value);
 
-
 /**
  * \brief Send command via SPI.
  *
@@ -60,7 +59,7 @@ uint8_t SX1278_hw_SPIReadByte(void);
  *
  * Milisecond delay.
  *
- * \param[in]   msec 		Number of milliseconds to wait
+ * \param[in]   msec        Number of milliseconds to wait
  */
 void SX1278_hw_DelayMs(uint32_t msec);
 
@@ -74,4 +73,3 @@ void SX1278_hw_DelayMs(uint32_t msec);
 int SX1278_hw_GetDIO0(void);
 
 #endif
-

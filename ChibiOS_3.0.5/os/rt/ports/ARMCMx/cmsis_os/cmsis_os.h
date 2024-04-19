@@ -204,7 +204,7 @@ typedef struct os_timer_cb
     os_ptimer       ptimer;
     void*           argument;
     uint32_t        millisec;
-}* osTimerId;
+} *osTimerId;
 
 /**
  * @brief   Type of pointer to mutex control block.

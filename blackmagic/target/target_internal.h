@@ -103,6 +103,7 @@ struct target_s
     void                      (* extended_reset)(target* t);
     void                      (* halt_request)(target* t);
     enum target_halt_reason (* halt_poll)(target* t, target_addr* watch);
+
     void                      (* halt_resume)(target* t, bool step);
 
     /* Break-/watchpoint functions */

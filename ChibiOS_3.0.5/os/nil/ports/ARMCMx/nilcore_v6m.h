@@ -176,6 +176,7 @@ struct port_intctx
     regarm_t r7;
     regarm_t lr;
 };
+
 #endif /* !defined(__DOXYGEN__) */
 
 /*===========================================================================*/

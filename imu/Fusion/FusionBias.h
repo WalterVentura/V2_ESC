@@ -10,34 +10,38 @@
 #ifndef FUSION_BIAS_H
 #define FUSION_BIAS_H
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Includes
 
 #include "FusionTypes.h"
 #include <stdbool.h>
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Definitions
 
 /**
  * @brief Gyroscope bias correction algorithm structure.  Structure members are
  * used internally and should not be used by the user application.
  */
-typedef struct {
-    float threshold;
-    float filterCoefficient;
-    float stationaryTimer;
+typedef struct
+{
+    float         threshold;
+    float         filterCoefficient;
+    float         stationaryTimer;
     FusionVector3 gyroscopeBias;
 } FusionBias;
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Function prototypes
 
-void FusionBiasInitialise(FusionBias * const fusionBias, const float threshold, const float samplePeriod);
-FusionVector3 FusionBiasUpdate(FusionBias * const fusionBias, FusionVector3 gyroscope, float dt);
-bool FusionBiasIsActive(FusionBias * const fusionBias);
+void FusionBiasInitialise(FusionBias* const fusionBias, const float threshold,
+                          const float samplePeriod);
+
+FusionVector3 FusionBiasUpdate(FusionBias* const fusionBias, FusionVector3 gyroscope, float dt);
+
+bool FusionBiasIsActive(FusionBias* const fusionBias);
 
 #endif
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // End of file
