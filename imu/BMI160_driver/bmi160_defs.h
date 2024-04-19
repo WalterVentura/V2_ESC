@@ -91,7 +91,7 @@
 #ifdef __cplusplus
 #define NULL 0
 #else
-#define NULL ((void *) 0)
+#define NULL ((void*) 0)
 #endif
 #endif
 
@@ -693,11 +693,11 @@
 #define BMI160_GET_BITS(regvar, bitname) \
     ((regvar & bitname##_MSK) >> bitname##_POS)
 #define BMI160_SET_BITS(regvar, bitname, val) \
-    ((regvar & ~bitname##_MSK) | \
+    ((regvar & ~bitname##_MSK) |              \
      ((val << bitname##_POS) & bitname##_MSK))
 
 #define BMI160_SET_BITS_POS_0(reg_data, bitname, data) \
-    ((reg_data & ~(bitname##_MSK)) | \
+    ((reg_data & ~(bitname##_MSK)) |                   \
      (data & bitname##_MSK))
 
 #define BMI160_GET_BITS_POS_0(reg_data, bitname) (reg_data & (bitname##_MSK))
@@ -706,13 +706,14 @@
 #define BMI160_SET_LOW_BYTE  UINT16_C(0x00FF)
 #define BMI160_SET_HIGH_BYTE UINT16_C(0xFF00)
 
-#define BMI160_GET_LSB(var) (uint8_t)(var & BMI160_SET_LOW_BYTE)
-#define BMI160_GET_MSB(var) (uint8_t)((var & BMI160_SET_HIGH_BYTE) >> 8)
+#define BMI160_GET_LSB(var) (uint8_t) (var & BMI160_SET_LOW_BYTE)
+#define BMI160_GET_MSB(var) (uint8_t) ((var & BMI160_SET_HIGH_BYTE) >> 8)
 
 /*****************************************************************************/
 /* type definitions */
-typedef int8_t (*bmi160_com_fptr_t)(uint8_t dev_addr, uint8_t reg_addr, uint8_t *data, uint16_t len);
-typedef void (*bmi160_delay_fptr_t)(uint32_t period);
+typedef int8_t (* bmi160_com_fptr_t)(uint8_t dev_addr, uint8_t reg_addr, uint8_t* data,
+                                     uint16_t len);
+typedef void (* bmi160_delay_fptr_t)(uint32_t period);
 
 /*************************** Data structures *********************************/
 struct bmi160_pmu_status
@@ -747,7 +748,8 @@ struct bmi160_pmu_status
 /*!
  * @brief bmi160 interrupt status selection enum.
  */
-enum bmi160_int_status_sel {
+enum bmi160_int_status_sel
+{
     BMI160_INT_STATUS_0 = 1,
     BMI160_INT_STATUS_1 = 2,
     BMI160_INT_STATUS_2 = 4,
@@ -835,7 +837,7 @@ struct bmi160_int_status_bits
  */
 union bmi160_int_status
 {
-    uint8_t data[4];
+    uint8_t                       data[4];
     struct bmi160_int_status_bits bit;
 };
 
@@ -845,13 +847,13 @@ union bmi160_int_status
 struct bmi160_sensor_data
 {
     /*! X-axis sensor data */
-    int16_t x;
+    int16_t  x;
 
     /*! Y-axis sensor data */
-    int16_t y;
+    int16_t  y;
 
     /*! Z-axis sensor data */
-    int16_t z;
+    int16_t  z;
 
     /*! sensor time */
     uint32_t sensortime;
@@ -910,13 +912,13 @@ struct bmi160_foc_conf
 struct bmi160_offsets
 {
     /*! Accel offset for x axis */
-    int8_t off_acc_x;
+    int8_t  off_acc_x;
 
     /*! Accel offset for y axis */
-    int8_t off_acc_y;
+    int8_t  off_acc_y;
 
     /*! Accel offset for z axis */
-    int8_t off_acc_z;
+    int8_t  off_acc_z;
 
     /*! Gyro offset for x axis */
     int16_t off_gyro_x;
@@ -961,7 +963,8 @@ struct bmi160_aux_fifo_data
 /*!
  * @brief bmi160 sensor select structure
  */
-enum bmi160_select_sensor {
+enum bmi160_select_sensor
+{
     BMI160_ACCEL_ONLY = 1,
     BMI160_GYRO_ONLY,
     BMI160_BOTH_ACCEL_AND_GYRO
@@ -970,7 +973,8 @@ enum bmi160_select_sensor {
 /*!
  * @brief bmi160 sensor step detector mode structure
  */
-enum bmi160_step_detect_mode {
+enum bmi160_step_detect_mode
+{
     BMI160_STEP_DETECT_NORMAL,
     BMI160_STEP_DETECT_SENSITIVE,
     BMI160_STEP_DETECT_ROBUST,
@@ -982,7 +986,8 @@ enum bmi160_step_detect_mode {
 /*!
  * @brief enum for auxiliary burst read selection
  */
-enum bm160_aux_read_len {
+enum bm160_aux_read_len
+{
     BMI160_AUX_READ_LEN_0,
     BMI160_AUX_READ_LEN_1,
     BMI160_AUX_READ_LEN_2,
@@ -1031,7 +1036,8 @@ struct bmi160_aux_cfg
 /*!
  * @brief bmi160 interrupt channel selection structure
  */
-enum bmi160_int_channel {
+enum bmi160_int_channel
+{
     /*! Un-map both channels */
     BMI160_INT_CHANNEL_NONE,
 
@@ -1044,7 +1050,9 @@ enum bmi160_int_channel {
     /*! Map both channels */
     BMI160_INT_CHANNEL_BOTH
 };
-enum bmi160_int_types {
+
+enum bmi160_int_types
+{
     /*! Slope/Any-motion interrupt */
     BMI160_ACC_ANY_MOTION_INT,
 
@@ -1091,7 +1099,8 @@ enum bmi160_int_types {
 /*!
  * @brief bmi160 active state of any & sig motion interrupt.
  */
-enum bmi160_any_sig_motion_active_interrupt_state {
+enum bmi160_any_sig_motion_active_interrupt_state
+{
     /*! Both any & sig motion are disabled */
     BMI160_BOTH_ANY_SIG_MOTION_DISABLED = -1,
 
@@ -1101,6 +1110,7 @@ enum bmi160_any_sig_motion_active_interrupt_state {
     /*! Sig-motion selected */
     BMI160_SIG_MOTION_ENABLED
 };
+
 struct bmi160_acc_tap_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1144,6 +1154,7 @@ struct bmi160_acc_tap_int_cfg
     uint16_t tap_thr : 5;
 #endif
 };
+
 struct bmi160_acc_any_mot_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1193,6 +1204,7 @@ struct bmi160_acc_any_mot_int_cfg
     uint8_t anymotion_en : 1;
 #endif
 };
+
 struct bmi160_acc_sig_mot_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1230,6 +1242,7 @@ struct bmi160_acc_sig_mot_int_cfg
     uint8_t sig_mot_skip : 2;
 #endif
 };
+
 struct bmi160_acc_step_detect_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1267,6 +1280,7 @@ struct bmi160_acc_step_detect_int_cfg
     uint16_t step_detector_en : 1;
 #endif
 };
+
 struct bmi160_acc_no_motion_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1290,12 +1304,12 @@ struct bmi160_acc_no_motion_int_cfg
     uint16_t no_motion_src : 1;
 
     /*! no motion threshold */
-    uint8_t no_motion_thres;
+    uint8_t  no_motion_thres;
 #endif
 #ifdef BIG_ENDIAN
 
     /*! no motion threshold */
-    uint8_t no_motion_thres;
+    uint8_t  no_motion_thres;
 
     /*! data source 0- filter & 1 pre-filter*/
     uint16_t no_motion_src : 1;
@@ -1316,6 +1330,7 @@ struct bmi160_acc_no_motion_int_cfg
     uint16_t no_motion_x : 1;
 #endif
 };
+
 struct bmi160_acc_orient_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1339,12 +1354,12 @@ struct bmi160_acc_orient_int_cfg
     uint16_t axes_ex : 1;
 
     /*! 1 - orient enable, 0 - orient disable */
-    uint8_t orient_en : 1;
+    uint8_t  orient_en : 1;
 #endif
 #ifdef BIG_ENDIAN
 
     /*! 1 - orient enable, 0 - orient disable */
-    uint8_t orient_en : 1;
+    uint8_t  orient_en : 1;
 
     /*! exchange x- and z-axis in algorithm ,0 - z, 1 - x */
     uint16_t axes_ex : 1;
@@ -1365,6 +1380,7 @@ struct bmi160_acc_orient_int_cfg
     uint16_t orient_mode : 2;
 #endif
 };
+
 struct bmi160_acc_flat_detect_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1398,6 +1414,7 @@ struct bmi160_acc_flat_detect_int_cfg
     uint16_t flat_theta : 6;
 #endif
 };
+
 struct bmi160_acc_low_g_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1441,6 +1458,7 @@ struct bmi160_acc_low_g_int_cfg
     uint8_t low_dur;
 #endif
 };
+
 struct bmi160_acc_high_g_int_cfg
 {
 #ifdef LITTLE_ENDIAN
@@ -1490,6 +1508,7 @@ struct bmi160_acc_high_g_int_cfg
     uint8_t high_g_x : 1;
 #endif
 };
+
 struct bmi160_int_pin_settg
 {
 #ifdef LITTLE_ENDIAN
@@ -1538,54 +1557,56 @@ struct bmi160_int_pin_settg
     uint16_t output_en : 1;
 #endif
 };
+
 union bmi160_int_type_cfg
 {
     /*! Tap interrupt structure */
-    struct bmi160_acc_tap_int_cfg acc_tap_int;
+    struct bmi160_acc_tap_int_cfg         acc_tap_int;
 
     /*! Slope interrupt structure */
-    struct bmi160_acc_any_mot_int_cfg acc_any_motion_int;
+    struct bmi160_acc_any_mot_int_cfg     acc_any_motion_int;
 
     /*! Significant motion interrupt structure */
-    struct bmi160_acc_sig_mot_int_cfg acc_sig_motion_int;
+    struct bmi160_acc_sig_mot_int_cfg     acc_sig_motion_int;
 
     /*! Step detector interrupt structure */
     struct bmi160_acc_step_detect_int_cfg acc_step_detect_int;
 
     /*! No motion interrupt structure */
-    struct bmi160_acc_no_motion_int_cfg acc_no_motion_int;
+    struct bmi160_acc_no_motion_int_cfg   acc_no_motion_int;
 
     /*! Orientation interrupt structure */
-    struct bmi160_acc_orient_int_cfg acc_orient_int;
+    struct bmi160_acc_orient_int_cfg      acc_orient_int;
 
     /*! Flat interrupt structure */
     struct bmi160_acc_flat_detect_int_cfg acc_flat_int;
 
     /*! Low-g interrupt structure */
-    struct bmi160_acc_low_g_int_cfg acc_low_g_int;
+    struct bmi160_acc_low_g_int_cfg       acc_low_g_int;
 
     /*! High-g interrupt structure */
-    struct bmi160_acc_high_g_int_cfg acc_high_g_int;
+    struct bmi160_acc_high_g_int_cfg      acc_high_g_int;
 };
+
 struct bmi160_int_settg
 {
     /*! Interrupt channel */
-    enum bmi160_int_channel int_channel;
+    enum bmi160_int_channel     int_channel;
 
     /*! Select Interrupt */
-    enum bmi160_int_types int_type;
+    enum bmi160_int_types       int_type;
 
     /*! Structure configuring Interrupt pins */
     struct bmi160_int_pin_settg int_pin_settg;
 
     /*! Union configures required interrupt */
-    union bmi160_int_type_cfg int_type_cfg;
+    union bmi160_int_type_cfg   int_type_cfg;
 
     /*! FIFO FULL INT 1-enable, 0-disable */
-    uint8_t fifo_full_int_en : 1;
+    uint8_t                     fifo_full_int_en : 1;
 
     /*! FIFO WTM INT 1-enable, 0-disable */
-    uint8_t fifo_WTM_int_en : 1;
+    uint8_t                     fifo_WTM_int_en : 1;
 };
 
 /*!
@@ -1595,7 +1616,7 @@ struct bmi160_int_settg
 struct bmi160_fifo_frame
 {
     /*! Data buffer of user defined length is to be mapped here */
-    uint8_t *data;
+    uint8_t* data;
 
     /*! While calling the API  "bmi160_get_fifo_data" , length stores
      *  number of bytes in FIFO to be read (specified by user as input)
@@ -1605,14 +1626,14 @@ struct bmi160_fifo_frame
     uint16_t length;
 
     /*! FIFO time enable */
-    uint8_t fifo_time_enable;
+    uint8_t  fifo_time_enable;
 
     /*! Enabling of the FIFO header to stream in header mode */
-    uint8_t fifo_header_enable;
+    uint8_t  fifo_header_enable;
 
     /*! Streaming of the Accelerometer, Gyroscope
      * sensor data or both in FIFO */
-    uint8_t fifo_data_enable;
+    uint8_t  fifo_data_enable;
 
     /*! Will be equal to length when no more frames are there to parse */
     uint16_t accel_byte_start_idx;
@@ -1627,18 +1648,19 @@ struct bmi160_fifo_frame
     uint32_t sensor_time;
 
     /*! Value of Skipped frame counts */
-    uint8_t skipped_frame_count;
+    uint8_t  skipped_frame_count;
 };
+
 struct bmi160_dev
 {
     /*! Chip Id */
-    uint8_t chip_id;
+    uint8_t                                           chip_id;
 
     /*! Device Id */
-    uint8_t id;
+    uint8_t                                           id;
 
     /*! 0 - I2C , 1 - SPI Interface */
-    uint8_t interface;
+    uint8_t                                           interface;
 
     /*! Hold active interrupts status for any and sig motion
      *  0 - Any-motion enable, 1 - Sig-motion enable,
@@ -1646,40 +1668,40 @@ struct bmi160_dev
     enum bmi160_any_sig_motion_active_interrupt_state any_sig_sel;
 
     /*! Structure to configure Accel sensor */
-    struct bmi160_cfg accel_cfg;
+    struct bmi160_cfg                                 accel_cfg;
 
     /*! Structure to hold previous/old accel config parameters.
      * This is used at driver level to prevent overwriting of same
      * data, hence user does not change it in the code */
-    struct bmi160_cfg prev_accel_cfg;
+    struct bmi160_cfg                                 prev_accel_cfg;
 
     /*! Structure to configure Gyro sensor */
-    struct bmi160_cfg gyro_cfg;
+    struct bmi160_cfg                                 gyro_cfg;
 
     /*! Structure to hold previous/old gyro config parameters.
      * This is used at driver level to prevent overwriting of same
      * data, hence user does not change it in the code */
-    struct bmi160_cfg prev_gyro_cfg;
+    struct bmi160_cfg                                 prev_gyro_cfg;
 
     /*! Structure to configure the auxiliary sensor */
-    struct bmi160_aux_cfg aux_cfg;
+    struct bmi160_aux_cfg                             aux_cfg;
 
     /*! Structure to hold previous/old aux config parameters.
      * This is used at driver level to prevent overwriting of same
      * data, hence user does not change it in the code */
-    struct bmi160_aux_cfg prev_aux_cfg;
+    struct bmi160_aux_cfg                             prev_aux_cfg;
 
     /*! FIFO related configurations */
-    struct bmi160_fifo_frame *fifo;
+    struct bmi160_fifo_frame*                         fifo;
 
     /*! Read function pointer */
-    bmi160_com_fptr_t read;
+    bmi160_com_fptr_t                                 read;
 
     /*! Write function pointer */
-    bmi160_com_fptr_t write;
+    bmi160_com_fptr_t                                 write;
 
     /*!  Delay function pointer */
-    bmi160_delay_fptr_t delay_ms;
+    bmi160_delay_fptr_t                               delay_ms;
 };
 
 #endif /* BMI160_DEFS_H_ */

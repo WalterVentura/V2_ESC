@@ -275,16 +275,19 @@ typedef struct
         IOREG32 UART_THR;
         IOREG32 UART_DLL;
     };
+
     union
     {
         IOREG32 UART_IER;
         IOREG32 UART_DLM;
     };
+
     union
     {
         IOREG32 UART_IIR;
         IOREG32 UART_FCR;
     };
+
     IOREG32 UART_LCR;
     IOREG32 UART_MCR;
     IOREG32 UART_LSR;

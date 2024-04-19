@@ -9,17 +9,18 @@
 #ifndef FUSION_COMPASS_H
 #define FUSION_COMPASS_H
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Includes
 
 #include "FusionTypes.h"
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // Function prototypes
 
-float FusionCompassCalculateHeading(const FusionVector3 accelerometer, const FusionVector3 magnetometer);
+float FusionCompassCalculateHeading(const FusionVector3 accelerometer,
+                                    const FusionVector3 magnetometer);
 
 #endif
 
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 // End of file

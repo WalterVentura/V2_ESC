@@ -7,9 +7,9 @@ extern "C" {
 
 /** \file heap_vis.h */
 
- /** Create an image representing the current state of the heap.
-  *   This function is not meant for execution on an microcontroller.
-  */
+/** Create an image representing the current state of the heap.
+ *   This function is not meant for execution on an microcontroller.
+ */
 void heap_vis_gen_image(void);
 
 #ifdef __cplusplus

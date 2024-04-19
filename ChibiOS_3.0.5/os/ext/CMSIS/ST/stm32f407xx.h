@@ -824,6 +824,7 @@ typedef struct
     __IO uint32_t HPTXFSIZ;           /* Host Periodic Tx FIFO Size Reg     100h*/
     __IO uint32_t DIEPTXF[0x0F];      /* dev Periodic Transmit FIFO */
 }
+
 USB_OTG_GlobalTypeDef;
 
 /**
@@ -852,6 +853,7 @@ typedef struct
     uint32_t      Reserved44[15]; /* Reserved                 844-87Ch*/
     __IO uint32_t DOUTEP1MSK;     /* dedicated EP msk            884h*/
 }
+
 USB_OTG_DeviceTypeDef;
 
 /**
@@ -868,6 +870,7 @@ typedef struct
     __IO uint32_t DTXFSTS;    /*IN Endpoint Tx FIFO Status Reg 900h + (ep_num * 20h) + 18h*/
     uint32_t      Reserved18; /* Reserved  900h+(ep_num*20h)+1Ch-900h+ (ep_num * 20h) + 1Ch*/
 }
+
 USB_OTG_INEndpointTypeDef;
 
 /**
@@ -883,6 +886,7 @@ typedef struct
     __IO uint32_t DOEPDMA;       /* dev OUT Endpoint DMA Address  B00h + (ep_num * 20h) + 14h*/
     uint32_t      Reserved18[2]; /* Reserved B00h + (ep_num * 20h) + 18h - B00h + (ep_num * 20h) + 1Ch*/
 }
+
 USB_OTG_OUTEndpointTypeDef;
 
 /**
@@ -898,6 +902,7 @@ typedef struct
     __IO uint32_t HAINT;       /* Host All Channels Interrupt Register 414h*/
     __IO uint32_t HAINTMSK;    /* Host All Channels Interrupt Mask 418h*/
 }
+
 USB_OTG_HostTypeDef;
 
 /**
@@ -913,6 +918,7 @@ typedef struct
     __IO uint32_t HCDMA;
     uint32_t      Reserved[2];
 }
+
 USB_OTG_HostChannelTypeDef;
 
 /**

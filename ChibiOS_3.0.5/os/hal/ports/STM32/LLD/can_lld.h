@@ -161,17 +161,20 @@ typedef struct
         uint8_t RTR : 1; /**< @brief Frame type.         */
         uint8_t IDE : 1; /**< @brief Identifier type.    */
     };
+
     union
     {
         struct
         {
             uint32_t SID : 11; /**< @brief Standard identifier.*/
         };
+
         struct
         {
             uint32_t EID : 29; /**< @brief Extended identifier.*/
         };
     };
+
     union
     {
         uint8_t  data8[8];  /**< @brief Frame data.         */
@@ -192,23 +195,27 @@ typedef struct
         uint8_t  FMI;  /**< @brief Filter id.          */
         uint16_t TIME; /**< @brief Time stamp.         */
     };
+
     struct
     {
         uint8_t DLC : 4; /**< @brief Data length.        */
         uint8_t RTR : 1; /**< @brief Frame type.         */
         uint8_t IDE : 1; /**< @brief Identifier type.    */
     };
+
     union
     {
         struct
         {
             uint32_t SID : 11; /**< @brief Standard identifier.*/
         };
+
         struct
         {
             uint32_t EID : 29; /**< @brief Extended identifier.*/
         };
     };
+
     union
     {
         uint8_t  data8[8];  /**< @brief Frame data.         */
