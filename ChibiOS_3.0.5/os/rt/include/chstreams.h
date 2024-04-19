@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chstreams.h
@@ -41,15 +41,16 @@
 /**
  * @brief   BaseSequentialStream specific methods.
  */
-#define _base_sequential_stream_methods                                     \
-  /* Stream write buffer method.*/                                          \
-  size_t (*write)(void *instance, const uint8_t *bp, size_t n);             \
-  /* Stream read buffer method.*/                                           \
-  size_t (*read)(void *instance, uint8_t *bp, size_t n);                    \
-  /* Channel put method, blocking.*/                                        \
-  msg_t (*put)(void *instance, uint8_t b);                                  \
-  /* Channel get method, blocking.*/                                        \
-  msg_t (*get)(void *instance);                                             \
+#define _base_sequential_stream_methods                            \
+    /* Stream write buffer method.*/                               \
+    size_t (* write)(void* instance, const uint8_t* bp, size_t n); \
+    /* Stream read buffer method.*/                                \
+    size_t (* read)(void* instance, uint8_t* bp, size_t n);        \
+    /* Channel put method, blocking.*/                             \
+    msg_t (* put)(void* instance, uint8_t b);                      \
+    /* Channel get method, blocking.*/                             \
+    msg_t (* get)(void* instance);                                 \
+
 
 /**
  * @brief   @p BaseSequentialStream specific data.
@@ -61,8 +62,9 @@
 /**
  * @brief   @p BaseSequentialStream virtual methods table.
  */
-struct BaseSequentialStreamVMT {
-  _base_sequential_stream_methods
+struct BaseSequentialStreamVMT
+{
+    _base_sequential_stream_methods
 };
 
 /**
@@ -70,16 +72,18 @@ struct BaseSequentialStreamVMT {
  * @details This class represents a generic blocking unbuffered sequential
  *          data stream.
  */
-typedef struct {
-  /** @brief Virtual Methods Table.*/
-  const struct BaseSequentialStreamVMT *vmt;
-  _base_sequential_stream_data
+typedef struct
+{
+    /** @brief Virtual Methods Table.*/
+    const struct BaseSequentialStreamVMT* vmt;
+    _base_sequential_stream_data
 } BaseSequentialStream;
 
 /**
  * @name    Macro Functions (BaseSequentialStream)
  * @{
  */
+
 /**
  * @brief   Sequential Stream write.
  * @details The function writes data from a buffer to a stream.
@@ -108,7 +112,7 @@ typedef struct {
  *
  * @api
  */
-#define chSequentialStreamRead(ip, bp, n) ((ip)->vmt->read(ip, bp, n))
+#define chSequentialStreamRead(ip, bp, n)  ((ip)->vmt->read(ip, bp, n))
 
 /**
  * @brief   Sequential Stream blocking byte write.
@@ -124,7 +128,7 @@ typedef struct {
  *
  * @api
  */
-#define chSequentialStreamPut(ip, b) ((ip)->vmt->put(ip, b))
+#define chSequentialStreamPut(ip, b)       ((ip)->vmt->put(ip, b))
 
 /**
  * @brief   Sequential Stream blocking byte read.
@@ -138,7 +142,8 @@ typedef struct {
  *
  * @api
  */
-#define chSequentialStreamGet(ip) ((ip)->vmt->get(ip))
+#define chSequentialStreamGet(ip)          ((ip)->vmt->get(ip))
+
 /** @} */
 
 #endif /* _CHSTREAMS_H_ */

@@ -88,7 +88,7 @@ int adiv5_swdp_scan(void)
     adiv5_swdp_error(dp);
     adiv5_dp_init(dp);
 
-    return target_list ? 1:0;
+    return target_list ? 1 : 0;
 }
 
 static uint32_t adiv5_swdp_read(ADIv5_DP_t* dp, uint16_t addr)
@@ -176,7 +176,7 @@ static uint32_t adiv5_swdp_low_access(ADIv5_DP_t* dp, uint8_t RnW, uint16_t addr
     do {
         swdptap_seq_out(request, 8);
         ack = swdptap_seq_in(3);
-    } while (ack == SWDP_ACK_WAIT && !platform_timeout_is_expired(&timeout));
+    } while(ack == SWDP_ACK_WAIT && !platform_timeout_is_expired(&timeout));
 
     if(ack == SWDP_ACK_WAIT)
     {

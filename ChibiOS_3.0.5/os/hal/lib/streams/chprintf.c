@@ -64,13 +64,13 @@ static char* long_to_string_with_divisor(char* p, long num, unsigned radix, long
 
         *--q = i;
         l /= radix;
-    } while ((ll /= radix) != 0);
+    } while((ll /= radix) != 0);
 
     i = (int) (p + MAX_FILLER - q);
 
-    do{
+    do {
         *p++ = *q++;
-    }while (--i);
+    } while(--i);
 
     return p;
 }
@@ -362,7 +362,7 @@ unsigned_common:
             do {
                 streamPut(chp, (uint8_t) filler);
                 n++;
-            } while (++width != 0);
+            } while(++width != 0);
         }
 
         while(--i >= 0)

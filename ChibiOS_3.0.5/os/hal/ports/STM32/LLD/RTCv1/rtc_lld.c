@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 /*
  * Concepts and parts of this file have been contributed by Uladzimir Pylinsky
  * aka barthess.
@@ -418,7 +419,7 @@ void rtcSTM32GetSecMsec(RTCDriver* rtcp, uint32_t* tv_sec, uint32_t* tv_msec)
     do {
         *tv_sec = ((uint32_t) (rtcp->rtc->CNTH) << 16) + rtcp->rtc->CNTL;
         time_frac = (((uint32_t) rtcp->rtc->DIVH) << 16) + (uint32_t) rtcp->rtc->DIVL;
-    } while ((*tv_sec) != (((uint32_t) (rtcp->rtc->CNTH) << 16) + rtcp->rtc->CNTL));
+    } while((*tv_sec) != (((uint32_t) (rtcp->rtc->CNTH) << 16) + rtcp->rtc->CNTL));
 
     /* Leaving a reentrant critical zone.*/
     osalSysRestoreStatusX(sts);

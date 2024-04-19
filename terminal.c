@@ -149,7 +149,7 @@ void terminal_process_string(char* str)
                                       (float) (chVTGetSystemTimeX() - last_check_time)));
             tp->p_time = 0;
             tp = chRegNextThread(tp);
-        } while (tp != NULL);
+        } while(tp != NULL);
 
         last_check_time = chVTGetSystemTimeX();
         commands_printf(" ");
@@ -1252,7 +1252,7 @@ void terminal_process_string(char* str)
                     else
                     {
                         commands_printf("Fault code occurred during detection: %s\n", mc_interface_fault_to_string(
-                                            res + 100));                                                                      // faults are offset by -100 here
+                                            res + 100)); // faults are offset by -100 here
                         commands_printf("For more info type \"faults\" to view all logged faults\n");
                     }
 
@@ -1377,7 +1377,7 @@ void terminal_process_string(char* str)
                     else
                     {
                         commands_printf("Fault code occurred during detection: %s\n", mc_interface_fault_to_string(
-                                            res + 100));                                                                      // faults are offset by -100 here
+                                            res + 100)); // faults are offset by -100 here
                         commands_printf("For more info type \"faults\" to view all logged faults\n");
                     }
 

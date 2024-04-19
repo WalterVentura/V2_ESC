@@ -265,6 +265,7 @@ static THD_FUNCTION(adc_thread, arg)
                 break;
 
             default:
+
                 // Linear mapping between the start and end voltage
                 pwr = utils_map(pwr, config.voltage_start, config.voltage_end, 0.0, 1.0);
                 break;
@@ -418,6 +419,7 @@ static THD_FUNCTION(adc_thread, arg)
             case ADC_CTRL_TYPE_CURRENT_NOREV_BRAKE_CENTER:
             case ADC_CTRL_TYPE_DUTY_REV_CENTER:
             case ADC_CTRL_TYPE_PID_REV_CENTER:
+
                 // Scale the voltage and set 0 at the center
                 pwr *= 2.0;
                 pwr -= 1.0;

@@ -124,7 +124,7 @@ static void terminal_print(int argc, const char** argv)
         }
 
         event = (event + 1) % EVENTS_LEN;
-    } while (event != m_event_now);
+    } while(event != m_event_now);
 
     commands_printf("Events total: %d\n", print_cnt);
 }

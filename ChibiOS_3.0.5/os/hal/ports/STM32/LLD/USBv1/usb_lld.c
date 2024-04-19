@@ -931,7 +931,7 @@ void usb_lld_prepare_receive(USBDriver* usbp, usbep_t ep)
     USBOutEndpointState* osp = usbp->epc[ep]->out_state;
 
     /* Transfer initialization.*/
-    if(osp->rxsize == 0)        /* Special case for zero sized packets.*/
+    if(osp->rxsize == 0) /* Special case for zero sized packets.*/
     {
         osp->rxpkts = 1;
     }

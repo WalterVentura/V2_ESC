@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "/"
+
+            ],
+            "defines": [
+            ],
+            "compilerPath": "tools/gcc-arm-none-eabi-7-2018-q2-update/bin/arm-none-eabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

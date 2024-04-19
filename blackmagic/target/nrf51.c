@@ -234,7 +234,7 @@ static int nrf51_flash_erase(struct target_flash* f, target_addr addr, size_t le
         {
             target_mem_write32(t, NRF51_NVMC_ERASEUICR, 0x1);
         }
-        else     // Standard Flash Page
+        else // Standard Flash Page
 
         /* Write address of first word in page to erase it */
         {
@@ -491,7 +491,7 @@ static bool nrf51_mdm_cmd_erase_mass(target* t)
     // Read until 0, probably should have a timeout here...
     do {
         status = adiv5_ap_read(ap, MDM_STATUS);
-    } while (status);
+    } while(status);
 
     // The second read will provide true prot status
     status = adiv5_ap_read(ap, MDM_PROT_EN);

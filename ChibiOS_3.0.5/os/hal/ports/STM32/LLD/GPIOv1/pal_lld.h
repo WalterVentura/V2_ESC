@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    STM32/GPIOv1/pal_lld.h
@@ -35,15 +35,17 @@
  * @name    STM32-specific I/O mode flags
  * @{
  */
+
 /**
  * @brief   STM32 specific alternate push-pull output mode.
  */
-#define PAL_MODE_STM32_ALTERNATE_PUSHPULL   16
+#define PAL_MODE_STM32_ALTERNATE_PUSHPULL  16
 
 /**
  * @brief   STM32 specific alternate open-drain output mode.
  */
-#define PAL_MODE_STM32_ALTERNATE_OPENDRAIN  17
+#define PAL_MODE_STM32_ALTERNATE_OPENDRAIN 17
+
 /** @} */
 
 /*===========================================================================*/
@@ -53,13 +55,16 @@
 /**
  * @brief   GPIO port setup info.
  */
-typedef struct {
-  /** Initial value for ODR register.*/
-  uint32_t      odr;
-  /** Initial value for CRL register.*/
-  uint32_t      crl;
-  /** Initial value for CRH register.*/
-  uint32_t      crh;
+typedef struct
+{
+    /** Initial value for ODR register.*/
+    uint32_t odr;
+
+    /** Initial value for CRL register.*/
+    uint32_t crl;
+
+    /** Initial value for CRH register.*/
+    uint32_t crh;
 } stm32_gpio_setup_t;
 
 /**
@@ -69,24 +74,31 @@ typedef struct {
  *          subsystem. This represents only the initial setup, specific pads
  *          or whole ports can be reprogrammed at later time.
  */
-typedef struct {
-  /** @brief Port A setup data.*/
-  stm32_gpio_setup_t    PAData;
-  /** @brief Port B setup data.*/
-  stm32_gpio_setup_t    PBData;
-  /** @brief Port C setup data.*/
-  stm32_gpio_setup_t    PCData;
-  /** @brief Port D setup data.*/
-  stm32_gpio_setup_t    PDData;
+typedef struct
+{
+    /** @brief Port A setup data.*/
+    stm32_gpio_setup_t PAData;
+
+    /** @brief Port B setup data.*/
+    stm32_gpio_setup_t PBData;
+
+    /** @brief Port C setup data.*/
+    stm32_gpio_setup_t PCData;
+
+    /** @brief Port D setup data.*/
+    stm32_gpio_setup_t PDData;
 #if STM32_HAS_GPIOE || defined(__DOXYGEN__)
-  /** @brief Port E setup data.*/
-  stm32_gpio_setup_t    PEData;
+
+    /** @brief Port E setup data.*/
+    stm32_gpio_setup_t PEData;
 #if STM32_HAS_GPIOF || defined(__DOXYGEN__)
-  /** @brief Port F setup data.*/
-  stm32_gpio_setup_t    PFData;
+
+    /** @brief Port F setup data.*/
+    stm32_gpio_setup_t PFData;
 #if STM32_HAS_GPIOG || defined(__DOXYGEN__)
-  /** @brief Port G setup data.*/
-  stm32_gpio_setup_t    PGData;
+
+    /** @brief Port G setup data.*/
+    stm32_gpio_setup_t PGData;
 #endif
 #endif
 #endif
@@ -101,7 +113,7 @@ typedef struct {
  * @brief   Whole port mask.
  * @details This macro specifies all the valid bits into a port.
  */
-#define PAL_WHOLE_PORT ((ioportmask_t)0xFFFF)
+#define PAL_WHOLE_PORT    ((ioportmask_t) 0xFFFF)
 
 /**
  * @brief Digital I/O port sized unsigned type.
@@ -119,7 +131,7 @@ typedef uint32_t iomode_t;
  *          any assumption about it, use the provided macros when populating
  *          variables of this type.
  */
-typedef GPIO_TypeDef * ioportid_t;
+typedef GPIO_TypeDef* ioportid_t;
 
 /*===========================================================================*/
 /* I/O Ports Identifiers.                                                    */
@@ -131,49 +143,49 @@ typedef GPIO_TypeDef * ioportid_t;
  * @brief   GPIO port A identifier.
  */
 #if STM32_HAS_GPIOA || defined(__DOXYGEN__)
-#define IOPORT1         GPIOA
+#define IOPORT1 GPIOA
 #endif
 
 /**
  * @brief   GPIO port B identifier.
  */
 #if STM32_HAS_GPIOB || defined(__DOXYGEN__)
-#define IOPORT2         GPIOB
+#define IOPORT2 GPIOB
 #endif
 
 /**
  * @brief   GPIO port C identifier.
  */
 #if STM32_HAS_GPIOC || defined(__DOXYGEN__)
-#define IOPORT3         GPIOC
+#define IOPORT3 GPIOC
 #endif
 
 /**
  * @brief   GPIO port D identifier.
  */
 #if STM32_HAS_GPIOD || defined(__DOXYGEN__)
-#define IOPORT4         GPIOD
+#define IOPORT4 GPIOD
 #endif
 
 /**
  * @brief   GPIO port E identifier.
  */
 #if STM32_HAS_GPIOE || defined(__DOXYGEN__)
-#define IOPORT5         GPIOE
+#define IOPORT5 GPIOE
 #endif
 
 /**
  * @brief   GPIO port F identifier.
  */
 #if STM32_HAS_GPIOF || defined(__DOXYGEN__)
-#define IOPORT6         GPIOF
+#define IOPORT6 GPIOF
 #endif
 
 /**
  * @brief   GPIO port G identifier.
  */
 #if STM32_HAS_GPIOG || defined(__DOXYGEN__)
-#define IOPORT7         GPIOG
+#define IOPORT7 GPIOG
 #endif
 
 /*===========================================================================*/
@@ -186,7 +198,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_init(config) _pal_lld_init(config)
+#define pal_lld_init(config)          _pal_lld_init(config)
 
 /**
  * @brief   Reads an I/O port.
@@ -200,7 +212,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_readport(port) ((port)->IDR)
+#define pal_lld_readport(port)        ((port)->IDR)
 
 /**
  * @brief   Reads the output latch.
@@ -214,7 +226,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_readlatch(port) ((port)->ODR)
+#define pal_lld_readlatch(port)       ((port)->ODR)
 
 /**
  * @brief   Writes on a I/O port.
@@ -244,7 +256,7 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_setport(port, bits) ((port)->BSRR = (bits))
+#define pal_lld_setport(port, bits)   ((port)->BSRR = (bits))
 
 /**
  * @brief   Clears a bits mask on a I/O port.
@@ -277,9 +289,9 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_writegroup(port, mask, offset, bits)                        \
-  ((port)->BSRR = ((~(bits) & (mask)) << (16 + (offset))) |                 \
-                 (((bits) & (mask)) << (offset)))
+#define pal_lld_writegroup(port, mask, offset, bits)          \
+    ((port)->BSRR = ((~(bits) & (mask)) << (16 + (offset))) | \
+                    (((bits) & (mask)) << (offset)))
 
 /**
  * @brief   Pads group mode setup.
@@ -296,8 +308,8 @@ typedef GPIO_TypeDef * ioportid_t;
  *
  * @notapi
  */
-#define pal_lld_setgroupmode(port, mask, offset, mode)                      \
-  _pal_lld_setgroupmode(port, mask << offset, mode)
+#define pal_lld_setgroupmode(port, mask, offset, mode) \
+    _pal_lld_setgroupmode(port, mask << offset, mode)
 
 /**
  * @brief   Writes a logical state on an output pad.
@@ -319,10 +331,10 @@ extern const PALConfig pal_default_config;
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void _pal_lld_init(const PALConfig *config);
-  void _pal_lld_setgroupmode(ioportid_t port,
-                             ioportmask_t mask,
-                             iomode_t mode);
+void _pal_lld_init(const PALConfig* config);
+
+void _pal_lld_setgroupmode(ioportid_t port, ioportmask_t mask, iomode_t mode);
+
 #ifdef __cplusplus
 }
 #endif

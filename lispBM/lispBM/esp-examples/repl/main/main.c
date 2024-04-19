@@ -151,7 +151,7 @@ void sleep_callback(uint32_t us)
 
     if(ticks == 0)
     {
-        vTaskDelay(1);            // taskYIELD();
+        vTaskDelay(1); // taskYIELD();
     }
     else
     {

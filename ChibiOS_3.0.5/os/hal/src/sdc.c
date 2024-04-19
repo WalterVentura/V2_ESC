@@ -528,6 +528,7 @@ static bool mmc_set_bus_width(SDCDriver* sdcp)
     switch(sdcp->config->bus_width)
     {
         case SDC_MODE_1BIT:
+
             /* Nothing to do. Bus is already in 1bit mode.*/
             return HAL_SUCCESS;
 
@@ -593,6 +594,7 @@ bool _sdc_wait_for_transfer_state(SDCDriver* sdcp)
                 continue;
 
             default:
+
                 /* The card should have been initialized so any other state is not
                  * valid and is reported as an error.*/
                 return HAL_FAILED;
@@ -828,6 +830,7 @@ bool sdcConnect(SDCDriver* sdcp)
             break;
 
         default:
+
             /* Unknown type.*/
             goto failed;
     }

@@ -16,4 +16,5 @@ workspace.code-workspace
 *.pro.user
 *.pro.shared
 
-.vscode
+.vscode/*
+!.vscode/c_cpp_properties.json

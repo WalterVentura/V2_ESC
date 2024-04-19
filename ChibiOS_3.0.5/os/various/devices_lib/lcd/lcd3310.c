@@ -304,7 +304,7 @@ void lcd3310RotateText(SPIDriver* spip, const uint8_t* strp, uint8_t offset)
     uint8_t m;
 
     for(n = 0; strp[n] != '\0'; n++)
-        ;                           /* Count number of char */
+        ; /* Count number of char */
 
     if(offset >= n)
     {

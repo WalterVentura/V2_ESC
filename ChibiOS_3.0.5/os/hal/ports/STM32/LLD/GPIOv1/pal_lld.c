@@ -131,24 +131,24 @@ void _pal_lld_setgroupmode(ioportid_t port, ioportmask_t mask, iomode_t mode)
 {
     static const uint8_t cfgtab[] =
     {
-        4,      /* PAL_MODE_RESET, implemented as input.*/
-        2,      /* PAL_MODE_UNCONNECTED, implemented as push pull output 2MHz.*/
-        4,      /* PAL_MODE_INPUT */
-        8,      /* PAL_MODE_INPUT_PULLUP */
-        8,      /* PAL_MODE_INPUT_PULLDOWN */
-        0,      /* PAL_MODE_INPUT_ANALOG */
-        3,      /* PAL_MODE_OUTPUT_PUSHPULL, 50MHz.*/
-        7,      /* PAL_MODE_OUTPUT_OPENDRAIN, 50MHz.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        8,      /* Reserved.*/
-        0xB,    /* PAL_MODE_STM32_ALTERNATE_PUSHPULL, 50MHz.*/
-        0xF,    /* PAL_MODE_STM32_ALTERNATE_OPENDRAIN, 50MHz.*/
+        4,   /* PAL_MODE_RESET, implemented as input.*/
+        2,   /* PAL_MODE_UNCONNECTED, implemented as push pull output 2MHz.*/
+        4,   /* PAL_MODE_INPUT */
+        8,   /* PAL_MODE_INPUT_PULLUP */
+        8,   /* PAL_MODE_INPUT_PULLDOWN */
+        0,   /* PAL_MODE_INPUT_ANALOG */
+        3,   /* PAL_MODE_OUTPUT_PUSHPULL, 50MHz.*/
+        7,   /* PAL_MODE_OUTPUT_OPENDRAIN, 50MHz.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        8,   /* Reserved.*/
+        0xB, /* PAL_MODE_STM32_ALTERNATE_PUSHPULL, 50MHz.*/
+        0xF, /* PAL_MODE_STM32_ALTERNATE_OPENDRAIN, 50MHz.*/
     };
     uint32_t mh, ml, crh, crl, cfg;
     unsigned i;

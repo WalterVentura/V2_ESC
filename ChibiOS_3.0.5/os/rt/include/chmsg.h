@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chmsg.h
@@ -57,9 +57,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  msg_t chMsgSend(thread_t *tp, msg_t msg);
-  thread_t * chMsgWait(void);
-  void chMsgRelease(thread_t *tp, msg_t msg);
+msg_t chMsgSend(thread_t* tp, msg_t msg);
+
+thread_t* chMsgWait(void);
+
+void chMsgRelease(thread_t* tp, msg_t msg);
+
 #ifdef __cplusplus
 }
 #endif
@@ -76,11 +79,11 @@ extern "C" {
  *
  * @iclass
  */
-static inline bool chMsgIsPendingI(thread_t *tp) {
+static inline bool chMsgIsPendingI(thread_t* tp)
+{
+    chDbgCheckClassI();
 
-  chDbgCheckClassI();
-
-  return (bool)(tp->p_msgqueue.p_next != (thread_t *)&tp->p_msgqueue);
+    return (bool) (tp->p_msgqueue.p_next != (thread_t*) &tp->p_msgqueue);
 }
 
 /**
@@ -93,9 +96,9 @@ static inline bool chMsgIsPendingI(thread_t *tp) {
  *
  * @api
  */
-static inline msg_t chMsgGet(thread_t *tp) {
-
-  return tp->p_msg;
+static inline msg_t chMsgGet(thread_t* tp)
+{
+    return tp->p_msg;
 }
 
 /**
@@ -108,11 +111,11 @@ static inline msg_t chMsgGet(thread_t *tp) {
  *
  * @sclass
  */
-static inline void chMsgReleaseS(thread_t *tp, msg_t msg) {
+static inline void chMsgReleaseS(thread_t* tp, msg_t msg)
+{
+    chDbgCheckClassS();
 
-  chDbgCheckClassS();
-
-  chSchWakeupS(tp, msg);
+    chSchWakeupS(tp, msg);
 }
 
 #endif /* CH_CFG_USE_MESSAGES == TRUE */

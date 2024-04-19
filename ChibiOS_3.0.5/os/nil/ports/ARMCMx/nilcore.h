@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    ARMCMx/nilcore.h
@@ -36,27 +36,28 @@
  * @name    Architecture and Compiler
  * @{
  */
+
 /**
  * @brief   Macro defining a generic ARM architecture.
  */
 #define PORT_ARCHITECTURE_ARM
 
 /* The following code is not processed when the file is included from an
-   asm module because those intrinsic macros are not necessarily defined
-   by the assembler too.*/
+ * asm module because those intrinsic macros are not necessarily defined
+ * by the assembler too.*/
 #if !defined(_FROM_ASM_)
 
 /**
  * @brief   Compiler name and version.
  */
 #if defined(__GNUC__) || defined(__DOXYGEN__)
-#define PORT_COMPILER_NAME              "GCC " __VERSION__
+#define PORT_COMPILER_NAME "GCC " __VERSION__
 
 #elif defined(__ICCARM__)
-#define PORT_COMPILER_NAME              "IAR"
+#define PORT_COMPILER_NAME "IAR"
 
 #elif defined(__CC_ARM)
-#define PORT_COMPILER_NAME              "RVCT"
+#define PORT_COMPILER_NAME "RVCT"
 
 #else
 #error "unsupported compiler"
@@ -80,7 +81,7 @@
  *          @p nilcore_timer_alt.h is included instead.
  */
 #if !defined(PORT_USE_ALT_TIMER)
-#define PORT_USE_ALT_TIMER              FALSE
+#define PORT_USE_ALT_TIMER FALSE
 #endif
 
 /*===========================================================================*/
@@ -92,13 +93,13 @@
 /*===========================================================================*/
 
 /* The following code is not processed when the file is included from an
-   asm module.*/
+ * asm module.*/
 #if !defined(_FROM_ASM_)
 
 /**
  * @brief   Type of a generic ARM register.
  */
-typedef void *regarm_t;
+typedef void* regarm_t;
 
 /**
  * @brief   Type of stack and memory alignment enforcement.
@@ -109,23 +110,25 @@ typedef void *regarm_t;
 typedef uint64_t stkalign_t;
 
 /* The following declarations are there just for Doxygen documentation, the
-   real declarations are inside the sub-headers being specific for the
-   sub-architectures.*/
+ * real declarations are inside the sub-headers being specific for the
+ * sub-architectures.*/
 #if defined(__DOXYGEN__)
+
 /**
  * @brief   Interrupt saved context.
  * @details This structure represents the stack frame saved during a
  *          preemption-capable interrupt handler.
  * @note    It is implemented to match the Cortex-Mx exception context.
  */
-struct port_extctx {};
+struct port_extctx { };
 
 /**
  * @brief   System saved context.
  * @details This structure represents the inner stack frame during a context
  *          switch.
  */
-struct port_intctx {};
+struct port_intctx { };
+
 #endif /* defined(__DOXYGEN__) */
 
 #endif /* !defined(_FROM_ASM_) */
@@ -137,38 +140,38 @@ struct port_intctx {};
 /**
  * @brief   Total priority levels.
  */
-#define CORTEX_PRIORITY_LEVELS          (1U << CORTEX_PRIORITY_BITS)
+#define CORTEX_PRIORITY_LEVELS  (1U << CORTEX_PRIORITY_BITS)
 
 /**
  * @brief   Minimum priority level.
  * @details This minimum priority level is calculated from the number of
  *          priority bits supported by the specific Cortex-Mx implementation.
  */
-#define CORTEX_MINIMUM_PRIORITY         (CORTEX_PRIORITY_LEVELS - 1)
+#define CORTEX_MINIMUM_PRIORITY (CORTEX_PRIORITY_LEVELS - 1)
 
 /**
  * @brief   Maximum priority level.
  * @details The maximum allowed priority level is always zero.
  */
-#define CORTEX_MAXIMUM_PRIORITY         0U
+#define CORTEX_MAXIMUM_PRIORITY 0U
 
 /**
  * @brief   Priority level to priority mask conversion macro.
  */
-#define CORTEX_PRIO_MASK(n)                                                 \
-  ((n) << (8U - (unsigned)CORTEX_PRIORITY_BITS))
+#define CORTEX_PRIO_MASK(n) \
+    ((n) << (8U - (unsigned) CORTEX_PRIORITY_BITS))
 
 /**
  * @brief   Priority level verification macro.
  */
-#define PORT_IRQ_IS_VALID_PRIORITY(n)                                       \
-  (((n) >= 0U) && ((n) < CORTEX_PRIORITY_LEVELS))
+#define PORT_IRQ_IS_VALID_PRIORITY(n) \
+    (((n) >= 0U) && ((n) < CORTEX_PRIORITY_LEVELS))
 
 /**
  * @brief   Priority level verification macro.
  */
-#define PORT_IRQ_IS_VALID_KERNEL_PRIORITY(n)                                \
-  (((n) >= CORTEX_MAX_KERNEL_PRIORITY) && ((n) < CORTEX_PRIORITY_LEVELS))
+#define PORT_IRQ_IS_VALID_KERNEL_PRIORITY(n) \
+    (((n) >= CORTEX_MAX_KERNEL_PRIORITY) && ((n) < CORTEX_PRIORITY_LEVELS))
 
 /*===========================================================================*/
 /* External declarations.                                                    */

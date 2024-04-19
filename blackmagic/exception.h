@@ -49,26 +49,27 @@
 #define EXCEPTION_TIMEOUT 0x02
 #define EXCEPTION_ALL     -1
 
-struct exception {
-	uint32_t type;
-	const char *msg;
-	/* private */
-	uint32_t mask;
-	jmp_buf jmpbuf;
-	struct exception *outer;
+struct exception
+{
+    uint32_t          type;
+    const char*       msg;
+
+    /* private */
+    uint32_t          mask;
+    jmp_buf           jmpbuf;
+    struct exception* outer;
 };
 
-extern struct exception *innermost_exception;
+extern struct exception* innermost_exception;
 
-#define TRY_CATCH(e, type_mask) \
-	(e).type = 0; \
-	(e).mask = (type_mask); \
-	(e).outer = innermost_exception; \
-	innermost_exception = (void*)&(e); \
-	if (setjmp(innermost_exception->jmpbuf) == 0) \
-		for (;innermost_exception == &(e); innermost_exception = (e).outer)
+#define TRY_CATCH(e, type_mask)                  \
+    (e).type = 0;                                \
+    (e).mask = (type_mask);                      \
+    (e).outer = innermost_exception;             \
+    innermost_exception = (void*) &(e);          \
+    if(setjmp(innermost_exception->jmpbuf) == 0) \
+    for(; innermost_exception == &(e); innermost_exception = (e).outer)
 
-void raise_exception(uint32_t type, const char *msg);
+void raise_exception(uint32_t type, const char* msg);
 
 #endif
-

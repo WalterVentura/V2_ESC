@@ -337,7 +337,7 @@ static int stm32h7_flash_erase(struct target_flash* f, target_addr addr, size_t 
             }
 
 // target_mem_write32(t, H7_IWDG_BASE, 0x0000aaaa);
-        }while (sr & (FLASH_SR_QW | FLASH_SR_BSY));
+        } while(sr & (FLASH_SR_QW | FLASH_SR_BSY));
 
         if(sr & FLASH_SR_ERROR_MASK)
         {

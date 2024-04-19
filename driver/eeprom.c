@@ -462,11 +462,11 @@ static uint16_t EE_FindValidPage(uint8_t Operation)
                 /* Page0 receiving data */
                 if(PageStatus0 == RECEIVE_DATA)
                 {
-                    return PAGE0;     /* Page0 valid */
+                    return PAGE0; /* Page0 valid */
                 }
                 else
                 {
-                    return PAGE1;     /* Page1 valid */
+                    return PAGE1; /* Page1 valid */
                 }
             }
             else if(PageStatus0 == VALID_PAGE)
@@ -474,11 +474,11 @@ static uint16_t EE_FindValidPage(uint8_t Operation)
                 /* Page1 receiving data */
                 if(PageStatus1 == RECEIVE_DATA)
                 {
-                    return PAGE1;     /* Page1 valid */
+                    return PAGE1; /* Page1 valid */
                 }
                 else
                 {
-                    return PAGE0;     /* Page0 valid */
+                    return PAGE0; /* Page0 valid */
                 }
             }
             else
@@ -490,11 +490,11 @@ static uint16_t EE_FindValidPage(uint8_t Operation)
 
             if(PageStatus0 == VALID_PAGE)
             {
-                return PAGE0;       /* Page0 valid */
+                return PAGE0; /* Page0 valid */
             }
             else if(PageStatus1 == VALID_PAGE)
             {
-                return PAGE1;       /* Page1 valid */
+                return PAGE1; /* Page1 valid */
             }
             else
             {
@@ -502,7 +502,7 @@ static uint16_t EE_FindValidPage(uint8_t Operation)
             }
 
         default:
-            return PAGE0;         /* Page0 valid */
+            return PAGE0; /* Page0 valid */
     }
 }
 

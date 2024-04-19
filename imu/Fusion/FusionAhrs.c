@@ -179,7 +179,7 @@ void FusionAhrsUpdate(FusionAhrs* const fusionAhrs, const FusionVector3 gyroscop
                                                          FusionVectorCrossProduct(accelerometer,
                                                                                   magnetometer)),
                                                      halfWest));
-    } while (false);
+    } while(false);
 
     float feedbackGain = fusionAhrs->gain;
     float accMag =

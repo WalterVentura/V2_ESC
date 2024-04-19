@@ -599,21 +599,21 @@ void pwm_lld_start(PWMDriver* pwmp)
     else
     {
         /* Driver re-configuration scenario, it must be stopped first.*/
-        pwmp->tim->CR1 = 0;                 /* Timer disabled.              */
-        pwmp->tim->CCR[0] = 0;              /* Comparator 1 disabled.       */
-        pwmp->tim->CCR[1] = 0;              /* Comparator 2 disabled.       */
-        pwmp->tim->CCR[2] = 0;              /* Comparator 3 disabled.       */
-        pwmp->tim->CCR[3] = 0;              /* Comparator 4 disabled.       */
+        pwmp->tim->CR1 = 0;    /* Timer disabled.              */
+        pwmp->tim->CCR[0] = 0; /* Comparator 1 disabled.       */
+        pwmp->tim->CCR[1] = 0; /* Comparator 2 disabled.       */
+        pwmp->tim->CCR[2] = 0; /* Comparator 3 disabled.       */
+        pwmp->tim->CCR[3] = 0; /* Comparator 4 disabled.       */
 #if STM32_TIM_MAX_CHANNELS > 4
 
         if(pwmp->channels > 4)
         {
-            pwmp->tim->CCXR[0] = 0;         /* Comparator 5 disabled.       */
-            pwmp->tim->CCXR[1] = 0;         /* Comparator 6 disabled.       */
+            pwmp->tim->CCXR[0] = 0; /* Comparator 5 disabled.       */
+            pwmp->tim->CCXR[1] = 0; /* Comparator 6 disabled.       */
         }
 
 #endif
-        pwmp->tim->CNT = 0;                 /* Counter reset to zero.       */
+        pwmp->tim->CNT = 0; /* Counter reset to zero.       */
     }
 
     /* Timer configuration.*/
@@ -733,9 +733,9 @@ void pwm_lld_start(PWMDriver* pwmp)
 #endif /* STM32_PWM_USE_ADVANCED*/
 
     pwmp->tim->CCER = ccer;
-    pwmp->tim->EGR = STM32_TIM_EGR_UG;      /* Update event.                */
-    pwmp->tim->SR = 0;                      /* Clear pending IRQs.          */
-    pwmp->tim->DIER = pwmp->config->dier &  /* DMA-related DIER settings.   */
+    pwmp->tim->EGR = STM32_TIM_EGR_UG;     /* Update event.                */
+    pwmp->tim->SR = 0;                     /* Clear pending IRQs.          */
+    pwmp->tim->DIER = pwmp->config->dier & /* DMA-related DIER settings.   */
                       ~STM32_TIM_DIER_IRQ_MASK;
 #if STM32_PWM_USE_TIM1 || STM32_PWM_USE_TIM8
 #if STM32_PWM_USE_ADVANCED
@@ -762,9 +762,9 @@ void pwm_lld_stop(PWMDriver* pwmp)
     /* If in ready state then disables the PWM clock.*/
     if(pwmp->state == PWM_READY)
     {
-        pwmp->tim->CR1 = 0;                 /* Timer disabled.              */
-        pwmp->tim->DIER = 0;                /* All IRQs disabled.           */
-        pwmp->tim->SR = 0;                  /* Clear eventual pending IRQs. */
+        pwmp->tim->CR1 = 0;  /* Timer disabled.              */
+        pwmp->tim->DIER = 0; /* All IRQs disabled.           */
+        pwmp->tim->SR = 0;   /* Clear eventual pending IRQs. */
 #if STM32_PWM_USE_TIM1 || STM32_PWM_USE_TIM8
         pwmp->tim->BDTR = 0;
 #endif

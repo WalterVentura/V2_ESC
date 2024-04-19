@@ -417,7 +417,7 @@ bool string_drop(lbm_char_channel_t* chan, unsigned int n)
         do {
             r = string_read(chan, &c);
             n--;
-        } while (n > 0 && r);
+        } while(n > 0 && r);
     }
 
     return r;

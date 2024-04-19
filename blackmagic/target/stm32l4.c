@@ -242,16 +242,16 @@ struct stm32l4_info const L4info[] =
         .idcode = ID_STM32G47,
         .family = FAM_STM32G4xx,
         .designator = "STM32G47",
-        .sram1 = 96U,         /* SRAM1 and SRAM2 are mapped continuous */
-        .sram2 = 32U,         /* CCM SRAM is mapped as per SRAM2 on G4 */
+        .sram1 = 96U, /* SRAM1 and SRAM2 are mapped continuous */
+        .sram2 = 32U, /* CCM SRAM is mapped as per SRAM2 on G4 */
         .flags = 2U,
     },
     {
         .idcode = ID_STM32G49,
         .family = FAM_STM32G4xx,
         .designator = "STM32G49",
-        .sram1 = 96U,         /* SRAM1 and SRAM2 are mapped continuously */
-        .sram2 = 16U,         /* CCM SRAM is mapped as per SRAM2 on G4 */
+        .sram1 = 96U, /* SRAM1 and SRAM2 are mapped continuously */
+        .sram2 = 16U, /* CCM SRAM is mapped as per SRAM2 on G4 */
         .flags = 2U,
     },
     {
@@ -298,7 +298,7 @@ static bool stm32l4_attach(target* t)
     struct stm32l4_info const* chip = stm32l4_get_chip_info(t->idcode);
 
     uint32_t idcodereg = (chip->family == FAM_STM32G0x) ?
-                         STM32G0_DBGMCU_IDCODE_PHYS:
+                         STM32G0_DBGMCU_IDCODE_PHYS :
                          STM32L4_DBGMCU_IDCODE_PHYS;
 
     /* Save DBGMCU_CR to restore it when detaching*/
@@ -536,7 +536,7 @@ static int stm32l4_flash_write(struct target_flash* f, target_addr dest, const v
             DEBUG("stm32l4 flash write: comm error\n");
             return -1;
         }
-    } while (sr & FLASH_SR_BSY);
+    } while(sr & FLASH_SR_BSY);
 
     if(sr & FLASH_SR_ERROR_MASK)
     {
@@ -700,7 +700,7 @@ static bool stm32l4_cmd_option(target* t, int argc, char* argv[])
     {
         len = 5;
     }
-    else if(t->idcode == ID_STM32G07)     /* G07x */
+    else if(t->idcode == ID_STM32G07) /* G07x */
     {
         i2offset = g0_i2offset;
         len = 7;

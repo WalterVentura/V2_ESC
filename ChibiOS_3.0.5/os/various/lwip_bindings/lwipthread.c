@@ -13,6 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+
 /*
  * **** This file incorporates work covered by the following copyright and ****
  * **** permission notice:                                                 ****
@@ -123,7 +124,7 @@ static err_t low_level_output(struct netif* netif, struct pbuf* p)
     }
 
 #if ETH_PAD_SIZE
-    pbuf_header(p, -ETH_PAD_SIZE);      /* drop the padding word */
+    pbuf_header(p, -ETH_PAD_SIZE); /* drop the padding word */
 #endif
 
     /* Iterates through the pbuf chain. */
@@ -133,7 +134,7 @@ static err_t low_level_output(struct netif* netif, struct pbuf* p)
     macReleaseTransmitDescriptor(&td);
 
 #if ETH_PAD_SIZE
-    pbuf_header(p, ETH_PAD_SIZE);       /* reclaim the padding word */
+    pbuf_header(p, ETH_PAD_SIZE); /* reclaim the padding word */
 #endif
 
     LINK_STATS_INC(link.xmit);
@@ -157,7 +158,7 @@ static struct pbuf* low_level_input(struct netif* netif)
         len = (u16_t) rd.size;
 
 #if ETH_PAD_SIZE
-        len += ETH_PAD_SIZE;    /* allow room for Ethernet padding */
+        len += ETH_PAD_SIZE; /* allow room for Ethernet padding */
 #endif
 
         /* We allocate a pbuf chain of pbufs from the pool. */

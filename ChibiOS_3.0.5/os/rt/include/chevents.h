@@ -1,23 +1,24 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 /*
-   Concepts and parts of this file have been contributed by Scott (skute).
+ * Concepts and parts of this file have been contributed by Scott (skute).
  */
 
 /**
@@ -54,33 +55,35 @@ typedef struct event_listener event_listener_t;
 /**
  * @brief   Event Listener structure.
  */
-struct event_listener {
-  event_listener_t      *el_next;       /**< @brief Next Event Listener
-                                                    registered on the event
-                                                    source.                 */
-  thread_t              *el_listener;   /**< @brief Thread interested in the
-                                                    event source.           */
-  eventmask_t           el_events;      /**< @brief Events to be set in
-                                                    the listening thread.   */
-  eventflags_t          el_flags;       /**< @brief Flags added to the listener
-                                                    by the event source.    */
-  eventflags_t          el_wflags;      /**< @brief Flags that this listener
-                                                    interested in.          */
+struct event_listener
+{
+    event_listener_t* el_next;     /**< @brief Next Event Listener
+                                    *          registered on the event
+                                    *          source.                 */
+    thread_t*         el_listener; /**< @brief Thread interested in the
+                                    *          event source.           */
+    eventmask_t       el_events;   /**< @brief Events to be set in
+                                    *          the listening thread.   */
+    eventflags_t      el_flags;    /**< @brief Flags added to the listener
+                                    *          by the event source.    */
+    eventflags_t      el_wflags;   /**< @brief Flags that this listener
+                                    *          interested in.          */
 };
 
 /**
  * @brief   Event Source structure.
  */
-typedef struct event_source {
-  event_listener_t      *es_next;       /**< @brief First Event Listener
-                                                    registered on the Event
-                                                    Source.                 */
+typedef struct event_source
+{
+    event_listener_t* es_next; /**< @brief First Event Listener
+                                *          registered on the Event
+                                *          Source.                 */
 } event_source_t;
 
 /**
  * @brief   Event Handler callback function.
  */
-typedef void (*evhandler_t)(eventid_t id);
+typedef void (* evhandler_t)(eventid_t id);
 
 /*===========================================================================*/
 /* Module macros.                                                            */
@@ -89,12 +92,12 @@ typedef void (*evhandler_t)(eventid_t id);
 /**
  * @brief   All events allowed mask.
  */
-#define ALL_EVENTS      ((eventmask_t)-1)
+#define ALL_EVENTS ((eventmask_t) -1)
 
 /**
  * @brief   Returns an event mask from an event identifier.
  */
-#define EVENT_MASK(eid) ((eventmask_t)1 << (eventmask_t)(eid))
+#define EVENT_MASK(eid)         ((eventmask_t) 1 << (eventmask_t) (eid))
 
 /**
  * @brief   Data part of a static event source initializer.
@@ -102,7 +105,7 @@ typedef void (*evhandler_t)(eventid_t id);
  *          source that is part of a bigger structure.
  * @param name the name of the event source variable
  */
-#define _EVENTSOURCE_DATA(name) {(void *)(&name)}
+#define _EVENTSOURCE_DATA(name) {(void*) (&name)}
 
 /**
  * @brief   Static event source initializer.
@@ -111,7 +114,7 @@ typedef void (*evhandler_t)(eventid_t id);
  *
  * @param name          the name of the event source variable
  */
-#define EVENTSOURCE_DECL(name) event_source_t name = _EVENTSOURCE_DATA(name)
+#define EVENTSOURCE_DECL(name)  event_source_t name = _EVENTSOURCE_DATA(name)
 
 /*===========================================================================*/
 /* External declarations.                                                    */
@@ -120,29 +123,44 @@ typedef void (*evhandler_t)(eventid_t id);
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void chEvtRegisterMaskWithFlags(event_source_t *esp,
-                                  event_listener_t *elp,
-                                  eventmask_t events,
-                                  eventflags_t wflags);
-  void chEvtUnregister(event_source_t *esp, event_listener_t *elp);
-  eventmask_t chEvtGetAndClearEvents(eventmask_t events);
-  eventmask_t chEvtAddEvents(eventmask_t events);
-  eventflags_t chEvtGetAndClearFlags(event_listener_t *elp);
-  eventflags_t chEvtGetAndClearFlagsI(event_listener_t *elp);
-  void chEvtSignal(thread_t *tp, eventmask_t events);
-  void chEvtSignalI(thread_t *tp, eventmask_t events);
-  void chEvtBroadcastFlags(event_source_t *esp, eventflags_t flags);
-  void chEvtBroadcastFlagsI(event_source_t *esp, eventflags_t flags);
-  void chEvtDispatch(const evhandler_t *handlers, eventmask_t events);
+void chEvtRegisterMaskWithFlags(event_source_t* esp, event_listener_t* elp, eventmask_t events,
+                                eventflags_t wflags);
+
+void chEvtUnregister(event_source_t* esp, event_listener_t* elp);
+
+eventmask_t chEvtGetAndClearEvents(eventmask_t events);
+
+eventmask_t chEvtAddEvents(eventmask_t events);
+
+eventflags_t chEvtGetAndClearFlags(event_listener_t* elp);
+
+eventflags_t chEvtGetAndClearFlagsI(event_listener_t* elp);
+
+void chEvtSignal(thread_t* tp, eventmask_t events);
+
+void chEvtSignalI(thread_t* tp, eventmask_t events);
+
+void chEvtBroadcastFlags(event_source_t* esp, eventflags_t flags);
+
+void chEvtBroadcastFlagsI(event_source_t* esp, eventflags_t flags);
+
+void chEvtDispatch(const evhandler_t* handlers, eventmask_t events);
+
 #if (CH_CFG_OPTIMIZE_SPEED == TRUE) || (CH_CFG_USE_EVENTS_TIMEOUT == FALSE)
-  eventmask_t chEvtWaitOne(eventmask_t events);
-  eventmask_t chEvtWaitAny(eventmask_t events);
-  eventmask_t chEvtWaitAll(eventmask_t events);
+eventmask_t chEvtWaitOne(eventmask_t events);
+
+eventmask_t chEvtWaitAny(eventmask_t events);
+
+eventmask_t chEvtWaitAll(eventmask_t events);
+
 #endif
 #if CH_CFG_USE_EVENTS_TIMEOUT == TRUE
-  eventmask_t chEvtWaitOneTimeout(eventmask_t events, systime_t time);
-  eventmask_t chEvtWaitAnyTimeout(eventmask_t events, systime_t time);
-  eventmask_t chEvtWaitAllTimeout(eventmask_t events, systime_t time);
+eventmask_t chEvtWaitOneTimeout(eventmask_t events, systime_t time);
+
+eventmask_t chEvtWaitAnyTimeout(eventmask_t events, systime_t time);
+
+eventmask_t chEvtWaitAllTimeout(eventmask_t events, systime_t time);
+
 #endif
 #ifdef __cplusplus
 }
@@ -167,9 +185,9 @@ extern "C" {
  *
  * @init
  */
-static inline void chEvtObjectInit(event_source_t *esp) {
-
-  esp->es_next = (event_listener_t *)esp;
+static inline void chEvtObjectInit(event_source_t* esp)
+{
+    esp->es_next = (event_listener_t*) esp;
 }
 
 /**
@@ -186,11 +204,9 @@ static inline void chEvtObjectInit(event_source_t *esp) {
  *
  * @api
  */
-static inline void chEvtRegisterMask(event_source_t *esp,
-                                     event_listener_t *elp,
-                                     eventmask_t events) {
-
-  chEvtRegisterMaskWithFlags(esp, elp, events, (eventflags_t)-1);
+static inline void chEvtRegisterMask(event_source_t* esp, event_listener_t* elp, eventmask_t events)
+{
+    chEvtRegisterMaskWithFlags(esp, elp, events, (eventflags_t) -1);
 }
 
 /**
@@ -206,11 +222,9 @@ static inline void chEvtRegisterMask(event_source_t *esp,
  *
  * @api
  */
-static inline void chEvtRegister(event_source_t *esp,
-                                 event_listener_t *elp,
-                                 eventid_t event) {
-
-  chEvtRegisterMask(esp, elp, EVENT_MASK(event));
+static inline void chEvtRegister(event_source_t* esp, event_listener_t* elp, eventid_t event)
+{
+    chEvtRegisterMask(esp, elp, EVENT_MASK(event));
 }
 
 /**
@@ -221,9 +235,9 @@ static inline void chEvtRegister(event_source_t *esp,
  *
  * @iclass
  */
-static inline bool chEvtIsListeningI(event_source_t *esp) {
-
-  return (bool)(esp != (event_source_t *)esp->es_next);
+static inline bool chEvtIsListeningI(event_source_t* esp)
+{
+    return (bool) (esp != (event_source_t*) esp->es_next);
 }
 
 /**
@@ -234,9 +248,9 @@ static inline bool chEvtIsListeningI(event_source_t *esp) {
  *
  * @api
  */
-static inline void chEvtBroadcast(event_source_t *esp) {
-
-  chEvtBroadcastFlags(esp, (eventflags_t)0);
+static inline void chEvtBroadcast(event_source_t* esp)
+{
+    chEvtBroadcastFlags(esp, (eventflags_t) 0);
 }
 
 /**
@@ -251,9 +265,9 @@ static inline void chEvtBroadcast(event_source_t *esp) {
  *
  * @iclass
  */
-static inline void chEvtBroadcastI(event_source_t *esp) {
-
-  chEvtBroadcastFlagsI(esp, (eventflags_t)0);
+static inline void chEvtBroadcastI(event_source_t* esp)
+{
+    chEvtBroadcastFlagsI(esp, (eventflags_t) 0);
 }
 
 #endif /* CH_CFG_USE_EVENTS == TRUE */

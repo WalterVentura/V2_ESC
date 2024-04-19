@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chsys.h
@@ -38,10 +38,11 @@
  * @name    Masks of executable integrity checks.
  * @{
  */
-#define CH_INTEGRITY_RLIST                  1U
-#define CH_INTEGRITY_VTLIST                 2U
-#define CH_INTEGRITY_REGISTRY               4U
-#define CH_INTEGRITY_PORT                   8U
+#define CH_INTEGRITY_RLIST    1U
+#define CH_INTEGRITY_VTLIST   2U
+#define CH_INTEGRITY_REGISTRY 4U
+#define CH_INTEGRITY_PORT     8U
+
 /** @} */
 
 /*===========================================================================*/
@@ -63,6 +64,7 @@
 /**
  * @name    ISRs abstraction macros
  */
+
 /**
  * @brief   Priority level validation macro.
  * @details This macro determines if the passed value is a valid priority
@@ -75,8 +77,8 @@
  * @retval true         if the priority is valid.
  */
 #if defined(PORT_IRQ_IS_VALID_PRIORITY) || defined(__DOXYGEN__)
-#define CH_IRQ_IS_VALID_PRIORITY(prio)                                      \
-  PORT_IRQ_IS_VALID_PRIORITY(prio)
+#define CH_IRQ_IS_VALID_PRIORITY(prio) \
+    PORT_IRQ_IS_VALID_PRIORITY(prio)
 #else
 #define CH_IRQ_IS_VALID_PRIORITY(prio) false
 #endif
@@ -93,8 +95,8 @@
  * @retval true         if the priority is valid.
  */
 #if defined(PORT_IRQ_IS_VALID_KERNEL_PRIORITY) || defined(__DOXYGEN__)
-#define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio)                               \
-  PORT_IRQ_IS_VALID_KERNEL_PRIORITY(prio)
+#define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio) \
+    PORT_IRQ_IS_VALID_KERNEL_PRIORITY(prio)
 #else
 #define CH_IRQ_IS_VALID_KERNEL_PRIORITY(prio) false
 #endif
@@ -106,10 +108,10 @@
  *
  * @special
  */
-#define CH_IRQ_PROLOGUE()                                                   \
-  PORT_IRQ_PROLOGUE();                                                      \
-  _stats_increase_irq();                                                    \
-  _dbg_check_enter_isr()
+#define CH_IRQ_PROLOGUE()  \
+    PORT_IRQ_PROLOGUE();   \
+    _stats_increase_irq(); \
+    _dbg_check_enter_isr()
 
 /**
  * @brief   IRQ handler exit code.
@@ -119,9 +121,9 @@
  *
  * @special
  */
-#define CH_IRQ_EPILOGUE()                                                   \
-  _dbg_check_leave_isr();                                                   \
-  PORT_IRQ_EPILOGUE()
+#define CH_IRQ_EPILOGUE()   \
+    _dbg_check_leave_isr(); \
+    PORT_IRQ_EPILOGUE()
 
 /**
  * @brief   Standard normal IRQ handler declaration.
@@ -131,11 +133,13 @@
  * @special
  */
 #define CH_IRQ_HANDLER(id) PORT_IRQ_HANDLER(id)
+
 /** @} */
 
 /**
  * @name    Fast ISRs abstraction macros
  */
+
 /**
  * @brief   Standard fast IRQ handler declaration.
  * @note    @p id can be a function name or a vector number depending on the
@@ -145,12 +149,14 @@
  * @special
  */
 #define CH_FAST_IRQ_HANDLER(id) PORT_FAST_IRQ_HANDLER(id)
+
 /** @} */
 
 /**
  * @name    Time conversion utilities for the realtime counter
  * @{
  */
+
 /**
  * @brief   Seconds to realtime counter.
  * @details Converts from seconds to realtime counter cycles.
@@ -162,7 +168,7 @@
  *
  * @api
  */
-#define S2RTC(freq, sec) ((freq) * (sec))
+#define S2RTC(freq, sec)   ((freq) * (sec))
 
 /**
  * @brief   Milliseconds to realtime counter.
@@ -176,7 +182,7 @@
  *
  * @api
  */
-#define MS2RTC(freq, msec) (rtcnt_t)((((freq) + 999UL) / 1000UL) * (msec))
+#define MS2RTC(freq, msec) (rtcnt_t) ((((freq) + 999UL) / 1000UL) * (msec))
 
 /**
  * @brief   Microseconds to realtime counter.
@@ -190,7 +196,7 @@
  *
  * @api
  */
-#define US2RTC(freq, usec) (rtcnt_t)((((freq) + 999999UL) / 1000000UL) * (usec))
+#define US2RTC(freq, usec) (rtcnt_t) ((((freq) + 999999UL) / 1000000UL) * (usec))
 
 /**
  * @brief   Realtime counter cycles to seconds.
@@ -204,7 +210,7 @@
  *
  * @api
  */
-#define RTC2S(freq, n) ((((n) - 1UL) / (freq)) + 1UL)
+#define RTC2S(freq, n)     ((((n) - 1UL) / (freq)) + 1UL)
 
 /**
  * @brief   Realtime counter cycles to milliseconds.
@@ -218,7 +224,7 @@
  *
  * @api
  */
-#define RTC2MS(freq, n) ((((n) - 1UL) / ((freq) / 1000UL)) + 1UL)
+#define RTC2MS(freq, n)    ((((n) - 1UL) / ((freq) / 1000UL)) + 1UL)
 
 /**
  * @brief   Realtime counter cycles to microseconds.
@@ -232,7 +238,8 @@
  *
  * @api
  */
-#define RTC2US(freq, n) ((((n) - 1UL) / ((freq) / 1000000UL)) + 1UL)
+#define RTC2US(freq, n)    ((((n) - 1UL) / ((freq) / 1000000UL)) + 1UL)
+
 /** @} */
 
 /**
@@ -246,7 +253,7 @@
  * @xclass
  */
 #if (PORT_SUPPORTS_RT == TRUE) || defined(__DOXYGEN__)
-#define chSysGetRealtimeCounterX() (rtcnt_t)port_rt_get_counter_value()
+#define chSysGetRealtimeCounterX() (rtcnt_t) port_rt_get_counter_value()
 #endif
 
 /**
@@ -259,12 +266,12 @@
  *
  * @special
  */
-#define chSysSwitch(ntp, otp) {                                             \
-                                                                            \
-  _dbg_trace(otp);                                                          \
-  _stats_ctxswc(ntp, otp);                                                  \
-  CH_CFG_CONTEXT_SWITCH_HOOK(ntp, otp);                                     \
-  port_switch(ntp, otp);                                                    \
+#define chSysSwitch(ntp, otp)      {          \
+                                              \
+        _dbg_trace(otp);                      \
+        _stats_ctxswc(ntp, otp);              \
+        CH_CFG_CONTEXT_SWITCH_HOOK(ntp, otp); \
+        port_switch(ntp, otp);                \
 }
 
 /*===========================================================================*/
@@ -274,15 +281,23 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void chSysInit(void);
-  void chSysHalt(const char *reason);
-  bool chSysIntegrityCheckI(unsigned testmask);
-  void chSysTimerHandlerI(void);
-  syssts_t chSysGetStatusAndLockX(void);
-  void chSysRestoreStatusX(syssts_t sts);
+void chSysInit(void);
+
+void chSysHalt(const char* reason);
+
+bool chSysIntegrityCheckI(unsigned testmask);
+
+void chSysTimerHandlerI(void);
+
+syssts_t chSysGetStatusAndLockX(void);
+
+void chSysRestoreStatusX(syssts_t sts);
+
 #if PORT_SUPPORTS_RT
-  bool chSysIsCounterWithinX(rtcnt_t cnt, rtcnt_t start, rtcnt_t end);
-  void chSysPolledDelayX(rtcnt_t cycles);
+bool chSysIsCounterWithinX(rtcnt_t cnt, rtcnt_t start, rtcnt_t end);
+
+void chSysPolledDelayX(rtcnt_t cycles);
+
 #endif
 #ifdef __cplusplus
 }
@@ -300,10 +315,10 @@ extern "C" {
  *
  * @special
  */
-static inline void chSysDisable(void) {
-
-  port_disable();
-  _dbg_check_disable();
+static inline void chSysDisable(void)
+{
+    port_disable();
+    _dbg_check_disable();
 }
 
 /**
@@ -317,10 +332,10 @@ static inline void chSysDisable(void) {
  *
  * @special
  */
-static inline void chSysSuspend(void) {
-
-  port_suspend();
-  _dbg_check_suspend();
+static inline void chSysSuspend(void)
+{
+    port_suspend();
+    _dbg_check_suspend();
 }
 
 /**
@@ -332,10 +347,10 @@ static inline void chSysSuspend(void) {
  *
  * @special
  */
-static inline void chSysEnable(void) {
-
-  _dbg_check_enable();
-  port_enable();
+static inline void chSysEnable(void)
+{
+    _dbg_check_enable();
+    port_enable();
 }
 
 /**
@@ -343,11 +358,11 @@ static inline void chSysEnable(void) {
  *
  * @special
  */
-static inline void chSysLock(void) {
-
-  port_lock();
-  _stats_start_measure_crit_thd();
-  _dbg_check_lock();
+static inline void chSysLock(void)
+{
+    port_lock();
+    _stats_start_measure_crit_thd();
+    _dbg_check_lock();
 }
 
 /**
@@ -355,20 +370,20 @@ static inline void chSysLock(void) {
  *
  * @special
  */
-static inline void chSysUnlock(void) {
+static inline void chSysUnlock(void)
+{
+    _dbg_check_unlock();
+    _stats_stop_measure_crit_thd();
 
-  _dbg_check_unlock();
-  _stats_stop_measure_crit_thd();
+    /* The following condition can be triggered by the use of i-class functions
+     * in a critical section not followed by a chSchResceduleS(), this means
+     * that the current thread has a lower priority than the next thread in
+     * the ready list.*/
+    chDbgAssert((ch.rlist.r_queue.p_next == (thread_t*) &ch.rlist.r_queue) ||
+                (ch.rlist.r_current->p_prio >= ch.rlist.r_queue.p_next->p_prio),
+                "priority violation, missing reschedule");
 
-  /* The following condition can be triggered by the use of i-class functions
-     in a critical section not followed by a chSchResceduleS(), this means
-     that the current thread has a lower priority than the next thread in
-     the ready list.*/
-  chDbgAssert((ch.rlist.r_queue.p_next == (thread_t *)&ch.rlist.r_queue) ||
-              (ch.rlist.r_current->p_prio >= ch.rlist.r_queue.p_next->p_prio),
-              "priority violation, missing reschedule");
-
-  port_unlock();
+    port_unlock();
 }
 
 /**
@@ -383,11 +398,11 @@ static inline void chSysUnlock(void) {
  *
  * @special
  */
-static inline void chSysLockFromISR(void) {
-
-  port_lock_from_isr();
-  _stats_start_measure_crit_isr();
-  _dbg_check_lock_from_isr();
+static inline void chSysLockFromISR(void)
+{
+    port_lock_from_isr();
+    _stats_start_measure_crit_isr();
+    _dbg_check_lock_from_isr();
 }
 
 /**
@@ -403,11 +418,11 @@ static inline void chSysLockFromISR(void) {
  *
  * @special
  */
-static inline void chSysUnlockFromISR(void) {
-
-  _dbg_check_unlock_from_isr();
-  _stats_stop_measure_crit_isr();
-  port_unlock_from_isr();
+static inline void chSysUnlockFromISR(void)
+{
+    _dbg_check_unlock_from_isr();
+    _stats_stop_measure_crit_isr();
+    port_unlock_from_isr();
 }
 
 /**
@@ -417,11 +432,12 @@ static inline void chSysUnlockFromISR(void) {
  *
  * @special
  */
-static inline void chSysUnconditionalLock(void) {
-
-  if (port_irq_enabled(port_get_irq_status())) {
-    chSysLock();
-  }
+static inline void chSysUnconditionalLock(void)
+{
+    if(port_irq_enabled(port_get_irq_status()))
+    {
+        chSysLock();
+    }
 }
 
 /**
@@ -431,14 +447,16 @@ static inline void chSysUnconditionalLock(void) {
  *
  * @special
  */
-static inline void chSysUnconditionalUnlock(void) {
-
-  if (!port_irq_enabled(port_get_irq_status())) {
-    chSysUnlock();
-  }
+static inline void chSysUnconditionalUnlock(void)
+{
+    if(!port_irq_enabled(port_get_irq_status()))
+    {
+        chSysUnlock();
+    }
 }
 
 #if (CH_CFG_NO_IDLE_THREAD == FALSE) || defined(__DOXYGEN__)
+
 /**
  * @brief   Returns a pointer to the idle thread.
  * @pre     In order to use this function the option @p CH_CFG_NO_IDLE_THREAD
@@ -451,10 +469,11 @@ static inline void chSysUnconditionalUnlock(void) {
  *
  * @xclass
  */
-static inline thread_t *chSysGetIdleThreadX(void) {
-
-  return ch.rlist.r_queue.p_prev;
+static inline thread_t* chSysGetIdleThreadX(void)
+{
+    return ch.rlist.r_queue.p_prev;
 }
+
 #endif /* CH_CFG_NO_IDLE_THREAD == FALSE */
 
 #endif /* _CHSYS_H_ */

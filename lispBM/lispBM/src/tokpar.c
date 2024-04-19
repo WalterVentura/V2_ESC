@@ -691,7 +691,7 @@ bool tok_clean_whitespace(lbm_char_channel_t* chan)
             {
                 cleaning_whitespace = false;
             }
-        } while (cleaning_whitespace);
+        } while(cleaning_whitespace);
     }
 
     return true;

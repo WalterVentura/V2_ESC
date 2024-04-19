@@ -1114,7 +1114,7 @@ CANARD_INTERNAL int16_t enqueueTxFrames(CanardInstance* ins, uint32_t can_id, ui
     int16_t result = 0;
 #if CANARD_ENABLE_CANFD
     uint8_t frame_max_data_len =
-        canfd ? CANARD_CANFD_FRAME_MAX_DATA_LEN:CANARD_CAN_FRAME_MAX_DATA_LEN;
+        canfd ? CANARD_CANFD_FRAME_MAX_DATA_LEN : CANARD_CAN_FRAME_MAX_DATA_LEN;
 #else
     uint8_t frame_max_data_len = CANARD_CAN_FRAME_MAX_DATA_LEN;
 #endif

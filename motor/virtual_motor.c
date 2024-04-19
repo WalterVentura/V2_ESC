@@ -439,8 +439,8 @@ static void terminal_cmd_connect_virtual_motor(int argc, const char** argv)
 {
     if(argc == 4)
     {
-        float ml; // torque load in motor axis
-        float J;  // rotor inertia
+        float ml;   // torque load in motor axis
+        float J;    // rotor inertia
         float Vbus; // Bus voltage
 
         sscanf(argv[1], "%f", &ml);

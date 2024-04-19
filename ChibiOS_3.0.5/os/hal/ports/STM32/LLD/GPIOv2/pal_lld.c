@@ -229,7 +229,7 @@ void _pal_lld_setgroupmode(ioportid_t port, ioportmask_t mask, iomode_t mode)
 
         bit += 2;
         mask >>= 1;
-    } while (mask);
+    } while(mask);
 
     afrm = ((mode & PAL_STM32_ALTERNATE_MASK) >> 7) * 0x1111;
     port->AFRL = (port->AFRL & ~m4l) | (afrm & m4l);

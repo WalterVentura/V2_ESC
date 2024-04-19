@@ -141,11 +141,11 @@ static inline lbm_uint* bitmap_ix_to_address(lbm_uint ix)
 
 static inline lbm_uint status(lbm_uint i)
 {
-    lbm_uint ix = i << 1;                    // * 2
-    lbm_uint word_ix = ix >> WORD_IX_SHIFT;  /// 32
-    lbm_uint bit_ix = ix & WORD_MOD_MASK;    // % 32
+    lbm_uint ix = i << 1;                   // * 2
+    lbm_uint word_ix = ix >> WORD_IX_SHIFT; /// 32
+    lbm_uint bit_ix = ix & WORD_MOD_MASK;   // % 32
 
-    lbm_uint mask = ((lbm_uint) 3) << bit_ix;    // 000110..0
+    lbm_uint mask = ((lbm_uint) 3) << bit_ix; // 000110..0
 
     if(word_ix > bitmap_size)
     {

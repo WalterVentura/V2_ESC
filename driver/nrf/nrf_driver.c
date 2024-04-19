@@ -446,6 +446,7 @@ void nrf_driver_process_packet(unsigned char* buf, unsigned char len)
     switch(packet)
     {
         case MOTE_PACKET_BATT_LEVEL:
+
             // TODO!
             break;
 
@@ -520,6 +521,7 @@ void nrf_driver_process_packet(unsigned char* buf, unsigned char len)
         }
 
         case MOTE_PACKET_PROCESS_SHORT_BUFFER:
+
             // Wait a bit in case retries are still made
             chThdSleepMilliseconds(2);
 

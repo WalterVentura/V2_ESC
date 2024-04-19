@@ -79,6 +79,7 @@ void lis302dlWriteRegister(SPIDriver* spip, uint8_t reg, uint8_t value)
     switch(reg)
     {
         default:
+
             /* Reserved register must not be written, according to the datasheet
              * this could permanently damage the device.*/
             osalDbgAssert(FALSE, "reserved register");
@@ -92,6 +93,7 @@ void lis302dlWriteRegister(SPIDriver* spip, uint8_t reg, uint8_t value)
         case LIS302DL_FF_WU_SRC1:
         case LIS302DL_FF_WU_SRC2:
         case LIS302DL_CLICK_SRC:
+
             /* Read only registers cannot be written, the command is ignored.*/
             return;
 

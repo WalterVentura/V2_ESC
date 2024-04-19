@@ -149,8 +149,8 @@ static void gpt_lld_serve_interrupt(GPTDriver* gptp)
 
     if(gptp->state == GPT_ONESHOT)
     {
-        gptp->state = GPT_READY;            /* Back in GPT_READY state.     */
-        gpt_lld_stop_timer(gptp);           /* Timer automatically stopped. */
+        gptp->state = GPT_READY;  /* Back in GPT_READY state.     */
+        gpt_lld_stop_timer(gptp); /* Timer automatically stopped. */
     }
 
     gptp->config->callback(gptp);
@@ -666,11 +666,11 @@ void gpt_lld_start(GPTDriver* gptp)
                   "invalid frequency");
 
     /* Timer configuration.*/
-    gptp->tim->CR1 = 0;                         /* Initially stopped.       */
+    gptp->tim->CR1 = 0; /* Initially stopped.       */
     gptp->tim->CR2 = gptp->config->cr2;
-    gptp->tim->PSC = psc;                       /* Prescaler value.         */
-    gptp->tim->SR = 0;                          /* Clear pending IRQs.      */
-    gptp->tim->DIER = gptp->config->dier &      /* DMA-related DIER bits.   */
+    gptp->tim->PSC = psc;                  /* Prescaler value.         */
+    gptp->tim->SR = 0;                     /* Clear pending IRQs.      */
+    gptp->tim->DIER = gptp->config->dier & /* DMA-related DIER bits.   */
                       ~STM32_TIM_DIER_IRQ_MASK;
 }
 
@@ -685,9 +685,9 @@ void gpt_lld_stop(GPTDriver* gptp)
 {
     if(gptp->state == GPT_READY)
     {
-        gptp->tim->CR1 = 0;                     /* Timer disabled.          */
-        gptp->tim->DIER = 0;                    /* All IRQs disabled.       */
-        gptp->tim->SR = 0;                      /* Clear pending IRQs.      */
+        gptp->tim->CR1 = 0;  /* Timer disabled.          */
+        gptp->tim->DIER = 0; /* All IRQs disabled.       */
+        gptp->tim->SR = 0;   /* Clear pending IRQs.      */
 
 #if STM32_GPT_USE_TIM1
 
@@ -817,11 +817,11 @@ void gpt_lld_start_timer(GPTDriver* gptp, gptcnt_t interval)
     /* NOTE: After generating the UG event it takes several clock cycles before
      * SR bit 0 goes to 1. This is because the clearing of CNT has been inserted
      * before the clearing of SR, to give it some time.*/
-    gptp->tim->SR = 0;                          /* Clear pending IRQs.      */
+    gptp->tim->SR = 0; /* Clear pending IRQs.      */
 
     if(NULL != gptp->config->callback)
     {
-        gptp->tim->DIER |= STM32_TIM_DIER_UIE;  /* Update Event IRQ enabled.*/
+        gptp->tim->DIER |= STM32_TIM_DIER_UIE; /* Update Event IRQ enabled.*/
     }
 
     gptp->tim->CR1 = STM32_TIM_CR1_URS | STM32_TIM_CR1_CEN;
@@ -836,8 +836,8 @@ void gpt_lld_start_timer(GPTDriver* gptp, gptcnt_t interval)
  */
 void gpt_lld_stop_timer(GPTDriver* gptp)
 {
-    gptp->tim->CR1 = 0;                         /* Initially stopped.       */
-    gptp->tim->SR = 0;                          /* Clear pending IRQs.      */
+    gptp->tim->CR1 = 0; /* Initially stopped.       */
+    gptp->tim->SR = 0;  /* Clear pending IRQs.      */
 
     /* All interrupts disabled.*/
     gptp->tim->DIER &= ~STM32_TIM_DIER_IRQ_MASK;
@@ -863,7 +863,7 @@ void gpt_lld_polled_delay(GPTDriver* gptp, gptcnt_t interval)
     while(!(gptp->tim->SR & STM32_TIM_SR_UIF))
         ;
 
-    gptp->tim->SR = 0;                          /* Clear pending IRQs.      */
+    gptp->tim->SR = 0; /* Clear pending IRQs.      */
 }
 
 #endif /* HAL_USE_GPT */

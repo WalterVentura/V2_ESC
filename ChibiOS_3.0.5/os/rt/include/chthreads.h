@@ -1,21 +1,21 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
-
-    This file is part of ChibiOS.
-
-    ChibiOS is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
-
-    ChibiOS is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio.
+ *
+ *  This file is part of ChibiOS.
+ *
+ *  ChibiOS is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  ChibiOS is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /**
  * @file    chthreads.h
@@ -49,7 +49,7 @@
 /**
  * @brief   Thread function.
  */
-typedef void (*tfunc_t)(void *p);
+typedef void (* tfunc_t)(void* p);
 
 /*===========================================================================*/
 /* Module macros.                                                            */
@@ -58,6 +58,7 @@ typedef void (*tfunc_t)(void *p);
 /**
  * @name    Threads queues
  */
+
 /**
  * @brief   Data part of a static threads queue object initializer.
  * @details This macro should be used when statically initializing a threads
@@ -65,7 +66,7 @@ typedef void (*tfunc_t)(void *p);
  *
  * @param[in] name      the name of the threads queue variable
  */
-#define _THREADS_QUEUE_DATA(name) {(thread_t *)&name, (thread_t *)&name}
+#define _THREADS_QUEUE_DATA(name) {(thread_t*) &name, (thread_t*) &name}
 
 /**
  * @brief   Static threads queue object initializer.
@@ -74,14 +75,16 @@ typedef void (*tfunc_t)(void *p);
  *
  * @param[in] name      the name of the threads queue variable
  */
-#define _THREADS_QUEUE_DECL(name)                                           \
-  threads_queue_t name = _THREADS_QUEUE_DATA(name)
+#define _THREADS_QUEUE_DECL(name) \
+    threads_queue_t name = _THREADS_QUEUE_DATA(name)
+
 /** @} */
 
 /**
  * @name    Macro Functions
  * @{
  */
+
 /**
  * @brief   Delays the invoking thread for the specified number of seconds.
  * @note    The specified time is rounded up to a value allowed by the real
@@ -92,7 +95,7 @@ typedef void (*tfunc_t)(void *p);
  *
  * @api
  */
-#define chThdSleepSeconds(sec) chThdSleep(S2ST(sec))
+#define chThdSleepSeconds(sec)       chThdSleep(S2ST(sec))
 
 /**
  * @brief   Delays the invoking thread for the specified number of
@@ -119,6 +122,7 @@ typedef void (*tfunc_t)(void *p);
  * @api
  */
 #define chThdSleepMicroseconds(usec) chThdSleep(US2ST(usec))
+
 /** @} */
 
 /*===========================================================================*/
@@ -128,33 +132,53 @@ typedef void (*tfunc_t)(void *p);
 #ifdef __cplusplus
 extern "C" {
 #endif
-   thread_t *_thread_init(thread_t *tp, tprio_t prio);
+thread_t* _thread_init(thread_t* tp, tprio_t prio);
+
 #if CH_DBG_FILL_THREADS == TRUE
-  void _thread_memfill(uint8_t *startp, uint8_t *endp, uint8_t v);
+void _thread_memfill(uint8_t* startp, uint8_t* endp, uint8_t v);
+
 #endif
-  thread_t *chThdCreateI(void *wsp, size_t size,
-                         tprio_t prio, tfunc_t pf, void *arg);
-  thread_t *chThdCreateStatic(void *wsp, size_t size,
-                              tprio_t prio, tfunc_t pf, void *arg);
-  thread_t *chThdStart(thread_t *tp);
-  tprio_t chThdSetPriority(tprio_t newprio);
-  msg_t chThdSuspendS(thread_reference_t *trp);
-  msg_t chThdSuspendTimeoutS(thread_reference_t *trp, systime_t timeout);
-  void chThdResumeI(thread_reference_t *trp, msg_t msg);
-  void chThdResumeS(thread_reference_t *trp, msg_t msg);
-  void chThdResume(thread_reference_t *trp, msg_t msg);
-  msg_t chThdEnqueueTimeoutS(threads_queue_t *tqp, systime_t timeout);
-  void chThdDequeueNextI(threads_queue_t *tqp, msg_t msg);
-  void chThdDequeueAllI(threads_queue_t *tqp, msg_t msg);
-  void chThdTerminate(thread_t *tp);
-  void chThdSleep(systime_t time);
-  void chThdSleepUntil(systime_t time);
-  systime_t chThdSleepUntilWindowed(systime_t prev, systime_t next);
-  void chThdYield(void);
-  void chThdExit(msg_t msg);
-  void chThdExitS(msg_t msg);
+thread_t* chThdCreateI(void* wsp, size_t size, tprio_t prio, tfunc_t pf, void* arg);
+
+thread_t* chThdCreateStatic(void* wsp, size_t size, tprio_t prio, tfunc_t pf, void* arg);
+
+thread_t* chThdStart(thread_t* tp);
+
+tprio_t chThdSetPriority(tprio_t newprio);
+
+msg_t chThdSuspendS(thread_reference_t* trp);
+
+msg_t chThdSuspendTimeoutS(thread_reference_t* trp, systime_t timeout);
+
+void chThdResumeI(thread_reference_t* trp, msg_t msg);
+
+void chThdResumeS(thread_reference_t* trp, msg_t msg);
+
+void chThdResume(thread_reference_t* trp, msg_t msg);
+
+msg_t chThdEnqueueTimeoutS(threads_queue_t* tqp, systime_t timeout);
+
+void chThdDequeueNextI(threads_queue_t* tqp, msg_t msg);
+
+void chThdDequeueAllI(threads_queue_t* tqp, msg_t msg);
+
+void chThdTerminate(thread_t* tp);
+
+void chThdSleep(systime_t time);
+
+void chThdSleepUntil(systime_t time);
+
+systime_t chThdSleepUntilWindowed(systime_t prev, systime_t next);
+
+void chThdYield(void);
+
+void chThdExit(msg_t msg);
+
+void chThdExitS(msg_t msg);
+
 #if CH_CFG_USE_WAITEXIT == TRUE
-  msg_t chThdWait(thread_t *tp);
+msg_t chThdWait(thread_t* tp);
+
 #endif
 #ifdef __cplusplus
 }
@@ -164,16 +188,16 @@ extern "C" {
 /* Module inline functions.                                                  */
 /*===========================================================================*/
 
- /**
-  * @brief   Returns a pointer to the current @p thread_t.
-  *
-  * @return             A pointer to the current thread.
-  *
-  * @xclass
-  */
-static inline thread_t *chThdGetSelfX(void) {
-
-  return ch.rlist.r_current;
+/**
+ * @brief   Returns a pointer to the current @p thread_t.
+ *
+ * @return             A pointer to the current thread.
+ *
+ * @xclass
+ */
+static inline thread_t* chThdGetSelfX(void)
+{
+    return ch.rlist.r_current;
 }
 
 /**
@@ -184,9 +208,9 @@ static inline thread_t *chThdGetSelfX(void) {
  *
  * @xclass
  */
-static inline tprio_t chThdGetPriorityX(void) {
-
-  return chThdGetSelfX()->p_prio;
+static inline tprio_t chThdGetPriorityX(void)
+{
+    return chThdGetSelfX()->p_prio;
 }
 
 /**
@@ -200,10 +224,11 @@ static inline tprio_t chThdGetPriorityX(void) {
  * @xclass
  */
 #if (CH_DBG_THREADS_PROFILING == TRUE) || defined(__DOXYGEN__)
-static inline systime_t chThdGetTicksX(thread_t *tp) {
-
-  return tp->p_time;
+static inline systime_t chThdGetTicksX(thread_t* tp)
+{
+    return tp->p_time;
 }
+
 #endif
 
 /**
@@ -215,9 +240,9 @@ static inline systime_t chThdGetTicksX(thread_t *tp) {
  *
  * @xclass
  */
-static inline bool chThdTerminatedX(thread_t *tp) {
-
-  return (bool)(tp->p_state == CH_STATE_FINAL);
+static inline bool chThdTerminatedX(thread_t* tp)
+{
+    return (bool) (tp->p_state == CH_STATE_FINAL);
 }
 
 /**
@@ -228,9 +253,9 @@ static inline bool chThdTerminatedX(thread_t *tp) {
  *
  * @xclass
  */
-static inline bool chThdShouldTerminateX(void) {
-
-  return (bool)((chThdGetSelfX()->p_flags & CH_FLAG_TERMINATE) != (tmode_t)0);
+static inline bool chThdShouldTerminateX(void)
+{
+    return (bool) ((chThdGetSelfX()->p_flags & CH_FLAG_TERMINATE) != (tmode_t) 0);
 }
 
 /**
@@ -242,11 +267,11 @@ static inline bool chThdShouldTerminateX(void) {
  *
  * @iclass
  */
-static inline thread_t *chThdStartI(thread_t *tp) {
+static inline thread_t* chThdStartI(thread_t* tp)
+{
+    chDbgAssert(tp->p_state == CH_STATE_WTSTART, "wrong state");
 
-  chDbgAssert(tp->p_state == CH_STATE_WTSTART, "wrong state");
-
-  return chSchReadyI(tp);
+    return chSchReadyI(tp);
 }
 
 /**
@@ -261,11 +286,11 @@ static inline thread_t *chThdStartI(thread_t *tp) {
  *
  * @sclass
  */
-static inline void chThdSleepS(systime_t time) {
+static inline void chThdSleepS(systime_t time)
+{
+    chDbgCheck(time != TIME_IMMEDIATE);
 
-  chDbgCheck(time != TIME_IMMEDIATE);
-
-  (void) chSchGoSleepTimeoutS(CH_STATE_SLEEPING, time);
+    (void) chSchGoSleepTimeoutS(CH_STATE_SLEEPING, time);
 }
 
 /**
@@ -275,9 +300,9 @@ static inline void chThdSleepS(systime_t time) {
  *
  * @init
  */
-static inline void chThdQueueObjectInit(threads_queue_t *tqp) {
-
-  queue_init(tqp);
+static inline void chThdQueueObjectInit(threads_queue_t* tqp)
+{
+    queue_init(tqp);
 }
 
 /**
@@ -290,13 +315,12 @@ static inline void chThdQueueObjectInit(threads_queue_t *tqp) {
  *
  * @iclass
  */
-static inline bool chThdQueueIsEmptyI(threads_queue_t *tqp) {
+static inline bool chThdQueueIsEmptyI(threads_queue_t* tqp)
+{
+    chDbgCheckClassI();
 
-  chDbgCheckClassI();
-
-  return queue_isempty(tqp);
+    return queue_isempty(tqp);
 }
-
 
 /**
  * @brief   Dequeues and wakes up one thread from the threads queue object.
@@ -309,17 +333,18 @@ static inline bool chThdQueueIsEmptyI(threads_queue_t *tqp) {
  *
  * @iclass
  */
-static inline void chThdDoDequeueNextI(threads_queue_t *tqp, msg_t msg) {
-  thread_t *tp;
+static inline void chThdDoDequeueNextI(threads_queue_t* tqp, msg_t msg)
+{
+    thread_t* tp;
 
-  chDbgAssert(queue_notempty(tqp), "empty queue");
+    chDbgAssert(queue_notempty(tqp), "empty queue");
 
-  tp = queue_fifo_remove(tqp);
+    tp = queue_fifo_remove(tqp);
 
-  chDbgAssert(tp->p_state == CH_STATE_QUEUED, "invalid state");
+    chDbgAssert(tp->p_state == CH_STATE_QUEUED, "invalid state");
 
-  tp->p_u.rdymsg = msg;
-  (void) chSchReadyI(tp);
+    tp->p_u.rdymsg = msg;
+    (void) chSchReadyI(tp);
 }
 
 #endif /* _CHTHREADS_H_ */

@@ -43,7 +43,7 @@
  */
 static cdc_linecoding_t linecoding =
 {
-    {0x00, 0x96, 0x00, 0x00},           /* 38400.                           */
+    {0x00, 0x96, 0x00, 0x00}, /* 38400.                           */
     LC_STOP_1, LC_PARITY_NONE, 8
 };
 
@@ -331,6 +331,7 @@ bool sduRequestsHook(USBDriver* usbp)
                 return true;
 
             case CDC_SET_CONTROL_LINE_STATE:
+
                 /* Nothing to do, there are no control lines.*/
                 usbSetupTransfer(usbp, NULL, 0, NULL);
                 return true;

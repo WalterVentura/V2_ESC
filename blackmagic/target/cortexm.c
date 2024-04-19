@@ -64,7 +64,9 @@ static enum target_halt_reason cortexm_halt_poll(target* t, target_addr* watch);
 static int cortexm_fault_unwind(target* t);
 
 static int cortexm_breakwatch_set(target* t, struct breakwatch*);
+
 static int cortexm_breakwatch_clear(target* t, struct breakwatch*);
+
 static target_addr cortexm_check_watch(target* t);
 
 #define CORTEXM_MAX_WATCHPOINTS 4 /* architecture says up to 15, no implementation has > 4 */
@@ -377,7 +379,7 @@ bool cortexm_probe(ADIv5_AP_t* ap, bool forced)
 
 #define PROBE(x)                                                                          \
     do { if((x) (t)) {target_halt_resume(t, 0); return true;} else target_check_error(t); \
-    } while (0)
+    } while(0)
 
     PROBE(stm32f1_probe);
     PROBE(stm32f4_probe);
@@ -645,11 +647,13 @@ static enum target_halt_reason cortexm_halt_poll(target* t, target_addr* watch)
     switch(e.type)
     {
         case EXCEPTION_ERROR:
+
             /* Oh crap, there's no recovery from this... */
             target_list_free();
             return TARGET_HALT_ERROR;
 
         case EXCEPTION_TIMEOUT:
+
             /* Timeout isn't a problem, target could be in WFI */
             return TARGET_HALT_RUNNING;
     }
@@ -937,7 +941,7 @@ static int cortexm_breakwatch_set(target* t, struct breakwatch* bw)
             if(priv->flash_patch_revision == 0)
             {
                 val &= 0x1FFFFFFC;
-                val |= (bw->addr & 2) ? 0x80000000:0x40000000;
+                val |= (bw->addr & 2) ? 0x80000000 : 0x40000000;
             }
 
             val |= 1;
@@ -1139,17 +1143,18 @@ static int cortexm_hostio_request(target* t)
     switch(syscall)
     {
         case SYS_OPEN: /* open */
+
             /* Translate stupid fopen modes to open flags.
              * See DUI0471C, Table 8-3 */
         {
             const uint32_t flags[] =
             {
-                TARGET_O_RDONLY, /* r, rb */
-                TARGET_O_RDWR,   /* r+, r+b */
-                TARGET_O_WRONLY | TARGET_O_CREAT | TARGET_O_TRUNC, /*w*/
-                TARGET_O_RDWR | TARGET_O_CREAT | TARGET_O_TRUNC, /*w+*/
+                TARGET_O_RDONLY,                                    /* r, rb */
+                TARGET_O_RDWR,                                      /* r+, r+b */
+                TARGET_O_WRONLY | TARGET_O_CREAT | TARGET_O_TRUNC,  /*w*/
+                TARGET_O_RDWR | TARGET_O_CREAT | TARGET_O_TRUNC,    /*w+*/
                 TARGET_O_WRONLY | TARGET_O_CREAT | TARGET_O_APPEND, /*a*/
-                TARGET_O_RDWR | TARGET_O_CREAT | TARGET_O_APPEND, /*a+*/
+                TARGET_O_RDWR | TARGET_O_CREAT | TARGET_O_APPEND,   /*a+*/
             };
             uint32_t pflag = flags[params[1] >> 1];
             char filename[4];

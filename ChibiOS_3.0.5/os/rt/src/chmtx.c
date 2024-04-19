@@ -176,6 +176,7 @@ void chMtxLockS(mutex_t* mp)
             switch(tp->p_state)
             {
                 case CH_STATE_WTMTX:
+
                     /* Re-enqueues the mutex owner with its new priority.*/
                     queue_prio_insert(queue_dequeue(tp), &tp->p_u.wtmtxp->m_queue);
                     tp = tp->p_u.wtmtxp->m_owner;
@@ -216,6 +217,7 @@ void chMtxLockS(mutex_t* mp)
                     break;
 
                 default:
+
                     /* Nothing to do for other states.*/
                     break;
             }
@@ -555,7 +557,7 @@ void chMtxUnlockAll(void)
 #endif
                 mp->m_owner = NULL;
             }
-        } while (ctp->p_mtxlist != NULL);
+        } while(ctp->p_mtxlist != NULL);
 
         ctp->p_prio = ctp->p_realprio;
         chSchRescheduleS();

@@ -515,7 +515,7 @@ static void calculateTotalCurrent(void)
 static void sendNodeStatus(CanardInstance* ins)
 {
     node_mode =
-        fw_update.node_id ? UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE:
+        fw_update.node_id ? UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE :
         UAVCAN_PROTOCOL_NODESTATUS_MODE_OPERATIONAL;
 
     node_status.health = node_health;

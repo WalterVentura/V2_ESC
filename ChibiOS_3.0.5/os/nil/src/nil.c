@@ -189,7 +189,7 @@ void chSysTimerHandlerI(void)
         chSysUnlockFromISR();
         tp++;
         chSysLockFromISR();
-    } while (tp < &nil.threads[NIL_CFG_NUM_THREADS]);
+    } while(tp < &nil.threads[NIL_CFG_NUM_THREADS]);
 
 #else
     thread_t* tp = &nil.threads[0];
@@ -238,7 +238,7 @@ void chSysTimerHandlerI(void)
         chSysUnlockFromISR();
         tp++;
         chSysLockFromISR();
-    } while (tp < &nil.threads[NIL_CFG_NUM_THREADS]);
+    } while(tp < &nil.threads[NIL_CFG_NUM_THREADS]);
 
     nil.lasttime = nil.nexttime;
 

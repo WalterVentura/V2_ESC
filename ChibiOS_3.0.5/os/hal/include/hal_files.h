@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    hal_files.h
@@ -39,20 +39,22 @@
  * @name    Files return codes
  * @{
  */
+
 /**
  * @brief   No error return code.
  */
-#define FILE_OK         STM_OK
+#define FILE_OK    STM_OK
 
 /**
  * @brief   Error code from the file stream methods.
  */
-#define FILE_ERROR      STM_TIMEOUT
+#define FILE_ERROR STM_TIMEOUT
 
 /**
  * @brief   End-of-file condition for file get/put methods.
  */
-#define FILE_EOF        STM_RESET
+#define FILE_EOF   STM_RESET
+
 /** @} */
 
 /**
@@ -63,34 +65,35 @@ typedef uint32_t fileoffset_t;
 /**
  * @brief   FileStream specific methods.
  */
-#define _file_stream_methods                                                \
-  _base_sequential_stream_methods                                           \
-  /* File close method.*/                                                   \
-  msg_t (*close)(void *instance);                                           \
-  /* Get last error code method.*/                                          \
-  msg_t (*geterror)(void *instance);                                        \
-  /* File get size method.*/                                                \
-  msg_t (*getsize)(void *instance);                                         \
-  /* File get current position method.*/                                    \
-  msg_t (*getposition)(void *instance);                                     \
-  /* File seek method.*/                                                    \
-  msg_t (*lseek)(void *instance, fileoffset_t offset);
+#define _file_stream_methods               \
+    _base_sequential_stream_methods        \
+    /* File close method.*/                \
+    msg_t (* close)(void* instance);       \
+    /* Get last error code method.*/       \
+    msg_t (* geterror)(void* instance);    \
+    /* File get size method.*/             \
+    msg_t (* getsize)(void* instance);     \
+    /* File get current position method.*/ \
+    msg_t (* getposition)(void* instance); \
+    /* File seek method.*/                 \
+    msg_t (* lseek)(void* instance, fileoffset_t offset);
 
 /**
  * @brief   @p FileStream specific data.
  * @note    It is empty because @p FileStream is only an interface
  *          without implementation.
  */
-#define _file_stream_data                                                   \
-  _base_sequential_stream_data
+#define _file_stream_data \
+    _base_sequential_stream_data
 
 /**
  * @extends BaseSequentialStreamVMT
  *
  * @brief   @p FileStream virtual methods table.
  */
-struct FileStreamVMT {
-  _file_stream_methods
+struct FileStreamVMT
+{
+    _file_stream_methods
 };
 
 /**
@@ -99,16 +102,18 @@ struct FileStreamVMT {
  * @brief   Base file stream class.
  * @details This class represents a generic file data stream.
  */
-typedef struct {
-  /** @brief Virtual Methods Table.*/
-  const struct FileStreamVMT *vmt;
-  _file_stream_data
+typedef struct
+{
+    /** @brief Virtual Methods Table.*/
+    const struct FileStreamVMT* vmt;
+    _file_stream_data
 } FileStream;
 
 /**
  * @name    Macro Functions (FileStream)
  * @{
  */
+
 /**
  * @brief   File stream write.
  * @details The function writes data from a buffer to a file stream.
@@ -139,7 +144,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamRead(ip, bp, n) streamRead(ip, bp, n)
+#define fileStreamRead(ip, bp, n)  streamRead(ip, bp, n)
 
 /**
  * @brief   File stream blocking byte write.
@@ -156,7 +161,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamPut(ip, b) streamPut(ip, b)
+#define fileStreamPut(ip, b)       streamPut(ip, b)
 
 /**
  * @brief   File stream blocking byte read.
@@ -171,7 +176,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamGet(ip) streamGet(ip)
+#define fileStreamGet(ip)          streamGet(ip)
 
 /**
  * @brief   File Stream close.
@@ -184,7 +189,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamClose(ip) ((ip)->vmt->close(ip))
+#define fileStreamClose(ip)        ((ip)->vmt->close(ip))
 
 /**
  * @brief   Returns an implementation dependent error code.
@@ -195,7 +200,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamGetError(ip) ((ip)->vmt->geterror(ip))
+#define fileStreamGetError(ip)     ((ip)->vmt->geterror(ip))
 
 /**
  * @brief   Returns the current file size.
@@ -206,7 +211,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamGetSize(ip) ((ip)->vmt->getsize(ip))
+#define fileStreamGetSize(ip)      ((ip)->vmt->getsize(ip))
 
 /**
  * @brief   Returns the current file pointer position.
@@ -217,7 +222,7 @@ typedef struct {
  *
  * @api
  */
-#define fileStreamGetPosition(ip) ((ip)->vmt->getposition(ip))
+#define fileStreamGetPosition(ip)  ((ip)->vmt->getposition(ip))
 
 /**
  * @brief   Moves the file current pointer to an absolute position.
@@ -231,6 +236,7 @@ typedef struct {
  * @api
  */
 #define fileStreamSeek(ip, offset) ((ip)->vmt->lseek(ip, offset))
+
 /** @} */
 
 #endif /* _HAL_FILES_H_ */

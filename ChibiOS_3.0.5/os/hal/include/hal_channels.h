@@ -1,18 +1,18 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
+ *  ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 
 /**
  * @file    hal_channels.h
@@ -39,33 +39,33 @@
 /**
  * @brief   @p BaseChannel specific methods.
  */
-#define _base_channel_methods                                               \
-  _base_sequential_stream_methods                                           \
-  /* Channel put method with timeout specification.*/                       \
-  msg_t (*putt)(void *instance, uint8_t b, systime_t time);                 \
-  /* Channel get method with timeout specification.*/                       \
-  msg_t (*gett)(void *instance, systime_t time);                            \
-  /* Channel write method with timeout specification.*/                     \
-  size_t (*writet)(void *instance, const uint8_t *bp,                       \
-                   size_t n, systime_t time);                               \
-  /* Channel read method with timeout specification.*/                      \
-  size_t (*readt)(void *instance, uint8_t *bp, size_t n, systime_t time);
+#define _base_channel_methods                                                       \
+    _base_sequential_stream_methods                                                 \
+    /* Channel put method with timeout specification.*/                             \
+    msg_t (* putt)(void* instance, uint8_t b, systime_t time);                      \
+    /* Channel get method with timeout specification.*/                             \
+    msg_t (* gett)(void* instance, systime_t time);                                 \
+    /* Channel write method with timeout specification.*/                           \
+    size_t (* writet)(void* instance, const uint8_t* bp, size_t n, systime_t time); \
+    /* Channel read method with timeout specification.*/                            \
+    size_t (* readt)(void* instance, uint8_t* bp, size_t n, systime_t time);
 
 /**
  * @brief   @p BaseChannel specific data.
  * @note    It is empty because @p BaseChannel is only an interface without
  *          implementation.
  */
-#define _base_channel_data                                                  \
-  _base_sequential_stream_data
+#define _base_channel_data \
+    _base_sequential_stream_data
 
 /**
  * @extends BaseSequentialStreamVMT
  *
  * @brief   @p BaseChannel virtual methods table.
  */
-struct BaseChannelVMT {
-  _base_channel_methods
+struct BaseChannelVMT
+{
+    _base_channel_methods
 };
 
 /**
@@ -75,16 +75,18 @@ struct BaseChannelVMT {
  * @details This class represents a generic, byte-wide, I/O channel. This class
  *          introduces generic I/O primitives with timeout specification.
  */
-typedef struct {
-  /** @brief Virtual Methods Table.*/
-  const struct BaseChannelVMT *vmt;
-  _base_channel_data
+typedef struct
+{
+    /** @brief Virtual Methods Table.*/
+    const struct BaseChannelVMT* vmt;
+    _base_channel_data
 } BaseChannel;
 
 /**
  * @name    Macro Functions (BaseChannel)
  * @{
  */
+
 /**
  * @brief   Channel blocking byte write with timeout.
  * @details This function writes a byte value to a channel. If the channel
@@ -104,7 +106,7 @@ typedef struct {
  *
  * @api
  */
-#define chnPutTimeout(ip, b, time) ((ip)->vmt->putt(ip, b, time))
+#define chnPutTimeout(ip, b, time)       ((ip)->vmt->putt(ip, b, time))
 
 /**
  * @brief   Channel blocking byte read with timeout.
@@ -124,7 +126,7 @@ typedef struct {
  *
  * @api
  */
-#define chnGetTimeout(ip, time) ((ip)->vmt->gett(ip, time))
+#define chnGetTimeout(ip, time)          ((ip)->vmt->gett(ip, time))
 
 /**
  * @brief   Channel blocking write.
@@ -139,7 +141,7 @@ typedef struct {
  *
  * @api
  */
-#define chnWrite(ip, bp, n) streamWrite(ip, bp, n)
+#define chnWrite(ip, bp, n)              streamWrite(ip, bp, n)
 
 /**
  * @brief   Channel blocking write with timeout.
@@ -173,7 +175,7 @@ typedef struct {
  *
  * @api
  */
-#define chnRead(ip, bp, n) streamRead(ip, bp, n)
+#define chnRead(ip, bp, n)               streamRead(ip, bp, n)
 
 /**
  * @brief   Channel blocking read with timeout.
@@ -192,48 +194,58 @@ typedef struct {
  *
  * @api
  */
-#define chnReadTimeout(ip, bp, n, time) ((ip)->vmt->readt(ip, bp, n, time))
+#define chnReadTimeout(ip, bp, n, time)  ((ip)->vmt->readt(ip, bp, n, time))
+
 /** @} */
 
 /**
  * @name    I/O status flags added to the event listener
  * @{
  */
+
 /** @brief No pending conditions.*/
-#define CHN_NO_ERROR            (eventflags_t)0
+#define CHN_NO_ERROR         (eventflags_t) 0
+
 /** @brief Connection happened.*/
-#define CHN_CONNECTED           (eventflags_t)1
+#define CHN_CONNECTED        (eventflags_t) 1
+
 /** @brief Disconnection happened.*/
-#define CHN_DISCONNECTED        (eventflags_t)2
+#define CHN_DISCONNECTED     (eventflags_t) 2
+
 /** @brief Data available in the input queue.*/
-#define CHN_INPUT_AVAILABLE     (eventflags_t)4
+#define CHN_INPUT_AVAILABLE  (eventflags_t) 4
+
 /** @brief Output queue empty.*/
-#define CHN_OUTPUT_EMPTY        (eventflags_t)8
+#define CHN_OUTPUT_EMPTY     (eventflags_t) 8
+
 /** @brief Transmission end.*/
-#define CHN_TRANSMISSION_END    (eventflags_t)16
+#define CHN_TRANSMISSION_END (eventflags_t) 16
+
 /** @} */
 
 /**
  * @brief   @p BaseAsynchronousChannel specific methods.
  */
-#define _base_asynchronous_channel_methods                                  \
-  _base_channel_methods                                                     \
+#define _base_asynchronous_channel_methods \
+    _base_channel_methods                  \
+
 
 /**
  * @brief   @p BaseAsynchronousChannel specific data.
  */
-#define _base_asynchronous_channel_data                                     \
-  _base_channel_data                                                        \
-  /* I/O condition event source.*/                                          \
-  event_source_t        event;
+#define _base_asynchronous_channel_data \
+    _base_channel_data                  \
+    /* I/O condition event source.*/    \
+    event_source_t event;
 
 /**
  * @extends BaseChannelVMT
  *
  * @brief   @p BaseAsynchronousChannel virtual methods table.
  */
-struct BaseAsynchronousChannelVMT {
-  _base_asynchronous_channel_methods
+struct BaseAsynchronousChannelVMT
+{
+    _base_asynchronous_channel_methods
 };
 
 /**
@@ -243,16 +255,18 @@ struct BaseAsynchronousChannelVMT {
  * @details This class extends @p BaseChannel by adding event sources fields
  *          for asynchronous I/O for use in an event-driven environment.
  */
-typedef struct {
-  /** @brief Virtual Methods Table.*/
-  const struct BaseAsynchronousChannelVMT *vmt;
-  _base_asynchronous_channel_data
+typedef struct
+{
+    /** @brief Virtual Methods Table.*/
+    const struct BaseAsynchronousChannelVMT* vmt;
+    _base_asynchronous_channel_data
 } BaseAsynchronousChannel;
 
 /**
  * @name    Macro Functions (BaseAsynchronousChannel)
  * @{
  */
+
 /**
  * @brief   Returns the I/O condition event source.
  * @details The event source is broadcasted when an I/O condition happens.
@@ -263,7 +277,7 @@ typedef struct {
  *
  * @api
  */
-#define chnGetEventSource(ip) (&((ip)->event))
+#define chnGetEventSource(ip)   (&((ip)->event))
 
 /**
  * @brief   Adds status flags to the listeners's flags mask.
@@ -277,9 +291,10 @@ typedef struct {
  *
  * @iclass
  */
-#define chnAddFlagsI(ip, flags) {                                           \
-  osalEventBroadcastFlagsI(&(ip)->event, flags);                            \
+#define chnAddFlagsI(ip, flags) {                      \
+        osalEventBroadcastFlagsI(&(ip)->event, flags); \
 }
+
 /** @} */
 
 #endif /* _HAL_CHANNELS_H_ */

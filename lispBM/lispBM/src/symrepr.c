@@ -186,10 +186,10 @@ special_sym const special_symbols[] =
     {"length", SYM_LIST_LENGTH},
     {"range", SYM_RANGE},
 
-    {"assoc", SYM_ASSOC},         // lookup an association
-    {"cossa", SYM_COSSA},         // lookup an association "backwards"
-    {"acons", SYM_ACONS},         // Add to alist
-    {"setassoc", SYM_SET_ASSOC},  // Change association
+    {"assoc", SYM_ASSOC},        // lookup an association
+    {"cossa", SYM_COSSA},        // lookup an association "backwards"
+    {"acons", SYM_ACONS},        // Add to alist
+    {"setassoc", SYM_SET_ASSOC}, // Change association
 
     {"shl", SYM_SHL},
     {"shr", SYM_SHR},
@@ -393,7 +393,7 @@ static bool store_symbol_name_flash(char* name, lbm_uint* res)
 
     if(n == 1)
     {
-        return 0;       // failure if empty symbol
+        return 0; // failure if empty symbol
     }
 
     lbm_uint alloc_size;
@@ -426,7 +426,7 @@ static bool add_symbol_to_symtab(char* name, lbm_uint id)
 
     if(n == 1)
     {
-        return 0;       // failure if empty symbol
+        return 0; // failure if empty symbol
     }
 
     lbm_uint alloc_size;

@@ -687,6 +687,7 @@ void ADC_VBATCmd(FunctionalState NewState)
  #####@endverbatim
  * @{
  */
+
 /**
  * @brief  Configures for the selected ADC regular channel its corresponding
  *         rank in the sequencer and its sample time.
@@ -1172,6 +1173,7 @@ void ADC_MultiModeDMARequestAfterLastTransferCmd(FunctionalState NewState)
  #####@endverbatim
  * @{
  */
+
 /**
  * @brief  Configures for the selected ADC injected channel its corresponding
  *         rank in the sequencer and its sample time.
@@ -1627,6 +1629,7 @@ uint16_t ADC_GetInjectedConversionValue(ADC_TypeDef* ADCx, uint8_t ADC_InjectedC
  ***@endverbatim
  * @{
  */
+
 /**
  * @brief  Enables or disables the specified ADC interrupts.
  * @param  ADCx: where x can be 1, 2 or 3 to select the ADC peripheral.

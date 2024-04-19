@@ -632,8 +632,8 @@ void can_lld_stop(CANDriver* canp)
             osalDbgAssert(CAND2.state == CAN_STOP, "CAN2 must be stopped");
 #endif
 
-            CAN1->MCR = 0x00010002;             /* Register reset value.    */
-            CAN1->IER = 0x00000000;             /* All sources disabled.    */
+            CAN1->MCR = 0x00010002; /* Register reset value.    */
+            CAN1->IER = 0x00000000; /* All sources disabled.    */
 #if defined(STM32_CAN1_UNIFIED_NUMBER)
             nvicDisableVector(STM32_CAN1_UNIFIED_NUMBER);
 #else
@@ -650,8 +650,8 @@ void can_lld_stop(CANDriver* canp)
 
         if(&CAND2 == canp)
         {
-            CAN2->MCR = 0x00010002;             /* Register reset value.    */
-            CAN2->IER = 0x00000000;             /* All sources disabled.    */
+            CAN2->MCR = 0x00010002; /* Register reset value.    */
+            CAN2->IER = 0x00000000; /* All sources disabled.    */
 #if defined(STM32_CAN2_UNIFIED_NUMBER)
             nvicDisableVector(STM32_CAN2_UNIFIED_NUMBER);
 #else
@@ -818,6 +818,7 @@ void can_lld_receive(CANDriver* canp, canmbx_t mailbox, CANRxFrame* crfp)
     switch(mailbox)
     {
         case 1:
+
             /* Fetches the message.*/
             rir = canp->can->sFIFOMailBox[0].RIR;
             rdtr = canp->can->sFIFOMailBox[0].RDTR;
@@ -837,6 +838,7 @@ void can_lld_receive(CANDriver* canp, canmbx_t mailbox, CANRxFrame* crfp)
             break;
 
         case 2:
+
             /* Fetches the message.*/
             rir = canp->can->sFIFOMailBox[1].RIR;
             rdtr = canp->can->sFIFOMailBox[1].RDTR;
@@ -856,6 +858,7 @@ void can_lld_receive(CANDriver* canp, canmbx_t mailbox, CANRxFrame* crfp)
             break;
 
         default:
+
             /* Should not happen, do nothing.*/
             return;
     }

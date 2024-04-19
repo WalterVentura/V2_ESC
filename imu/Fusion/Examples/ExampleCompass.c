@@ -47,5 +47,5 @@ int main()
 
         // Print heading
         printf("Heading = %0.1f\r\n", heading);
-    } while (false);
+    } while(false);
 }
